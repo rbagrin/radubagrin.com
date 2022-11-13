@@ -4,7 +4,7 @@
   "private": true,
   "proxy": "http://localhost:4000",
   "scripts": {
-    "start": "node backend/dist/main",
+    "start": "node ./backend/dist/main",
     "dev": "react-scripts start",
     "build": "react-scripts build && npm run --prefix ./backend build",
     "test": "react-scripts test",
