@@ -16,7 +16,11 @@ var options = {
 }
 app.use(express.static('build', options))
 
-const port = process.env.PORT || 3000
+app.get('/api', (req, res) => {
+  res.send('Hello World, from express');
+});
+
+const port = process.env.PORT || 4000
 
 app.listen(port, () => {
   console.log(`React app listening at http://localhost:${port}`)
