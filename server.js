@@ -17,7 +17,7 @@ var options = {
 app.use(express.static('build', options))
 
 app.get('/api', (req, res) => {
-  res.send('Hello World, from express');
+  res.send('Hello World, from express!');
 });
 
 const port = process.env.PORT || 4000
