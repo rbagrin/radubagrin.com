@@ -4,7 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 
 const App = () => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState('AAA');
 
   useEffect(() => {
     (async () => {
