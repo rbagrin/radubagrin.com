@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
 
 const App = () => {
   const [text, setText] = useState('AAA');
+  const [tickerData, setTickerData] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -17,6 +18,16 @@ const App = () => {
     })();
   }, [])
 
+  const fetchTicker = useCallback(async (ticker) => {
+    try {
+      const data = (await axios.get(`/api/stocks/${ticker}`)).data;
+      setTickerData(data);
+      console.log(data)
+    } catch {
+      setText("ERROR!");
+    }
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
@@ -26,6 +37,13 @@ const App = () => {
           In progress...
         </p>
       </header>
+      <section>
+       <button onClick={async () => {await fetchTicker('APPL')}}>Apple</button>
+       <button onClick={async () => {await fetchTicker('IBM')}}>IBM</button>
+       {tickerData && <div>
+        {JSON.stringify(tickerData)}
+       </div>}
+      </section>
     </div>
   );
 }
