@@ -6,7 +6,7 @@ const PROD_PORT = 3000;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(DEV_PORT);
+  await app.listen(PROD_PORT);
 }
 
 bootstrap();
