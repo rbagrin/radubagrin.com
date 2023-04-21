@@ -1,12 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-
-const DEV_PORT = 4000;
-const PROD_PORT = 3000;
+import * as dotenv from 'dotenv';
 
 async function bootstrap() {
+  if (process.env.NODE_ENV !== 'production') {
+    dotenv.config();
+  }
+  
+  console.log(process.env.BACKEND_PORT)
   const app = await NestFactory.create(AppModule, { bodyParser: true });
-  await app.listen(PROD_PORT);
+  await app.listen(process.env.BACKEND_PORT);
 }
 
 bootstrap();

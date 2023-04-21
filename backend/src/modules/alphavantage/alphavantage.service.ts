@@ -2,7 +2,6 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { ApiClientService } from 'src/infra/http/api-client/api-client.service';
 
-const API_KEY = 'UC8183VP0K9OM9QX';
 @Injectable()
 export class AlphaVantageClientService extends ApiClientService {
   logger = new Logger('Hexnode API Client');
@@ -24,7 +23,7 @@ export class AlphaVantageClientService extends ApiClientService {
     try {
       const { data } = await this.httpService
         .get<any>(
-          `/query?function=${functionName}&symbol=${ticker}&apikey=${API_KEY}`,
+          `/query?function=${functionName}&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`,
         )
         .toPromise();
 
