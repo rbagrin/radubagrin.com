@@ -16,35 +16,69 @@ export class AlphaVantageClientService extends ApiClientService {
     });
   }
 
-  async getTickerData(
+  async getTickerTimeSeriesDailyAdjustedData(
     ticker: string,
-    functionName: string = 'TIME_SERIES_DAILY_ADJUSTED',
-  ): Promise<any> {
+  ): Promise<TimeSeriesDailyAdjustedResponse> {
+    const functionName = 'TIME_SERIES_DAILY_ADJUSTED';
     try {
       const { data } = await this.httpService
-        .get<any>(
+        .get<TimeSeriesDailyAdjustedResponse>(
           `/query?function=${functionName}&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`,
         )
         .toPromise();
+        console.log(data);
+      return data;
 
+      // const rows = data
+      //   .trim()
+      //   .split('\n')
+      //   .map((row) => row.trim());
+      // const keys = rows[0].split(',');
+      // const objects = [];
+      // for (let i = 1; i < rows.length; i++) {
+      //   const values = rows[i].split(',');
+      //   const obj = {};
+      //   for (let j = 0; j < keys.length; j++) {
+      //     obj[keys[j]] = values[j];
+      //   }
+      //   objects.push(obj);
+      // }
+
+      // return objects;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getTickerTimeSerieWeeklyAdjustedData(
+    ticker: string,
+  ): Promise<TimeSeriesWeeklyAdjustedResponse> {
+    const functionName = 'TIME_SERIES_WEEKLY_ADJUSTED';
+    try {
+      const { data } = await this.httpService
+        .get<TimeSeriesWeeklyAdjustedResponse>(
+          `/query?function=${functionName}&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`,
+        )
+        .toPromise();
+        console.log(data);
       return data['Time Series (Daily)'];
-      console.log(data);
-      const rows = data
-        .trim()
-        .split('\n')
-        .map((row) => row.trim());
-      const keys = rows[0].split(',');
-      const objects = [];
-      for (let i = 1; i < rows.length; i++) {
-        const values = rows[i].split(',');
-        const obj = {};
-        for (let j = 0; j < keys.length; j++) {
-          obj[keys[j]] = values[j];
-        }
-        objects.push(obj);
-      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
-      return objects;
+  async getTickerTimeSerieMonthlyAdjustedData(
+    ticker: string,
+  ): Promise<TimeSeriesMonthlyAdjustedResponse> {
+    const functionName = 'TIME_SERIES_MONTHLY_ADJUSTED';
+    try {
+      const { data } = await this.httpService
+        .get<TimeSeriesMonthlyAdjustedResponse>(
+          `/query?function=${functionName}&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`,
+        )
+        .toPromise();
+        console.log(data);
+      return data['Time Series (Daily)'];
     } catch (error) {
       throw error;
     }

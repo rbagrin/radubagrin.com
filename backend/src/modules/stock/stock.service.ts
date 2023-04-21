@@ -7,11 +7,17 @@ export class StockService {
 
   constructor(
     private readonly alphaVantageClientService: AlphaVantageClientService
-  ) {
-    console.log('set')
+  ) {}
+  
+  public async getDailyAdjustedStockDataByTicker(ticker: string): Promise<TimeSeriesDailyAdjustedResponse> {
+    return this.alphaVantageClientService.getTickerTimeSeriesDailyAdjustedData(ticker);
+  }
+  
+  public async getWeeklyAdjustedStockDataByTicker(ticker: string): Promise<TimeSeriesWeeklyAdjustedResponse> {
+    return this.alphaVantageClientService.getTickerTimeSerieWeeklyAdjustedData(ticker);
   }
 
-  public async getStockData(ticker: string): Promise<any> {
-    return this.alphaVantageClientService.getTickerData(ticker);
+  public async getMonthlyAdjustedStockDataByTicker(ticker: string): Promise<TimeSeriesMonthlyAdjustedResponse> {
+    return this.alphaVantageClientService.getTickerTimeSerieMonthlyAdjustedData(ticker);
   }
 }

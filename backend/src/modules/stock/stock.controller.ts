@@ -5,8 +5,18 @@ import { StockService } from "./stock.service";
 export class StockController {
   constructor(private readonly stockService: StockService) {}
 
-  @Get('/:ticker')
-  async exportAllAbsences(@Param('ticker') ticker: string): Promise<string> {
-    return this.stockService.getStockData(ticker);
+  @Get('/:ticker/daily-adjusted')
+  async getDailyAdjustedStockData(@Param('ticker') ticker: string): Promise<TimeSeriesDailyAdjustedResponse> {
+    return this.stockService.getDailyAdjustedStockDataByTicker(ticker);
+  }
+
+  @Get('/:ticker/weekly-adjusted')
+  async getWeeklyAdjustedStockData(@Param('ticker') ticker: string): Promise<TimeSeriesWeeklyAdjustedResponse> {
+    return this.stockService.getWeeklyAdjustedStockDataByTicker(ticker);
+  }
+
+  @Get('/:ticker/montlhy-adjusted')
+  async getMonthlyAdjustedStockData(@Param('ticker') ticker: string): Promise<TimeSeriesMonthlyAdjustedResponse> {
+    return this.stockService.getMonthlyAdjustedStockDataByTicker(ticker);
   }
 }

@@ -1,40 +1,32 @@
-import React, { useState, useCallback } from "react";
-import axios from "axios";
-import { Chart } from "../../components/Chart.tsx";
+import React, { useState } from "react";
+import { DailyChart } from "./charts/daily-chart.tsx";
 
 export const StocksPage = () => {
-  const [text, setText] = useState("");
-  const [tickerData, setTickerData] = useState(null);
-
-  const fetchTicker = useCallback(async (ticker) => {
-    try {
-      const data = (await axios.get(`/api/stocks/${ticker}`)).data;
-      setTickerData(data);
-    } catch {
-      setText("ERROR!");
-    }
-  }, []);
+  const [ticker, setTicker] = useState<Ticker>('AAPL');
 
   return (
-    <div>
-      {text && <p>!!!!! {text}</p>}
-      <Chart data={tickerData} />
-      <section>
-        <button
-          onClick={async () => {
-            await fetchTicker("AAPL");
-          }}
-        >
-          Apple
-        </button>
-        <button
-          onClick={async () => {
-            await fetchTicker("IBM");
-          }}
-        >
-          IBM
-        </button>
-      </section>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100vh', backgroundColor: '#bbb' }}>
+      <header style={{ width: '100%', backgroundColor: '#888', height: '50px'}}>Header here</header>
+
+      <div style={{ display: 'flex', flexGrow: 1 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, width: '300px', backgroundColor: '#F86', height: '100'}}>
+          <button onClick={() => setTicker('AAPL')} disabled={ticker === 'AAPL'}>APPL</button>
+          <button onClick={() => setTicker('AMD')} disabled={ticker === 'AMD'}>AMD</button>
+          <button onClick={() => setTicker('IBM')} disabled={ticker === 'IBM'}>IBM</button>
+        </div>
+
+        <div style={{ width: '100%', display: 'flex', flexGrow: 1, justifySelf: 'space-between', gap: '10px' }}>
+          <div style={{ width: '100%' }}>
+            <div style={{width: '100%', backgroundColor: '#999', height: '50px'}}>Chart TABS here</div>
+            <div>
+              <DailyChart ticker={ticker} />
+            </div>
+          </div>
+
+          <div style={{ width: '100%', flexGrow: 1, backgroundColor: '#aaa'}}>Other data here</div>
+        </div>
+
+      </div>
     </div>
   );
 };
