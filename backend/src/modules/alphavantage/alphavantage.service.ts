@@ -19,15 +19,17 @@ export class AlphaVantageClientService extends ApiClientService {
 
   async getTickerData(
     ticker: string,
-    functionName: string = 'TIME_SERIES_INTRADAY_EXTENDED',
+    functionName: string = 'TIME_SERIES_DAILY_ADJUSTED',
   ): Promise<any> {
     try {
       const { data } = await this.httpService
         .get<any>(
-          `/query?function=${functionName}&symbol=${ticker}&interval=5min&apikey=${API_KEY}`,
+          `/query?function=${functionName}&symbol=${ticker}&apikey=${API_KEY}`,
         )
         .toPromise();
 
+      return data['Time Series (Daily)'];
+      console.log(data);
       const rows = data
         .trim()
         .split('\n')
