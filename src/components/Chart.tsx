@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ColorType, createChart } from "lightweight-charts";
-import { TickerData } from "./types";
+import { TickerData } from "../types";
+const chartOptions = { layout: { textColor: "black", background: { type: ColorType.Solid, color: "white" } } };
 
 export const Chart = ({ data }: { data: TickerData[] } | null) => {
+  useEffect(()=> {
+    setChart(data);
+  }, [data])
+
   return (
     <div id="container">
-      <div id="chart" style={{ height: "1000px", width: "1000px" }}></div>
-      {data && <ChartWrapper data={data} />}
+      <p>Apple</p>
+      <div id="chart" style={{ height: "500px", width: "800px" }} />
     </div>
   );
 };
 
-const ChartWrapper = ({ data }: { data: TickerData[] }) => {
-  const chartOptions = { layout: { textColor: "black", background: { type: ColorType.Solid, color: "white" } } };
+const setChart = ( data : TickerData[] ): void => {
   const chartContainer = document.getElementById("chart");
-  if (!chartContainer) return <>Nothing here</>;
+  if (!chartContainer || !data) return <>Nothing here</>;
 
   const chart = createChart(chartContainer, chartOptions);
   const areaSeries = chart.addAreaSeries({
@@ -59,8 +63,5 @@ const ChartWrapper = ({ data }: { data: TickerData[] }) => {
   //     { time: "2018-12-30", open: 106.33, high: 110.2, low: 90.39, close: 98.1 },
   //     { time: "2018-12-31", open: 109.87, high: 114.69, low: 85.66, close: 111.26 },
   //   ]);
-
   chart.timeScale().fitContent();
-
-  return <div></div>;
 };
