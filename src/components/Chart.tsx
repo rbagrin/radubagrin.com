@@ -1,5 +1,5 @@
-import React, { LegacyRef, useEffect, useRef, useState } from "react";
-import { ChartOptions, ColorType, DeepPartial, createChart } from "lightweight-charts";
+import React, { useEffect, useRef } from "react";
+import { ColorType, createChart } from "lightweight-charts";
 
 const backgroundColor = 'white';
 const lineColor = '#2962FF';

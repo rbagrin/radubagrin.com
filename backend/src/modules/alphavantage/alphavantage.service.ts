@@ -26,7 +26,6 @@ export class AlphaVantageClientService extends ApiClientService {
           `/query?function=${functionName}&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`,
         )
         .toPromise();
-        console.log(data);
       return data;
 
       // const rows = data
@@ -60,7 +59,6 @@ export class AlphaVantageClientService extends ApiClientService {
           `/query?function=${functionName}&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`,
         )
         .toPromise();
-        console.log(data);
       return data['Time Series (Daily)'];
     } catch (error) {
       throw error;
@@ -77,7 +75,6 @@ export class AlphaVantageClientService extends ApiClientService {
           `/query?function=${functionName}&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`,
         )
         .toPromise();
-        console.log(data);
       return data['Time Series (Daily)'];
     } catch (error) {
       throw error;

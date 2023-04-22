@@ -21,7 +21,7 @@ export const DailyChart = ({ ticker }: { ticker: Ticker}) => {
 
   useEffect(() => {
     fetchTicker(ticker);
-  }, [ticker])
+  }, [ticker, fetchTicker])
 
   return loading ? null : (
     <div>
