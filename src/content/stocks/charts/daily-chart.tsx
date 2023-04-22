@@ -26,7 +26,7 @@ export const DailyChart = ({ ticker }: { ticker: Ticker}) => {
   return loading ? null : (
     <div>
       {text && <p>!!!!! {text}</p>}
-      <Chart data={tickerData} />
+      {tickerData && <Chart data={tickerData} />}
     </div>
   );
 };

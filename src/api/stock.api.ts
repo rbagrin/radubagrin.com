@@ -1,16 +1,19 @@
 import axios from "axios";
 
-let data = null;
+let AAPL_DATA = null;
+let IBM_DATA = null;
 
 export class StockAPI {
     static async getDailyAdjustedDataByTicker(ticker: string): Promise<TimeSeriesDailyAdjustedResponse> {
-        console.log("BEFORE");
-        if (data) return {...data};
+        if (ticker === 'AAPL' && AAPL_DATA) return {...AAPL_DATA};
+        if (ticker !== 'AAPL' && IBM_DATA) return {...IBM_DATA};
 
-        console.log('AFTER')
         let res = (await axios.get(`/api/stocks/${ticker}/daily-adjusted`)).data;
-        data = res;
-        return data;
+        
+        if (ticker === 'AAPL') AAPL_DATA = res;
+        else IBM_DATA = res;
+        
+        return res;
     }
 
     static async getWeeklyAdjustedDataByTicker(ticker: string): Promise<TimeSeriesWeeklyAdjustedResponse> {

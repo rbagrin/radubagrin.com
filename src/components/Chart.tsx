@@ -1,37 +1,13 @@
-import React, { useEffect } from "react";
-import { ColorType, createChart } from "lightweight-charts";
-const chartOptions = { layout: { textColor: "black", background: { type: ColorType.Solid, color: "white" } } };
+import React, { LegacyRef, useEffect, useRef, useState } from "react";
+import { ChartOptions, ColorType, DeepPartial, createChart } from "lightweight-charts";
 
-export const Chart = ({ data }: { data: TimeSeriesDailyAdjustedResponse | null }) => {
-  useEffect(()=> {
-    const chartContainer = document.getElementById("chart");
-    console.log(chartContainer);
-    if (data) setChart(data);
-  }, [data])
+const backgroundColor = 'white';
+const lineColor = '#2962FF';
+const textColor = 'black';
+const areaTopColor = '#2962FF';
+const areaBottomColor = 'rgba(41, 98, 255, 0.28)';
 
-  return (
-    <div id="container" style={{ display: 'flex', flexDirection: 'column', height: '800px' }}>
-      {data ? (<div style={{ display: 'flex', gap: '20px' }}>
-        <p>{data["Meta Data"]["2. Symbol"]}</p>
-        <p>{data["Meta Data"]['1. Information']}</p>
-      </div>) : (<></>)}
-
-      <div id="chart" style={{ display: 'flex', flexGrow: 1, height: "50%", width: "width: 100%" }} />
-    </div>
-  );
-};
-
-const setChart = ( stockResponse : TimeSeriesDailyAdjustedResponse ): void => {
-  const chartContainer = document.getElementById("chart");
-  if (!chartContainer) return;
-
-  const chart = createChart(chartContainer, chartOptions);
-  const areaSeries = chart.addAreaSeries({
-    lineColor: "#2962FF",
-    topColor: "#2962FF",
-    bottomColor: "rgba(41, 98, 255, 0.28)",
-  });
-
+const getChartData = ( stockResponse : TimeSeriesDailyAdjustedResponse ): any => {
   const data = stockResponse['Time Series (Daily)'];
   const keys = Object.keys(data);
   const seriesData: { time: string; value: number }[] = keys
@@ -40,7 +16,46 @@ const setChart = ( stockResponse : TimeSeriesDailyAdjustedResponse ): void => {
     })
     .reverse();
 
-  areaSeries.setData(seriesData);
-
-  chart.timeScale().fitContent();
+  return seriesData;
 };
+
+export const Chart = ({ data }: { data: TimeSeriesDailyAdjustedResponse | null }) => {  
+  const chartContainerRef = useRef<any>();
+
+  useEffect(
+		() => {
+			const handleResize = () => {
+				chart.applyOptions({ width: chartContainerRef?.current ? chartContainerRef?.current.clientWidth : '100%' });
+			};
+
+			const chart = createChart(chartContainerRef.current, {
+				layout: {
+					background: { type: ColorType.Solid, color: backgroundColor },
+					textColor,
+				},
+				width: chartContainerRef.current.clientWidth,
+				height: 800,
+			});
+			chart.timeScale().fitContent();
+
+			const newSeries = chart.addAreaSeries({ lineColor, topColor: areaTopColor, bottomColor: areaBottomColor });
+      const seriesData = getChartData(data);
+			newSeries.setData(seriesData);
+
+			window.addEventListener('resize', handleResize);
+
+			return () => {
+				window.removeEventListener('resize', handleResize);
+				chart.remove();
+			};
+		},
+		[data]
+	);
+
+	return (
+		<div
+			ref={chartContainerRef}
+		/>
+	);
+};
+
