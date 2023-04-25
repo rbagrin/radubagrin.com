@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { ColorType, createChart } from "lightweight-charts";
+import Box from "@mui/material/Box";
 
 const backgroundColor = 'white';
 const lineColor = '#2962FF';
@@ -9,6 +10,7 @@ const areaBottomColor = 'rgba(41, 98, 255, 0.28)';
 
 const getChartData = ( stockResponse : TimeSeriesDailyAdjustedResponse ): any => {
   const data = stockResponse['Time Series (Daily)'];
+  if (!data) return [];
   const keys = Object.keys(data);
   const seriesData: { time: string; value: number }[] = keys
     .map((date): { time: string; value: number } => {
@@ -39,7 +41,7 @@ export const Chart = ({ data }: { data: TimeSeriesDailyAdjustedResponse | null }
 			chart.timeScale().fitContent();
 
 			const newSeries = chart.addAreaSeries({ lineColor, topColor: areaTopColor, bottomColor: areaBottomColor });
-      const seriesData = getChartData(data);
+      		const seriesData = getChartData(data);
 			newSeries.setData(seriesData);
 
 			window.addEventListener('resize', handleResize);
@@ -52,10 +54,6 @@ export const Chart = ({ data }: { data: TimeSeriesDailyAdjustedResponse | null }
 		[data]
 	);
 
-	return (
-		<div
-			ref={chartContainerRef}
-		/>
-	);
+	return (<Box sx={{ width: '100%' }} ref={chartContainerRef} />);
 };
 

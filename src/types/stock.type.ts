@@ -1,8 +1,8 @@
-type DateTimeString = string;
-type ISODate = string;
-type Ticker = string;
+export type DateTimeString = string;
+export type ISODate = string;
+export type Ticker = string;
 
-interface TimeSeriesDailyAdjustedResponse {
+export interface TimeSeriesDailyAdjustedResponse {
     'Meta Data': {
         '1. Information': string;
         '2. Symbol': Ticker;
@@ -24,7 +24,7 @@ interface TimeSeriesDailyAdjustedResponse {
     }
 }
 
-interface TimeSeriesWeeklyAdjustedResponse {
+export interface TimeSeriesWeeklyAdjustedResponse {
     "Meta Data": {
         "1. Information": string;
         "2. Symbol": Ticker;
@@ -44,7 +44,7 @@ interface TimeSeriesWeeklyAdjustedResponse {
     };
 }
 
-interface TimeSeriesMonthlyAdjustedResponse {
+export interface TimeSeriesMonthlyAdjustedResponse {
     "Meta Data": {
         "1. Information": string;
         "2. Symbol": Ticker;
@@ -62,4 +62,35 @@ interface TimeSeriesMonthlyAdjustedResponse {
             '7. dividend amount': string;
         }
     };
+}
+
+export interface NewsFeedItem {
+    "title": string;
+    "url": string;
+    "time_published": string; // number of ms
+    "authors": string[];
+    "summary": string;
+    "banner_image": string;
+    "source": string;
+    "category_within_source": string;
+    "source_domain": string;
+    "topics": {
+        topic: string;
+        relevance_score: string; // number
+    }[];
+    "overall_sentiment_score": number;
+    "overall_sentiment_label": string;
+    "ticker_sentiment": {
+        "ticker": Ticker;
+        "relevance_score": string; // number
+        "ticker_sentiment_score": string; // number
+        "ticker_sentiment_label": string;
+    }[];
+}
+
+export interface NewsResponse {
+    items: string; // number
+    sentiment_score_definition: string;
+    relevance_score_definition: string;
+    feed: NewsFeedItem[];
 }

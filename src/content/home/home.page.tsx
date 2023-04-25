@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 import logo from "../../logo.svg";
 import { STOCKS_ROUTE } from "../../util/routes";
@@ -29,13 +30,14 @@ export const HomePage = () => {
         <h1>{text}</h1>
         <img src={logo as unknown as string} className="App-logo" alt="logo" />
         <section>
-        <button
+        <Button
           onClick={async () => {
             navigate(STOCKS_ROUTE)
           }}
+          variant="contained"
         >
           Go to stocks
-        </button>
+        </Button>
       </section>
       </header>
     </div>

@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { StockAPI } from "../../../api/stock.api";
 import { Chart } from "../../../components/Chart";
+import Box from "@mui/material/Box";
 
 export const DailyChart = ({ ticker }: { ticker: Ticker}) => {
   const [text, setText] = useState("");
@@ -24,9 +25,9 @@ export const DailyChart = ({ ticker }: { ticker: Ticker}) => {
   }, [ticker, fetchTicker])
 
   return loading ? null : (
-    <div>
+    <Box sx={{ width: '100%' }}>
       {text && <p>!!!!! {text}</p>}
       {tickerData && <Chart data={tickerData} />}
-    </div>
+    </Box>
   );
 };

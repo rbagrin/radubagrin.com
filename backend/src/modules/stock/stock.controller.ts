@@ -19,4 +19,9 @@ export class StockController {
   async getMonthlyAdjustedStockData(@Param('ticker') ticker: string): Promise<TimeSeriesMonthlyAdjustedResponse> {
     return this.stockService.getMonthlyAdjustedStockDataByTicker(ticker);
   }
+
+  @Get('/:ticker/news')
+  async getStockNews(@Param('ticker') ticker: string): Promise<TimeSeriesMonthlyAdjustedResponse> {
+    return this.stockService.getStockNewsaByTicker(ticker);
+  }
 }

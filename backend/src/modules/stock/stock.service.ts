@@ -20,4 +20,8 @@ export class StockService {
   public async getMonthlyAdjustedStockDataByTicker(ticker: string): Promise<TimeSeriesMonthlyAdjustedResponse> {
     return this.alphaVantageClientService.getTickerTimeSerieMonthlyAdjustedData(ticker);
   }
+
+  public async getStockNewsaByTicker(ticker: string): Promise<TimeSeriesMonthlyAdjustedResponse> {
+    return this.alphaVantageClientService.getTickerNews(ticker);
+  }
 }
