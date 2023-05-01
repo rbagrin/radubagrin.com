@@ -1,40 +1,72 @@
 import axios from "axios";
-import { NewsFeedItem, NewsResponse, TimeSeriesDailyAdjustedResponse, TimeSeriesMonthlyAdjustedResponse, TimeSeriesWeeklyAdjustedResponse } from "../types/stock.type";
-
-const STOCKS_DAILY_DATA_CACHE = {};
-
-let STOCKS_NEWS_CACHE = null;
+import {
+  IEXCloudBalanceSheet,
+  IEXCloudHistoricalData,
+  IEXCloudIncomeStatement,
+  NewsFeedItem,
+  NewsResponse,
+  Ticker,
+  TimeSeriesDailyAdjustedResponse,
+  TimeSeriesMonthlyAdjustedResponse,
+  TimeSeriesWeeklyAdjustedResponse,
+} from "../types/stock.type";
 
 export class StockAPI {
-    static async getDailyAdjustedDataByTicker(ticker: string): Promise<TimeSeriesDailyAdjustedResponse> {
-        if (STOCKS_DAILY_DATA_CACHE[ticker]) return STOCKS_DAILY_DATA_CACHE[ticker];
+  static async getDailyAdjustedDataByTicker(
+    ticker: string
+  ): Promise<TimeSeriesDailyAdjustedResponse> {
+    return (await axios.get(`/api/stocks/${ticker}/daily-adjusted`)).data;
+  }
 
-        const res = (await axios.get(`/api/stocks/${ticker}/daily-adjusted`)).data;
-        
-        // save data in cache
-        STOCKS_DAILY_DATA_CACHE[ticker] = res;
-        
-        return res;
-    }
+  static async getDailyDataBySticker(
+    ticker: Ticker
+  ): Promise<IEXCloudHistoricalData[]> {
+    // IEXCLOUD
+    return (await axios.get(`/api/stocks/${ticker}/daily-data`)).data;
+  }
+  static async getStockIncomeStatement(
+    ticker: Ticker,
+    frequency: "quarterly" | "annual" = "quarterly",
+    last = 4
+  ): Promise<IEXCloudIncomeStatement[]> {
+    // IEXCLOUD
+    return (
+      await axios.get(
+        `/api/stocks/${ticker}/income-statement?frequency=${frequency}&last=${last}`
+      )
+    ).data;
+  }
 
-    static async getWeeklyAdjustedDataByTicker(ticker: string): Promise<TimeSeriesWeeklyAdjustedResponse> {
-        return (await axios.get(`/api/stocks/${ticker}/weekly-adjusted`)).data;
-    }
+  static async getStockBalanceSheet(
+    ticker: Ticker,
+    frequency: "quarterly" | "annual" = "quarterly",
+    last = 4
+  ): Promise<IEXCloudBalanceSheet[]> {
+    // IEXCLOUD
+    return (
+      await axios.get(
+        `/api/stocks/${ticker}/balance-sheet?frequency=${frequency}&last=${last}`
+      )
+    ).data;
+  }
 
-    static async getMonthlyAdjustedDataByTicker(ticker: string): Promise<TimeSeriesMonthlyAdjustedResponse> {
-        return (await axios.get(`/api/stocks/${ticker}/monthly-adjusted`)).data;
-    }
+  static async getWeeklyAdjustedDataByTicker(
+    ticker: string
+  ): Promise<TimeSeriesWeeklyAdjustedResponse> {
+    return (await axios.get(`/api/stocks/${ticker}/weekly-adjusted`)).data;
+  }
 
-    static async getStockNewsByTicker(ticker: string): Promise<NewsFeedItem[]> {
-        let source = STOCKS_NEWS_CACHE;
-        if (!source) {
-            const res = (await axios.get<NewsResponse>(`/api/stocks/${ticker}/news`)).data;
-            source = res;
-            STOCKS_NEWS_CACHE = source;
-        }
+  static async getMonthlyAdjustedDataByTicker(
+    ticker: string
+  ): Promise<TimeSeriesMonthlyAdjustedResponse> {
+    return (await axios.get(`/api/stocks/${ticker}/monthly-adjusted`)).data;
+  }
 
-        return source.feed.filter((item) => item.ticker_sentiment.some((ts) => ts.ticker === ticker));
-
-        // return res;
-    }
+  static async getStockNewsByTicker(ticker: string): Promise<NewsFeedItem[]> {
+    const res = (await axios.get<NewsResponse>(`/api/stocks/${ticker}/news`))
+      .data;
+    return res?.feed?.filter((item) =>
+      item.ticker_sentiment.some((ts) => ts.ticker === ticker)
+    );
+  }
 }

@@ -1,6 +1,12 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { ApiClientService } from 'src/infra/http/api-client/api-client.service';
+import {
+  Ticker,
+  TimeSeriesDailyAdjustedResponse,
+  TimeSeriesMonthlyAdjustedResponse,
+  TimeSeriesWeeklyAdjustedResponse,
+} from '../stock/stock.interace';
 
 @Injectable()
 export class AlphaVantageClientService extends ApiClientService {
@@ -22,7 +28,7 @@ export class AlphaVantageClientService extends ApiClientService {
   }
 
   async getTickerTimeSeriesDailyAdjustedData(
-    ticker: string,
+    ticker: Ticker,
   ): Promise<TimeSeriesDailyAdjustedResponse> {
     const functionName = 'TIME_SERIES_DAILY_ADJUSTED';
     const apiKey = this.getApiKey();
@@ -56,7 +62,7 @@ export class AlphaVantageClientService extends ApiClientService {
   }
 
   async getTickerTimeSerieWeeklyAdjustedData(
-    ticker: string,
+    ticker: Ticker,
   ): Promise<TimeSeriesWeeklyAdjustedResponse> {
     const functionName = 'TIME_SERIES_WEEKLY_ADJUSTED';
     const apiKey = this.getApiKey();
@@ -73,7 +79,7 @@ export class AlphaVantageClientService extends ApiClientService {
   }
 
   async getTickerTimeSerieMonthlyAdjustedData(
-    ticker: string,
+    ticker: Ticker,
   ): Promise<TimeSeriesMonthlyAdjustedResponse> {
     const functionName = 'TIME_SERIES_MONTHLY_ADJUSTED';
     const apiKey = this.getApiKey();
@@ -89,9 +95,7 @@ export class AlphaVantageClientService extends ApiClientService {
     }
   }
 
-  async getTickerNews(
-    tickers: string,
-  ): Promise<any> {
+  async getTickerNews(tickers: Ticker): Promise<any> {
     const functionName = 'NEWS_SENTIMENT';
     const apiKey = this.getApiKey();
     try {
