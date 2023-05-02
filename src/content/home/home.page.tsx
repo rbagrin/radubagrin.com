@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import logo from "../../logo.svg";
-import { STOCKS_ROUTE } from "../../util/routes";
+import {STOCKS_ROUTE, TOOLS_ROUTE} from "../../util/routes";
 
 export const HomePage = () => {
   const [text, setText] = useState<string>("");
@@ -26,14 +26,23 @@ export const HomePage = () => {
       <header className="App-header">
         <h1>{text}</h1>
         <img src={logo as unknown as string} className="App-logo" alt="logo" />
-        <section>
+        <section style={{ display: 'flex', gap: '20px' }}>
           <button
-            className="btnPrimaryLarge"
+            className=""
             onClick={async () => {
               navigate(STOCKS_ROUTE);
             }}
           >
-            Go to stocks
+            Stocks
+          </button>
+
+          <button
+              className="secondary"
+              onClick={async () => {
+                navigate(TOOLS_ROUTE);
+              }}
+          >
+            Tools
           </button>
         </section>
       </header>
