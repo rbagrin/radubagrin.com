@@ -98,7 +98,7 @@ export const InvestmentCalculatorSection = () => {
         {investmentYears === 1 ? "" : "s"}: {finalInvestmentValue}
       </p>
 
-      <p>End balace: {finalInvestmentValue}</p>
+      <p>End balance: {finalInvestmentValue}</p>
       <p>Starting Amount: {startingSum}</p>
       <p>Total Contributions: {totalContributions}</p>
       <p>
