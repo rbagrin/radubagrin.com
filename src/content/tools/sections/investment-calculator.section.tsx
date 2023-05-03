@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { keepOnlyXDigits } from "../../../util/number.util";
+import { PieChart } from "../../../components/PieChart";
 export const InvestmentCalculatorSection = () => {
   const [startingSum, setStartingSum] = useState(1000);
   const [monthlyInvestment, setMonthlyInvestment] = useState(500);
@@ -24,82 +25,128 @@ export const InvestmentCalculatorSection = () => {
     return monthlyInvestment * investmentYears * 12;
   }, [monthlyInvestment, investmentYears]);
 
+  const totalInterest = useMemo(
+    () => finalInvestmentValue - startingSum - totalContributions,
+    [finalInvestmentValue, startingSum, totalContributions]
+  );
+
+  const chartData = useMemo(
+    () => ({
+      labels: [
+        "Starting amount",
+        "Total monthly contributions",
+        "Total interest",
+      ],
+      datasets: [
+        {
+          label: "",
+          data: [startingSum, totalContributions, totalInterest],
+          backgroundColor: [
+            "rgb(12, 42, 204)",
+            "rgb(11, 150, 129)",
+            "rgb(13, 100, 217)",
+          ],
+          borderColor: "black",
+          borderWidth: 2,
+        },
+      ],
+    }),
+    [startingSum, totalContributions, totalInterest]
+  );
+
   return (
     <div>
-      <h1>Investment calculator</h1>
-      <div>
-        <div style={{ display: "flex", gap: "20px" }}>
-          <div style={{ width: "200px" }}>
-            <label htmlFor="startingSum">Starting amount:</label>
-            <input
-              type="number"
-              id="startingSum"
-              name="startingSum"
-              value={startingSum}
-              onChange={(e) => {
-                const value = Number.parseFloat(e.target.value);
-                setStartingSum(isNaN(value) ? 0 : value);
-              }}
-            />
+      <h1>Stocks</h1>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: "20px",
+        }}
+      >
+        <div>
+          <h2>Investment calculator</h2>
+          <div style={{ display: "flex", gap: "20px" }}>
+            <div style={{ width: "200px" }}>
+              <label htmlFor="startingSum">Starting amount:</label>
+              <input
+                type="number"
+                id="startingSum"
+                name="startingSum"
+                value={startingSum}
+                onChange={(e) => {
+                  const value = Number.parseFloat(e.target.value);
+                  setStartingSum(isNaN(value) ? 0 : value);
+                }}
+              />
+            </div>
+
+            <div style={{ width: "200px" }}>
+              <label htmlFor="monthlyInvestment">Monthly investment:</label>
+              <input
+                type="number"
+                id="monthlyInvestment"
+                name="monthlyInvestment"
+                value={monthlyInvestment}
+                onChange={(e) => {
+                  const value = Number.parseFloat(e.target.value);
+                  setMonthlyInvestment(isNaN(value) ? 0 : value);
+                }}
+              />
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: "20px" }}>
+            <div style={{ width: "200px" }}>
+              <label htmlFor="investmentYears">Investment years:</label>
+              <input
+                type="number"
+                id="investmentYears"
+                name="investmentYears"
+                value={investmentYears}
+                onChange={(e) => {
+                  const value = Number.parseFloat(e.target.value);
+                  setInvestmentYears(isNaN(value) ? 0 : value);
+                }}
+              />
+            </div>
+
+            <div style={{ width: "200px" }}>
+              <label htmlFor="growthRate">Growth rate (%):</label>
+              <input
+                type="number"
+                id="growthRate"
+                name="growthRate"
+                value={growthRate}
+                onChange={(e) => {
+                  const value = Number.parseFloat(e.target.value);
+                  setGrowthRate(isNaN(value) ? 0 : value);
+                }}
+              />
+            </div>
           </div>
 
-          <div style={{ width: "200px" }}>
-            <label htmlFor="monthlyInvestment">Monthly investment:</label>
-            <input
-              type="number"
-              id="monthlyInvestment"
-              name="monthlyInvestment"
-              value={monthlyInvestment}
-              onChange={(e) => {
-                const value = Number.parseFloat(e.target.value);
-                setMonthlyInvestment(isNaN(value) ? 0 : value);
-              }}
-            />
-          </div>
+          <p>
+            Your investment after {investmentYears} year
+            {investmentYears === 1 ? "" : "s"}: {finalInvestmentValue}
+          </p>
+
+          <p>End balance: {finalInvestmentValue}</p>
+          <p>Starting Amount: {startingSum}</p>
+          <p>Total Contributions: {totalContributions}</p>
+          <p>Total interest: {totalInterest}</p>
         </div>
-        <div style={{ display: "flex", gap: "20px" }}>
-          <div style={{ width: "200px" }}>
-            <label htmlFor="investmentYears">Investment years:</label>
-            <input
-              type="number"
-              id="investmentYears"
-              name="investmentYears"
-              value={investmentYears}
-              onChange={(e) => {
-                const value = Number.parseFloat(e.target.value);
-                setInvestmentYears(isNaN(value) ? 0 : value);
-              }}
-            />
-          </div>
 
-          <div style={{ width: "200px" }}>
-            <label htmlFor="growthRate">Growth rate (%):</label>
-            <input
-              type="number"
-              id="growthRate"
-              name="growthRate"
-              value={growthRate}
-              onChange={(e) => {
-                const value = Number.parseFloat(e.target.value);
-                setGrowthRate(isNaN(value) ? 0 : value);
-              }}
+        <div style={{ width: "50%" }}>
+          <div style={{ paddingRight: "80px" }}>
+            <PieChart
+              title="End Balance Breakdown"
+              subtitle=""
+              chartData={chartData}
             />
           </div>
         </div>
       </div>
-
-      <p>
-        Your investment after {investmentYears} year
-        {investmentYears === 1 ? "" : "s"}: {finalInvestmentValue}
-      </p>
-
-      <p>End balance: {finalInvestmentValue}</p>
-      <p>Starting Amount: {startingSum}</p>
-      <p>Total Contributions: {totalContributions}</p>
-      <p>
-        Total interest:{" "}
-        {finalInvestmentValue - startingSum - totalContributions}
-      </p>
     </div>
   );
 };
