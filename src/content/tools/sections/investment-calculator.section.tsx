@@ -1,10 +1,5 @@
 import React, { useMemo, useState } from "react";
-
-const round = (value: number, digits = 4): number => {
-  const aux = 10 ** digits;
-  return Math.floor(value * aux) / aux;
-};
-
+import { keepOnlyXDigits } from "../../../util/number.util";
 export const InvestmentCalculatorSection = () => {
   const [startingSum, setStartingSum] = useState(1000);
   const [monthlyInvestment, setMonthlyInvestment] = useState(500);
@@ -22,7 +17,7 @@ export const InvestmentCalculatorSection = () => {
       total = (total + monthlyInvestment) * (1 + monthlyReturnRate);
     }
 
-    return round(total, 2);
+    return keepOnlyXDigits(total, 2);
   }, [startingSum, monthlyInvestment, investmentYears, growthRate]);
 
   const totalContributions = useMemo(() => {
