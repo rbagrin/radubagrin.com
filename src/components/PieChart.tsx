@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Pie } from "react-chartjs-2";
 
 import Chart from "chart.js/auto";
@@ -6,7 +6,7 @@ import { CategoryScale } from "chart.js";
 Chart.register(CategoryScale);
 
 interface PieChartProps {
-  readonly title: string;
+  readonly title: ReactNode | null;
   readonly subtitle?: string;
   readonly chartData: {
     labels: string[];
@@ -20,10 +20,14 @@ interface PieChartProps {
   };
 }
 
-export const PieChart = ({ title, subtitle, chartData }: PieChartProps) => {
+export const PieChart = ({
+  title = null,
+  subtitle,
+  chartData,
+}: PieChartProps) => {
   return (
     <div>
-      <h2 style={{ textAlign: "center" }}>{title}</h2>
+      {title}
       <Pie
         data={chartData}
         options={{

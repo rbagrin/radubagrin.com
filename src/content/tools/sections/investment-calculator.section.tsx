@@ -43,8 +43,8 @@ export const InvestmentCalculatorSection = () => {
           data: [startingSum, totalContributions, totalInterest],
           backgroundColor: [
             "rgb(12, 42, 204)",
-            "rgb(11, 150, 129)",
             "rgb(13, 100, 217)",
+            "rgb(11, 150, 129)",
           ],
           borderColor: "black",
           borderWidth: 2,
@@ -125,23 +125,37 @@ export const InvestmentCalculatorSection = () => {
               />
             </div>
           </div>
-
-          <p>
-            Your investment after {investmentYears} year
-            {investmentYears === 1 ? "" : "s"}: {finalInvestmentValue}
-          </p>
-
-          <p>End balance: {finalInvestmentValue}</p>
-          <p>Starting Amount: {startingSum}</p>
-          <p>Total Contributions: {totalContributions}</p>
-          <p>Total interest: {totalInterest}</p>
         </div>
 
         <div style={{ width: "50%" }}>
           <div style={{ paddingRight: "80px" }}>
             <PieChart
-              title="End Balance Breakdown"
-              subtitle=""
+              title={
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "center",
+                    marginBottom: "0",
+                  }}
+                >
+                  <p>
+                    Your investment after {investmentYears} year
+                    {investmentYears === 1 ? "" : "s"}:
+                  </p>
+                  <p
+                    style={{
+                      marginLeft: "10px",
+                      fontWeight: "bold",
+                      fontSize: "24px",
+                    }}
+                  >
+                    ${finalInvestmentValue}
+                  </p>
+                </div>
+              }
+              subtitle="End Balance Breakdown"
               chartData={chartData}
             />
           </div>

@@ -10,12 +10,26 @@ enum ChartType {
 }
 
 const CHART_TYPES = [ChartType.Daily, ChartType.Weekly, ChartType.Monthly];
+const COMPANIES = [
+  { name: "Apple", ticker: "AAPL" },
+  { name: "AMD", ticker: "AMD" },
+  { name: "Tesla", ticker: "TSLA" },
+  { name: "Netflix", ticker: "NFLX" },
+  { name: "Amazon", ticker: "AMZN" },
+  { name: "Rivian", ticker: "RIVN" },
+  { name: "NIO", ticker: "NIO" },
+  { name: "Microsoft", ticker: "MSFT" },
+  { name: "Nvidia", ticker: "NVDA" },
+  { name: "Ford", ticker: "F" },
+];
 
 const MenuButton = ({
+  buttonName,
   buttonTicker,
   selectedTicker,
   setTicker,
 }: {
+  buttonName: string;
   buttonTicker: string;
   selectedTicker: string;
   setTicker: React.Dispatch<React.SetStateAction<string>>;
@@ -25,7 +39,7 @@ const MenuButton = ({
 
   return (
     <button className={className} onClick={() => setTicker(buttonTicker)}>
-      {buttonTicker}
+      {buttonName}
     </button>
   );
 };
@@ -59,51 +73,15 @@ export const StocksPage = () => {
             paddingRight: "10px",
           }}
         >
-          <MenuButton
-            buttonTicker="AAPL"
-            selectedTicker={ticker}
-            setTicker={setTicker}
-          />
-          <MenuButton
-            buttonTicker="AMD"
-            selectedTicker={ticker}
-            setTicker={setTicker}
-          />
-          <MenuButton
-            buttonTicker="TSLA"
-            selectedTicker={ticker}
-            setTicker={setTicker}
-          />
-          <MenuButton
-            buttonTicker="NFLX"
-            selectedTicker={ticker}
-            setTicker={setTicker}
-          />
-          <MenuButton
-            buttonTicker="AMZN"
-            selectedTicker={ticker}
-            setTicker={setTicker}
-          />
-          <MenuButton
-            buttonTicker="RIVN"
-            selectedTicker={ticker}
-            setTicker={setTicker}
-          />
-          <MenuButton
-            buttonTicker="NIO"
-            selectedTicker={ticker}
-            setTicker={setTicker}
-          />
-          <MenuButton
-            buttonTicker="MSFT"
-            selectedTicker={ticker}
-            setTicker={setTicker}
-          />
-          <MenuButton
-            buttonTicker="NVDA"
-            selectedTicker={ticker}
-            setTicker={setTicker}
-          />
+          {COMPANIES.map((company) => (
+            <MenuButton
+              key={company.ticker}
+              buttonName={`${company.name} (${company.ticker})`}
+              buttonTicker={company.ticker}
+              selectedTicker={ticker}
+              setTicker={setTicker}
+            />
+          ))}
         </div>
 
         <div
