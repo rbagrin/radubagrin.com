@@ -1,5 +1,13 @@
 import React, { useMemo, useState } from "react";
 import { keepOnlyXDigits } from "../../../util/number.util";
+import { LineChart } from "../../../components/LineChart";
+import {
+  IMBOBILIARE_1_CAMERA_BUCURESTI,
+  IMOBILIARE_2_CAMERE_BUCURESTI,
+  IMOBILIARE_3_CAMERE_BUCURESTI,
+  IMOBILIARE_APARTAMENTE_VECHI_SI_NOI_BUCURESTI,
+  IMOBILIARE_INDEX_ROMANIA,
+} from "./imobiliare";
 
 const GrossRentalYield = () => {
   const [monthlyRent, setMonthlyRent] = useState<number | "">(500);
@@ -18,6 +26,16 @@ const GrossRentalYield = () => {
       <h3>Gross Rental Yield</h3>
       <code>GrossRentalYield = annualRent * 100% / purchasePrice;</code>
 
+      <h4>What is a good rental yield – and where can I get it?</h4>
+      <p>
+        As a rule of thumb, between <b>6%</b> and <b>8%</b> is considered to be
+        a <b>reasonable</b> level of rental yield, but different parts of the
+        country can deliver significantly higher or lower returns. It is worth
+        bearing in mind that yields can be lower in areas where the expected
+        house price growth is highest, such as in London and the South East of
+        England. This is because the potential for capital gains in the region
+        pushes sale prices up, while rent levels are less affected.
+      </p>
       <div style={{ display: "flex", gap: "20px" }}>
         <div style={{ width: "200px" }}>
           <label htmlFor="purchasePrice">Purchase price:</label>
@@ -193,6 +211,29 @@ export const RealEstateSection = () => {
       >
         <GrossRentalYield />
         <NetRentalYield />
+      </div>
+
+      <div>
+        <LineChart
+          title="Indicele imobiliare ROMANIA"
+          chartData={IMOBILIARE_INDEX_ROMANIA}
+        />
+        <LineChart
+          title="Apartamente vechi si noi BUCURESTI"
+          chartData={IMOBILIARE_APARTAMENTE_VECHI_SI_NOI_BUCURESTI}
+        />
+        <LineChart
+          title="Apartamente cu 1 camera BUCURESTI"
+          chartData={IMBOBILIARE_1_CAMERA_BUCURESTI}
+        />
+        <LineChart
+          title="Apartamente cu 2 camere BUCURESTI"
+          chartData={IMOBILIARE_2_CAMERE_BUCURESTI}
+        />
+        <LineChart
+          title="Apartamente cu 3 camere BUCURESTI"
+          chartData={IMOBILIARE_3_CAMERE_BUCURESTI}
+        />
       </div>
     </div>
   );
