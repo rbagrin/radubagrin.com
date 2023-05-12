@@ -8,6 +8,7 @@ import {
   IMOBILIARE_APARTAMENTE_VECHI_SI_NOI_BUCURESTI,
   IMOBILIARE_INDEX_ROMANIA,
 } from "./imobiliare";
+import { Input } from "../../../components/forms/Input";
 
 const GrossRentalYield = () => {
   const [monthlyRent, setMonthlyRent] = useState<number | "">(500);
@@ -37,34 +38,20 @@ const GrossRentalYield = () => {
         pushes sale prices up, while rent levels are less affected.
       </p>
       <div style={{ display: "flex", gap: "20px" }}>
-        <div style={{ width: "200px" }}>
-          <label htmlFor="purchasePrice">Purchase price:</label>
-          <input
-            type="number"
-            id="purchasePrice"
-            name="purchasePrice"
-            value={purchasePrice}
-            onChange={(e) => {
-              const value = Number.parseFloat(e.target.value);
-              const numberValue = isNaN(value) ? "" : value;
-              setPurchasePrice(numberValue);
-            }}
-          />
-        </div>
-        <div style={{ width: "200px" }}>
-          <label htmlFor="monthlyRent">Monthly rent:</label>
-          <input
-            type="number"
-            id="monthlyRent"
-            name="monthlyRent"
-            value={monthlyRent}
-            onChange={(e) => {
-              const value = Number.parseFloat(e.target.value);
-              const numberValue = isNaN(value) ? "" : value;
-              setMonthlyRent(numberValue);
-            }}
-          />
-        </div>
+        <Input
+          name="purchasePrice"
+          label="Purchase price:"
+          type="number"
+          value={purchasePrice}
+          setValue={setPurchasePrice}
+        />
+        <Input
+          name="monthlyRent"
+          label="Monthly rent:"
+          type="number"
+          value={monthlyRent}
+          setValue={setMonthlyRent}
+        />
       </div>
       <p>Gross Rental Yield: {grossRentalYield}%</p>
     </div>
@@ -105,65 +92,36 @@ const NetRentalYield = () => {
 
       <div style={{ display: "flex", gap: "20px" }}>
         <div>
-          <div style={{ width: "200px" }}>
-            <label htmlFor="purchasePrice">Purchase price:</label>
-            <input
-              type="number"
-              id="purchasePrice"
-              name="purchasePrice"
-              value={purchasePrice}
-              onChange={(e) => {
-                const value = Number.parseFloat(e.target.value);
-                const numberValue = isNaN(value) ? "" : value;
-                setPurchasePrice(numberValue);
-              }}
-            />
-          </div>
-          <div style={{ width: "200px" }}>
-            <label htmlFor="monthlyRent">Monthly rent:</label>
-            <input
-              type="number"
-              id="monthlyRent"
-              name="monthlyRent"
-              value={monthlyRent}
-              onChange={(e) => {
-                const value = Number.parseFloat(e.target.value);
-                const numberValue = isNaN(value) ? "" : value;
-                setMonthlyRent(numberValue);
-              }}
-            />
-          </div>
+          <Input
+            name="purchasePrice"
+            label="Purchase price:"
+            type="number"
+            value={purchasePrice}
+            setValue={setPurchasePrice}
+          />
+          <Input
+            name="monthlyRent"
+            label="Monthly rent:"
+            type="number"
+            value={monthlyRent}
+            setValue={setMonthlyRent}
+          />
         </div>
-
         <div>
-          <div style={{ width: "200px" }}>
-            <label htmlFor="runningCosts">Running costs:</label>
-            <input
-              type="number"
-              id="runningCosts"
-              name="runningCosts"
-              value={runningCosts}
-              onChange={(e) => {
-                const value = Number.parseFloat(e.target.value);
-                const numberValue = isNaN(value) ? "" : value;
-                setRunningCosts(numberValue);
-              }}
-            />
-          </div>
-          <div style={{ width: "200px" }}>
-            <label htmlFor="oneTimeCosts">One time costs:</label>
-            <input
-              type="number"
-              id="oneTimeCosts"
-              name="oneTimeCosts"
-              value={oneTimeCosts}
-              onChange={(e) => {
-                const value = Number.parseFloat(e.target.value);
-                const numberValue = isNaN(value) ? "" : value;
-                setOneTimeCosts(numberValue);
-              }}
-            />
-          </div>
+          <Input
+            name="runningCosts"
+            label="Running costs:"
+            type="number"
+            value={runningCosts}
+            setValue={setRunningCosts}
+          />
+          <Input
+            name="oneTimeCosts"
+            label="One time costs:"
+            type="number"
+            value={oneTimeCosts}
+            setValue={setOneTimeCosts}
+          />
         </div>
       </div>
       <p>Net Rental Yield: {netRentalYield}%</p>
@@ -182,20 +140,13 @@ export const RealEstateSection = () => {
       <h2>Fair value</h2>
       <code>FairPrice = 15Years * monthlyRent</code>
       <div>
-        <div style={{ width: "200px" }}>
-          <label htmlFor="monthlyRent">Monthly rent:</label>
-          <input
-            type="number"
-            id="monthlyRent"
-            name="monthlyRent"
-            value={monthlyRent}
-            onChange={(e) => {
-              const value = Number.parseFloat(e.target.value);
-              const numberValue = isNaN(value) ? "" : value;
-              setMonthlyRent(numberValue);
-            }}
-          />
-        </div>
+        <Input
+          name="monthlyRent"
+          label="Monthly rent:"
+          type="number"
+          value={monthlyRent}
+          setValue={setMonthlyRent}
+        />
 
         <p>Fair price: ${fairPrice}</p>
       </div>

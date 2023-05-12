@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { Input } from "../../components/forms/Input";
 
 export const ThemePage = () => {
+  const [numberValue, setNumberValue] = useState<number>(0);
+  const [textValue, setTextValue] = useState<string>("");
   return (
     <div>
       <h1>Buttons</h1>
@@ -35,6 +38,23 @@ export const ThemePage = () => {
       <p>This is an example of p.</p>
 
       <code>This is an example of code.</code>
+
+      <Input
+        name="number-input"
+        label="Number input"
+        type="number"
+        value={numberValue}
+        setValue={setNumberValue}
+      />
+
+      <Input
+        name="text-input"
+        label="Text input"
+        type="text"
+        value={textValue}
+        setValue={setTextValue}
+        size="xl"
+      />
     </div>
   );
 };
