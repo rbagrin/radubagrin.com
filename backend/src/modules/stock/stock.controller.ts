@@ -1,4 +1,15 @@
-import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query,
+  Res,
+} from '@nestjs/common';
 import { StockService } from './stock.service';
 import {
   IEXCloudBalanceSheet,
@@ -12,10 +23,17 @@ import {
   TimeSeriesMonthlyAdjustedResponse,
   TimeSeriesWeeklyAdjustedResponse,
 } from './stock.interace';
+import { Response } from 'express';
+import { CreateStockDto } from './dto/createStock.dto';
+import { InjectConnection } from '@nestjs/mongoose';
+import { Connection } from 'mongoose';
 
 @Controller('/api/stocks')
 export class StockController {
-  constructor(private readonly stockService: StockService) {}
+  constructor(
+    @InjectConnection() private readonly mongoConnection: Connection,
+    private readonly stockService: StockService,
+  ) {}
 
   @Get('/:ticker/daily-data')
   async getDailyStockData(
@@ -66,5 +84,32 @@ export class StockController {
     @Param('ticker') ticker: string,
   ): Promise<TimeSeriesMonthlyAdjustedResponse> {
     return this.stockService.getStockNewsaByTicker(ticker);
+  }
+
+  @Get('/')
+  async getAllStocks(): Promise<any> {
+    return this.stockService.getAllStocks();
+  }
+
+  @Post('/')
+  async createUser(
+    @Body() createStockDto: CreateStockDto,
+    @Res() res: Response,
+  ) {
+    const session = await this.mongoConnection.startSession();
+    session.startTransaction();
+    try {
+      const newStock: any = await this.stockService.creatStock(
+        createStockDto,
+        session,
+      );
+      await session.commitTransaction();
+      return res.status(HttpStatus.CREATED).send(newStock);
+    } catch (error) {
+      await session.abortTransaction();
+      throw new BadRequestException(error);
+    } finally {
+      await session.endSession();
+    }
   }
 }

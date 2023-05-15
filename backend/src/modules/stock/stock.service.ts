@@ -12,16 +12,29 @@ import {
   TimeSeriesMonthlyAdjustedResponse,
   TimeSeriesWeeklyAdjustedResponse,
 } from './stock.interace';
+import { UserRepository } from '../../repositories/user.repository';
+import { StockRepository } from '../../repositories/stock.repository';
+import { CreateUserDto } from '../user/dto/createUser.dto';
+import { ClientSession } from 'mongoose';
+import { CreateStockDto } from './dto/createStock.dto';
 
 @Injectable()
 export class StockService {
   private logger = new Logger(StockService.name);
 
   constructor(
+    private readonly stockRepository: StockRepository,
     private readonly alphaVantageClientService: AlphaVantageClientService,
     private readonly iexCloudClientService: IEXCloudClientService,
   ) {}
 
+  async creatStock(createStockDto: CreateStockDto, session: ClientSession) {
+    return await this.stockRepository.createStock(createStockDto, session);
+  }
+
+  public async getAllStocks(): Promise<any> {
+    return this.stockRepository.getAllStocks();
+  }
   public async getDailyTickerData(
     ticker: Ticker,
   ): Promise<IEXCloudHistoricalData[]> {

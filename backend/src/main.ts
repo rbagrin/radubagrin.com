@@ -1,14 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
+// import * as dotenv from 'dotenv';
+import { ConfigService } from './infra/config/config.service';
 
 async function bootstrap() {
-  if (process.env.NODE_ENV !== 'production') {
-    dotenv.config();
-  }
-  
+  // if (process.env.NODE_ENV !== 'production') {
+  //   dotenv.config();
+  // }
+
   const app = await NestFactory.create(AppModule, { bodyParser: true });
-  await app.listen(process.env.BACKEND_PORT);
+  const config = new ConfigService();
+
+  await app.listen(await config.getPortConfig());
 }
 
 bootstrap();
