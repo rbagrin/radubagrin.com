@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { DailyChart } from "./charts/daily-chart";
 import { StockNews } from "./sections/stock-news.section";
 import { Ticker } from "../../types/stock.type";
+import { StockAPI } from "../../api/stock.api";
 
 enum ChartType {
   Daily = "Daily",
@@ -10,18 +11,6 @@ enum ChartType {
 }
 
 const CHART_TYPES = [ChartType.Daily, ChartType.Weekly, ChartType.Monthly];
-const COMPANIES = [
-  { name: "Apple", ticker: "AAPL" },
-  { name: "AMD", ticker: "AMD" },
-  { name: "Tesla", ticker: "TSLA" },
-  { name: "Netflix", ticker: "NFLX" },
-  { name: "Amazon", ticker: "AMZN" },
-  { name: "Rivian", ticker: "RIVN" },
-  { name: "NIO", ticker: "NIO" },
-  { name: "Microsoft", ticker: "MSFT" },
-  { name: "Nvidia", ticker: "NVDA" },
-  { name: "Ford", ticker: "F" },
-];
 
 const MenuButton = ({
   buttonName,
@@ -47,6 +36,20 @@ const MenuButton = ({
 export const StocksPage = () => {
   const [ticker, setTicker] = useState<Ticker>("AAPL");
   const [chartType, setChartType] = useState<Ticker>(CHART_TYPES[0]);
+  const [savedStocks, setSavedStocks] = useState([]);
+
+  const refreshSavedStocks = useCallback(async () => {
+    try {
+      const stocks = await StockAPI.getStocks();
+      setSavedStocks(stocks);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshSavedStocks();
+  }, [refreshSavedStocks]);
 
   return (
     <div
@@ -73,11 +76,11 @@ export const StocksPage = () => {
             paddingRight: "10px",
           }}
         >
-          {COMPANIES.map((company) => (
+          {savedStocks.map((stock) => (
             <MenuButton
-              key={company.ticker}
-              buttonName={`${company.name} (${company.ticker})`}
-              buttonTicker={company.ticker}
+              key={stock.ticker}
+              buttonName={`${stock.name} (${stock.ticker})`}
+              buttonTicker={stock.ticker}
               selectedTicker={ticker}
               setTicker={setTicker}
             />

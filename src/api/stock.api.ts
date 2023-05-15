@@ -12,6 +12,10 @@ import {
 } from "../types/stock.type";
 
 export class StockAPI {
+  static async getStocks(): Promise<any> {
+    return (await axios.get(`/api/stocks`)).data;
+  }
+
   static async getDailyAdjustedDataByTicker(
     ticker: string
   ): Promise<TimeSeriesDailyAdjustedResponse> {
