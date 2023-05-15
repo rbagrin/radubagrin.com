@@ -138,7 +138,7 @@ export const RealEstateSection = () => {
     <div>
       <h1>Real estate</h1>
       <h2>Fair value</h2>
-      <code>FairPrice = 15Years * monthlyRent</code>
+      <code>FairPrice = 15 Years * monthlyRent</code>
       <div>
         <Input
           name="monthlyRent"
