@@ -13,8 +13,11 @@ import { CreateStockDto } from './dto/createStock.dto';
 import { DarqubeClientService } from '../darqube/darqube.service';
 import {
   DarqubeBalanceSheetResponse,
+  DarqubeCashFlowResponse,
   DarqubeIncomeStatementResponse,
   DarqubeTickerMarketData,
+  DarqubeTickerNews,
+  DarqubeTickerTweet,
 } from '../darqube/darqube.interface';
 
 @Injectable()
@@ -54,6 +57,12 @@ export class StockService {
     return this.darqubeClientService.getTickerIncomeStatement(ticker);
   }
 
+  public async getTickerCashFlow(
+    ticker: Ticker,
+  ): Promise<DarqubeCashFlowResponse> {
+    return this.darqubeClientService.getTickerCashFlow(ticker);
+  }
+
   public async getTickerBalanceSheet(
     ticker: Ticker,
   ): Promise<DarqubeBalanceSheetResponse> {
@@ -84,9 +93,20 @@ export class StockService {
     );
   }
 
-  public async getStockNewsaByTicker(
+  // TODO: Use this to show news
+  public async getStockNewsByTicker(
     ticker: string,
-  ): Promise<TimeSeriesMonthlyAdjustedResponse> {
-    return this.alphaVantageClientService.getTickerNews(ticker);
+    provider: 'alphaVantage' | 'darqube',
+  ): Promise<any[]> {
+    // TODO: unify reponses here
+    if (provider === 'alphaVantage')
+      return this.alphaVantageClientService.getTickerNews(ticker);
+
+    return this.darqubeClientService.getTickerNews(ticker);
+  }
+  public async getStockTweetsByTicker(
+    ticker: string,
+  ): Promise<DarqubeTickerTweet[]> {
+    return this.darqubeClientService.getTickerTweets(ticker);
   }
 }

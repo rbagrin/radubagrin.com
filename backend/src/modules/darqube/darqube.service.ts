@@ -3,8 +3,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ApiClientService } from 'src/infra/http/api-client/api-client.service';
 import {
   DarqubeBalanceSheetResponse,
+  DarqubeCashFlowResponse,
   DarqubeIncomeStatementResponse,
   DarqubeTickerMarketData,
+  DarqubeTickerNews,
+  DarqubeTickerTweet,
 } from './darqube.interface';
 import { Ticker } from '../stock/stock.interace';
 
@@ -65,6 +68,45 @@ export class DarqubeClientService extends ApiClientService {
       const { data } = await this.httpService
         .get<DarqubeIncomeStatementResponse>(
           `/fundamentals/stocks/income_statement/${ticker}?token=${this.apiKey}`,
+        )
+        .toPromise();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getTickerCashFlow(ticker: Ticker): Promise<DarqubeCashFlowResponse> {
+    try {
+      const { data } = await this.httpService
+        .get<DarqubeCashFlowResponse>(
+          `/fundamentals/stocks/cash_flow/${ticker}?token=${this.apiKey}`,
+        )
+        .toPromise();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getTickerNews(ticker: Ticker): Promise<DarqubeTickerNews[]> {
+    try {
+      const { data } = await this.httpService
+        .get<DarqubeTickerNews[]>(
+          `/fundamentals/media/news?token=${this.apiKey}&symbol=${ticker}&skip=0&limit=100&sort=desc`,
+        )
+        .toPromise();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getTickerTweets(ticker: Ticker): Promise<DarqubeTickerTweet[]> {
+    try {
+      const { data } = await this.httpService
+        .get<DarqubeTickerTweet[]>(
+          `/fundamentals/media/tweets?token=${this.apiKey}&symbol=${ticker}&skip=0&limit=100&sort=desc`,
         )
         .toPromise();
       return data;

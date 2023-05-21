@@ -100,7 +100,7 @@ export class AlphaVantageClientService extends ApiClientService {
     const apiKey = this.getApiKey();
     try {
       const { data } = await this.httpService
-        .get<TimeSeriesMonthlyAdjustedResponse>(
+        .get<any>(
           `/query?function=${functionName}&symbol=${tickers}&apikey=${apiKey}`,
         )
         .toPromise();

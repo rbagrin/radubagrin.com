@@ -70,6 +70,28 @@ export interface DarqubeBalanceSheetResponse {
   };
 }
 
+export interface DarqubeCashFlow {
+  totalCashFromOperatingActivities: number;
+  changeReceivables: number | null;
+  changeToLiabilities: number | null;
+  totalCashflowsFromInvestingActivities: number | null;
+  investments: number | null;
+  capitalExpenditures: number | null;
+  totalCashFromFinancingActivities: number | null;
+  dividendsPaid: number | null;
+  otherCashflowsFromFinancingActivities: number | null;
+  netBorrowings: number | null;
+  salePurchaseOfStock: number | null;
+  exchangeRateChanges: number | null;
+  changeInCash: number | null;
+  cashAndCashEquivalentsChanges: number | null;
+  freeCashFlow: number | null;
+  otherInvestments: number | null;
+  operatingCashFlow: number | null;
+  issuanceOfCommonStockAndPreferredStock: number | null;
+  otherInvestingCashFlowItemsTotal: number | null;
+  issuanceOfStock: number;
+}
 export interface DarqubeIncomeStatement {
   totalRevenue: number;
   costOfRevenue: number;
@@ -113,6 +135,16 @@ export interface DarqubeIncomeStatementResponse {
   };
 }
 
+export interface DarqubeCashFlowResponse {
+  currency: 'USD' | 'EUR' | 'GBP';
+  quarterly: {
+    [date: string]: DarqubeCashFlow;
+  };
+  yearly: {
+    [date: string]: DarqubeCashFlow;
+  };
+}
+
 export interface DarqubeTickerMarketData {
   open: number;
   high: number;
@@ -121,4 +153,24 @@ export interface DarqubeTickerMarketData {
   volume: number;
   adjusted_close: number;
   time: number;
+}
+
+export interface DarqubeTickerNews {
+  source: string;
+  title: string;
+  url: string;
+  published_at: number;
+  score: {
+    neg: number;
+    neu: number;
+    pos: number;
+    compound: number;
+  };
+}
+
+export interface DarqubeTickerTweet {
+  text: string;
+  created_at: number;
+  uname: string;
+  uscreen_name: string;
 }

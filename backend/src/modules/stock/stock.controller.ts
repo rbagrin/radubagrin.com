@@ -24,8 +24,10 @@ import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import {
   DarqubeBalanceSheetResponse,
+  DarqubeCashFlowResponse,
   DarqubeIncomeStatementResponse,
   DarqubeTickerMarketData,
+  DarqubeTickerTweet,
 } from '../darqube/darqube.interface';
 
 @Controller('/api/stocks')
@@ -49,6 +51,8 @@ export class StockController {
       interval,
     );
   }
+
+  // TODO: More charts/data
   @Get('/:ticker/income-statement')
   async getStockIncomeStatement(
     @Param('ticker') ticker: Ticker,
@@ -56,6 +60,15 @@ export class StockController {
     return this.stockService.getTickerIncomeStatement(ticker);
   }
 
+  // TODO: Use this to show relevant data + More charts/data
+  @Get('/:ticker/cash-flow')
+  async getStockCashFlow(
+    @Param('ticker') ticker: Ticker,
+  ): Promise<DarqubeCashFlowResponse> {
+    return this.stockService.getTickerCashFlow(ticker);
+  }
+
+  // TODO: More charts/data
   @Get('/:ticker/balance-sheet')
   async getStockBalanceSheet(
     @Param('ticker') ticker: Ticker,
@@ -86,8 +99,16 @@ export class StockController {
   @Get('/:ticker/news')
   async getStockNews(
     @Param('ticker') ticker: string,
-  ): Promise<TimeSeriesMonthlyAdjustedResponse> {
-    return this.stockService.getStockNewsaByTicker(ticker);
+    @Query('provider') provider: 'alphaVantage' | 'darqube',
+  ): Promise<any[]> {
+    return this.stockService.getStockNewsByTicker(ticker, provider);
+  }
+
+  @Get('/:ticker/tweets')
+  async getStockTweets(
+    @Param('ticker') ticker: string,
+  ): Promise<DarqubeTickerTweet[]> {
+    return this.stockService.getStockTweetsByTicker(ticker);
   }
 
   @Get('/')
