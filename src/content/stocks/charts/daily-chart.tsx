@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { StockAPI } from "../../../api/stock.api";
 import { Chart } from "../../../components/Chart";
-import { IEXCloudHistoricalData, Ticker } from "../../../types/stock.type";
+import { DarqubeTickerMarketData, Ticker } from "../../../types/stock.type";
 
 export const DailyChart = ({ ticker }: { ticker: Ticker }) => {
   const [text, setText] = useState("");
-  const [tickerData, setTickerData] = useState<IEXCloudHistoricalData[]>([]);
+  const [tickerData, setTickerData] = useState<DarqubeTickerMarketData[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchTicker = useCallback(async (ticker) => {

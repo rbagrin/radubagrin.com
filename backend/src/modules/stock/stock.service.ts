@@ -1,22 +1,21 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { AlphaVantageClientService } from '../alphavantage/alphavantage.service';
-import { IEXCloudClientService } from '../iexcloud/iexcloud.service';
-import {
-  IEXCloudBalanceSheet,
-  IEXCloudHistoricalData,
-  IEXCloudIncomeStatement,
-} from '../iexcloud/iexcloud.interface';
+
 import {
   Ticker,
   TimeSeriesDailyAdjustedResponse,
   TimeSeriesMonthlyAdjustedResponse,
   TimeSeriesWeeklyAdjustedResponse,
 } from './stock.interace';
-import { UserRepository } from '../../repositories/user.repository';
 import { StockRepository } from '../../repositories/stock.repository';
-import { CreateUserDto } from '../user/dto/createUser.dto';
 import { ClientSession } from 'mongoose';
 import { CreateStockDto } from './dto/createStock.dto';
+import { DarqubeClientService } from '../darqube/darqube.service';
+import {
+  DarqubeBalanceSheetResponse,
+  DarqubeIncomeStatementResponse,
+  DarqubeTickerMarketData,
+} from '../darqube/darqube.interface';
 
 @Injectable()
 export class StockService {
@@ -25,7 +24,7 @@ export class StockService {
   constructor(
     private readonly stockRepository: StockRepository,
     private readonly alphaVantageClientService: AlphaVantageClientService,
-    private readonly iexCloudClientService: IEXCloudClientService,
+    private readonly darqubeClientService: DarqubeClientService,
   ) {}
 
   async creatStock(createStockDto: CreateStockDto, session: ClientSession) {
@@ -37,32 +36,28 @@ export class StockService {
   }
   public async getDailyTickerData(
     ticker: Ticker,
-  ): Promise<IEXCloudHistoricalData[]> {
-    return this.iexCloudClientService.getTickerHistoricalData(ticker);
+    startDate: number,
+    endDate: number,
+    interval: '1d',
+  ): Promise<DarqubeTickerMarketData[]> {
+    return this.darqubeClientService.getTicketMarketData(
+      ticker,
+      startDate,
+      endDate,
+      interval,
+    );
   }
 
   public async getTickerIncomeStatement(
     ticker: Ticker,
-    frequency: 'quarterly' | 'annual',
-    last,
-  ): Promise<IEXCloudIncomeStatement[]> {
-    return this.iexCloudClientService.getTickerIncomeStatement(
-      ticker,
-      frequency,
-      last,
-    );
+  ): Promise<DarqubeIncomeStatementResponse> {
+    return this.darqubeClientService.getTickerIncomeStatement(ticker);
   }
 
   public async getTickerBalanceSheet(
     ticker: Ticker,
-    frequency: 'quarterly' | 'annual',
-    last,
-  ): Promise<IEXCloudBalanceSheet[]> {
-    return this.iexCloudClientService.getTickerBalanceSheet(
-      ticker,
-      frequency,
-      last,
-    );
+  ): Promise<DarqubeBalanceSheetResponse> {
+    return this.darqubeClientService.getTickerBalanceSheet(ticker);
   }
 
   public async getDailyAdjustedStockDataByTicker(

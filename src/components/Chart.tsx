@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { ColorType, createChart } from "lightweight-charts";
-import { IEXCloudHistoricalData } from "../types/stock.type";
+import { DarqubeTickerMarketData } from "../types/stock.type";
 
 const backgroundColor = "#555";
 const lineColor = "#3e0059";
@@ -9,16 +9,18 @@ const areaTopColor = "rgba(199, 71, 255, 1)";
 const areaBottomColor = "rgba(199, 71, 255, 0.28)";
 
 const getChartData = (
-  data: IEXCloudHistoricalData[]
+  data: DarqubeTickerMarketData[]
 ): { time: string; value: number }[] => {
-  return data
-    .map(({ priceDate, open }): { time: string; value: number } => {
-      return { time: priceDate, value: open };
-    })
-    .reverse();
+  return data.map(({ time, open }): { time: string; value: number } => {
+    return {
+      time: new Date(time * 1000).toISOString().split("T")[0],
+      value: open,
+    };
+  });
 };
 
-export const Chart = ({ data }: { data: IEXCloudHistoricalData[] }) => {
+// TODO: This should receive the data formatted so it can be used in multiple places
+export const Chart = ({ data }: { data: DarqubeTickerMarketData[] }) => {
   const chartContainerRef = useRef<any>();
 
   useEffect(() => {

@@ -11,11 +11,6 @@ import {
   Res,
 } from '@nestjs/common';
 import { StockService } from './stock.service';
-import {
-  IEXCloudBalanceSheet,
-  IEXCloudHistoricalData,
-  IEXCloudIncomeStatement,
-} from '../iexcloud/iexcloud.interface';
 
 import {
   Ticker,
@@ -27,6 +22,11 @@ import { Response } from 'express';
 import { CreateStockDto } from './dto/createStock.dto';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
+import {
+  DarqubeBalanceSheetResponse,
+  DarqubeIncomeStatementResponse,
+  DarqubeTickerMarketData,
+} from '../darqube/darqube.interface';
 
 @Controller('/api/stocks')
 export class StockController {
@@ -35,28 +35,32 @@ export class StockController {
     private readonly stockService: StockService,
   ) {}
 
-  @Get('/:ticker/daily-data')
+  @Get('/:ticker/market-data')
   async getDailyStockData(
     @Param('ticker') ticker: Ticker,
-  ): Promise<IEXCloudHistoricalData[]> {
-    return this.stockService.getDailyTickerData(ticker);
+    @Query('startDate', ParseIntPipe) startDate: number,
+    @Query('endDate', ParseIntPipe) endDate: number,
+    @Query('interval') interval: '1d',
+  ): Promise<DarqubeTickerMarketData[]> {
+    return this.stockService.getDailyTickerData(
+      ticker,
+      startDate,
+      endDate,
+      interval,
+    );
   }
   @Get('/:ticker/income-statement')
   async getStockIncomeStatement(
     @Param('ticker') ticker: Ticker,
-    @Query('frequency') frequency: 'quarterly' | 'annual',
-    @Query('last', ParseIntPipe) last: number,
-  ): Promise<IEXCloudIncomeStatement[]> {
-    return this.stockService.getTickerIncomeStatement(ticker, frequency, last);
+  ): Promise<DarqubeIncomeStatementResponse> {
+    return this.stockService.getTickerIncomeStatement(ticker);
   }
 
   @Get('/:ticker/balance-sheet')
   async getStockBalanceSheet(
     @Param('ticker') ticker: Ticker,
-    @Query('frequency') frequency: 'quarterly' | 'annual',
-    @Query('last', ParseIntPipe) last: number,
-  ): Promise<IEXCloudBalanceSheet[]> {
-    return this.stockService.getTickerBalanceSheet(ticker, frequency, last);
+  ): Promise<DarqubeBalanceSheetResponse> {
+    return this.stockService.getTickerBalanceSheet(ticker);
   }
   @Get('/:ticker/daily-adjusted')
   async getDailyAdjustedStockData(

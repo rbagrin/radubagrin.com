@@ -1,8 +1,8 @@
 import axios from "axios";
 import {
-  IEXCloudBalanceSheet,
-  IEXCloudHistoricalData,
-  IEXCloudIncomeStatement,
+  DarqubeBalanceSheetResponse,
+  DarqubeIncomeStatementResponse,
+  DarqubeTickerMarketData,
   NewsFeedItem,
   NewsResponse,
   Ticker,
@@ -24,34 +24,30 @@ export class StockAPI {
 
   static async getDailyDataBySticker(
     ticker: Ticker
-  ): Promise<IEXCloudHistoricalData[]> {
-    // IEXCLOUD
-    return (await axios.get(`/api/stocks/${ticker}/daily-data`)).data;
-  }
-  static async getStockIncomeStatement(
-    ticker: Ticker,
-    frequency: "quarterly" | "annual" = "quarterly",
-    last = 4
-  ): Promise<IEXCloudIncomeStatement[]> {
-    // IEXCLOUD
+  ): Promise<DarqubeTickerMarketData[]> {
+    const daysAgo = new Date();
+    daysAgo.setDate(-90);
+    const start = daysAgo.getTime();
+    const end = Date.now();
+    const interval = "1d";
     return (
       await axios.get(
-        `/api/stocks/${ticker}/income-statement?frequency=${frequency}&last=${last}`
+        `/api/stocks/${ticker}/market-data?startDate=${start}&endDate=${end}&interval=${interval}`
       )
     ).data;
+  }
+  static async getStockIncomeStatement(
+    ticker: Ticker
+  ): Promise<DarqubeIncomeStatementResponse> {
+    // Darqube
+    return (await axios.get(`/api/stocks/${ticker}/income-statement`)).data;
   }
 
   static async getStockBalanceSheet(
-    ticker: Ticker,
-    frequency: "quarterly" | "annual" = "quarterly",
-    last = 4
-  ): Promise<IEXCloudBalanceSheet[]> {
-    // IEXCLOUD
-    return (
-      await axios.get(
-        `/api/stocks/${ticker}/balance-sheet?frequency=${frequency}&last=${last}`
-      )
-    ).data;
+    ticker: Ticker
+  ): Promise<DarqubeBalanceSheetResponse> {
+    // Darqube
+    return (await axios.get(`/api/stocks/${ticker}/balance-sheet`)).data;
   }
 
   static async getWeeklyAdjustedDataByTicker(

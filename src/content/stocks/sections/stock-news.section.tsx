@@ -1,21 +1,22 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { StockAPI } from "../../../api/stock.api";
 import {
-  IEXCloudBalanceSheet,
-  IEXCloudIncomeStatement,
+  DarqubeBalanceSheetResponse,
+  DarqubeIncomeStatementResponse,
   NewsFeedItem,
 } from "../../../types/stock.type";
 import { BarChart } from "../../../components/BarChart";
 
 export const StockNews = ({ ticker }: { ticker: string }) => {
   const [news, setNews] = useState<NewsFeedItem[]>([]);
-  const [incomeStatement, setIncomeStatement] = useState<
-    IEXCloudIncomeStatement[]
-  >([]);
+  const [incomeStatement, setIncomeStatement] =
+    useState<DarqubeIncomeStatementResponse>(undefined);
+  const [items, setItems] = useState(12);
 
-  const [balanceSheet, setBalanceSheet] = useState<IEXCloudBalanceSheet[]>([]);
+  const [balanceSheet, setBalanceSheet] =
+    useState<DarqubeBalanceSheetResponse>(undefined);
 
-  const [frequency, setFrequency] = useState<"quarterly" | "annual">(
+  const [frequency, setFrequency] = useState<"quarterly" | "yearly">(
     "quarterly"
   );
 
@@ -30,31 +31,21 @@ export const StockNews = ({ ticker }: { ticker: string }) => {
 
   const fetchIncomeStatement = useCallback(async () => {
     try {
-      const last = frequency === "quarterly" ? 8 : 10;
-      const incomeStatement = await StockAPI.getStockIncomeStatement(
-        ticker,
-        frequency,
-        last
-      );
+      const incomeStatement = await StockAPI.getStockIncomeStatement(ticker);
       setIncomeStatement(incomeStatement);
     } catch (error) {
       console.error(error);
     }
-  }, [ticker, frequency]);
+  }, [ticker]);
 
   const fetchBalanceSheet = useCallback(async () => {
     try {
-      const last = frequency === "quarterly" ? 8 : 10;
-      const balanceSheet = await StockAPI.getStockBalanceSheet(
-        ticker,
-        frequency,
-        last
-      );
+      const balanceSheet = await StockAPI.getStockBalanceSheet(ticker);
       setBalanceSheet(balanceSheet);
     } catch (error) {
       console.error(error);
     }
-  }, [ticker, frequency]);
+  }, [ticker]);
 
   useEffect(() => {
     fetchIncomeStatement();
@@ -69,21 +60,32 @@ export const StockNews = ({ ticker }: { ticker: string }) => {
   }, [fetchBalanceSheet]);
 
   const incomeStatementChartData = useMemo(() => {
-    const labels = incomeStatement.map((d) => d.reportDate).reverse();
+    if (!incomeStatement) return undefined;
+    const responseData = incomeStatement[frequency];
+    const labels = Object.keys(responseData).slice(-1 * items);
+
+    const netIncome = labels.map((date) => responseData[date]?.netIncome ?? 0);
+    const totalRevenue = labels.map(
+      (date) => responseData[date]?.totalRevenue ?? 0
+    );
+    const grossProfit = labels.map(
+      (date) => responseData[date]?.grossProfit ?? 0
+    );
+
     const netIncomeDataSet = {
       label: "Net income",
-      data: incomeStatement.map((d) => d.netIncome).reverse(),
+      data: netIncome,
       backgroundColor: ["yellow"],
     };
     const totalRevenueDataSet = {
       label: "Total revenue",
-      data: incomeStatement.map((d) => d.totalRevenue).reverse(),
+      data: totalRevenue,
       backgroundColor: ["blue"],
     };
 
     const grossProfitDataSet = {
       label: "Gross profit",
-      data: incomeStatement.map((d) => d.grossProfit).reverse(),
+      data: grossProfit,
       backgroundColor: ["green"],
     };
 
@@ -91,30 +93,46 @@ export const StockNews = ({ ticker }: { ticker: string }) => {
       labels,
       datasets: [totalRevenueDataSet, grossProfitDataSet, netIncomeDataSet],
     };
-  }, [incomeStatement]);
+  }, [incomeStatement, frequency, items]);
 
   const balanceSheetChartData = useMemo(() => {
-    const labels = balanceSheet.map((d) => d.reportDate).reverse();
+    if (!balanceSheet) return undefined;
+    const responseData = balanceSheet[frequency];
+    const labels = Object.keys(responseData).slice(-1 * items);
+
+    const totalAssets = labels.map(
+      (date) => responseData[date]?.totalAssets ?? 0
+    );
+    const totalLiabilities = labels.map(
+      (date) => responseData[date]?.totalLiab ?? 0
+    );
+
+    const currentAssets = labels.map(
+      (date) => responseData[date]?.totalCurrentAssets ?? 0
+    );
+    const currentLiabilities = labels.map(
+      (date) => responseData[date]?.totalCurrentLiabilities ?? 0
+    );
     const totalAssetsDataSet = {
       label: "Total assets",
-      data: balanceSheet.map((d) => d.totalAssets).reverse(),
+      data: totalAssets,
       backgroundColor: ["blue"],
     };
     const currentAssetsDataSet = {
       label: "Current assets",
-      data: balanceSheet.map((d) => d.currentAssets).reverse(),
+      data: currentAssets,
       backgroundColor: ["#5762ff"],
     };
 
     const totalLiabilitiesDataSet = {
       label: "Total liabilities",
-      data: balanceSheet.map((d) => d.totalLiabilities).reverse(),
+      data: totalLiabilities,
       backgroundColor: ["red"],
     };
 
     const totalCurrentLiabilitiesDataSet = {
       label: "Total current liabilities",
-      data: balanceSheet.map((d) => d.totalCurrentLiabilities).reverse(),
+      data: currentLiabilities,
       backgroundColor: ["#ff3838"],
     };
 
@@ -127,7 +145,7 @@ export const StockNews = ({ ticker }: { ticker: string }) => {
         totalCurrentLiabilitiesDataSet,
       ],
     };
-  }, [balanceSheet]);
+  }, [balanceSheet, frequency, items]);
 
   return (
     <div
@@ -147,16 +165,28 @@ export const StockNews = ({ ticker }: { ticker: string }) => {
           Quarterly
         </button>
         <button
-          onClick={() => setFrequency("annual")}
+          onClick={() => setFrequency("yearly")}
           // disabled={incomeStatementFrequency === "annual"}
-          className={frequency === "annual" ? "" : "secondary"}
+          className={frequency === "yearly" ? "" : "secondary"}
         >
           Annual
         </button>
-      </div>
-      <BarChart title="Income statement" chartData={incomeStatementChartData} />
 
-      <BarChart title="Balance sheet" chartData={balanceSheetChartData} />
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button onClick={() => setItems((prev) => prev + 1)}>+</button>
+          <button onClick={() => setItems((prev) => prev - 1)}>-</button>
+        </div>
+      </div>
+      {incomeStatementChartData && (
+        <BarChart
+          title="Income statement"
+          chartData={incomeStatementChartData}
+        />
+      )}
+
+      {balanceSheetChartData && (
+        <BarChart title="Balance sheet" chartData={balanceSheetChartData} />
+      )}
 
       <div style={{ height: "50px" }}>
         <p style={{ fontWeight: 700, fontSize: 24, padding: 1 }}>
