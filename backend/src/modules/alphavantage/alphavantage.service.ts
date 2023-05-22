@@ -7,6 +7,10 @@ import {
   TimeSeriesMonthlyAdjustedResponse,
   TimeSeriesWeeklyAdjustedResponse,
 } from '../stock/stock.interace';
+import {
+  AlphavantageNewsItem,
+  AlphavantageNewsResponse,
+} from './alphavantage.interface';
 
 @Injectable()
 export class AlphaVantageClientService extends ApiClientService {
@@ -95,16 +99,16 @@ export class AlphaVantageClientService extends ApiClientService {
     }
   }
 
-  async getTickerNews(tickers: Ticker): Promise<any> {
+  async getTickerNews(tickers: Ticker): Promise<AlphavantageNewsItem[]> {
     const functionName = 'NEWS_SENTIMENT';
     const apiKey = this.getApiKey();
     try {
       const { data } = await this.httpService
-        .get<any>(
+        .get<AlphavantageNewsResponse>(
           `/query?function=${functionName}&symbol=${tickers}&apikey=${apiKey}`,
         )
         .toPromise();
-      return data;
+      return data.feed;
     } catch (error) {
       throw error;
     }

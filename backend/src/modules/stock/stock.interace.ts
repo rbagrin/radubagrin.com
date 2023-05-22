@@ -63,3 +63,19 @@ export interface TimeSeriesMonthlyAdjustedResponse {
     };
   };
 }
+
+export interface TickerNewsItem {
+  source: string;
+  title: string;
+  url: string;
+  publishedAt: number;
+  authors?: string[];
+  summary?: string;
+  img?: string;
+  score?: {
+    neg: number;
+    neu: number;
+    pos: number;
+    compound: number;
+  };
+}

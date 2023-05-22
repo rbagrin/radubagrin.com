@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { DailyChart } from "./charts/daily-chart";
-import { StockNews } from "./sections/stock-news.section";
+import { StockFinancials } from "./sections/stock-financials.section";
 import { Ticker } from "../../types/stock.type";
 import { StockAPI } from "../../api/stock.api";
 
@@ -96,7 +96,9 @@ export const StocksPage = () => {
             gap: 2,
           }}
         >
-          <div style={{ width: "100%" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", width: "100%" }}
+          >
             <div style={{ height: "50px" }}>
               <div style={{ width: "100%", display: "flex", gap: "10px" }}>
                 {CHART_TYPES.map((type, index) => (
@@ -110,6 +112,7 @@ export const StocksPage = () => {
                 ))}
               </div>
             </div>
+
             <div style={{ width: "100%" }}>
               {chartType === ChartType.Daily ? (
                 <DailyChart ticker={ticker} />
@@ -120,17 +123,18 @@ export const StocksPage = () => {
               )}
             </div>
           </div>
-
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              flexGrow: 1,
-            }}
-          >
-            <StockNews ticker={ticker} />
-          </div>
         </div>
+      </div>
+
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexGrow: 1,
+          marginTop: "50px",
+        }}
+      >
+        <StockFinancials ticker={ticker} />
       </div>
     </div>
   );

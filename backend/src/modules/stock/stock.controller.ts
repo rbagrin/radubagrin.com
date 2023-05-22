@@ -14,6 +14,7 @@ import { StockService } from './stock.service';
 
 import {
   Ticker,
+  TickerNewsItem,
   TimeSeriesDailyAdjustedResponse,
   TimeSeriesMonthlyAdjustedResponse,
   TimeSeriesWeeklyAdjustedResponse,
@@ -99,8 +100,8 @@ export class StockController {
   @Get('/:ticker/news')
   async getStockNews(
     @Param('ticker') ticker: string,
-    @Query('provider') provider: 'alphaVantage' | 'darqube',
-  ): Promise<any[]> {
+    @Query('provider') provider: 'alphaVantage' | 'darqube' = 'darqube',
+  ): Promise<TickerNewsItem[]> {
     return this.stockService.getStockNewsByTicker(ticker, provider);
   }
 

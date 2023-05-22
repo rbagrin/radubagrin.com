@@ -3,6 +3,7 @@ import { AlphaVantageClientService } from '../alphavantage/alphavantage.service'
 
 import {
   Ticker,
+  TickerNewsItem,
   TimeSeriesDailyAdjustedResponse,
   TimeSeriesMonthlyAdjustedResponse,
   TimeSeriesWeeklyAdjustedResponse,
@@ -97,12 +98,36 @@ export class StockService {
   public async getStockNewsByTicker(
     ticker: string,
     provider: 'alphaVantage' | 'darqube',
-  ): Promise<any[]> {
-    // TODO: unify reponses here
-    if (provider === 'alphaVantage')
-      return this.alphaVantageClientService.getTickerNews(ticker);
+  ): Promise<TickerNewsItem[]> {
+    if (provider === 'alphaVantage') {
+      const response = await this.alphaVantageClientService.getTickerNews(
+        ticker,
+      );
+      return response.map((item) => ({
+        source: item.source,
+        title: item.title,
+        url: item.url,
+        publishedAt: Number(item.time_published),
+        // optionals
+        authors: item.authors,
+        summary: item.summary,
+        img: item.banner_image,
+      }));
+    }
+    const response = await this.darqubeClientService.getTickerNews(ticker);
 
-    return this.darqubeClientService.getTickerNews(ticker);
+    return response.map((item) => ({
+      source: item.source,
+      title: item.title,
+      url: item.url,
+      publishedAt: item.published_at * 1000,
+      score: {
+        neg: item.score.neg,
+        neu: item.score.neu,
+        pos: item.score.pos,
+        compound: item.score.compound,
+      },
+    }));
   }
   public async getStockTweetsByTicker(
     ticker: string,

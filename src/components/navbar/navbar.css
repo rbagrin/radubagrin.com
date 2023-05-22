@@ -1,0 +1,35 @@
+.navbar {
+    height: 100vh;
+    width: 100%;
+    max-width: 300px;
+    background: #874488;
+}
+.navbar ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.navbar ul li {
+    padding: 5px;
+    margin: 0;
+    width: 100%;
+}
+
+.listItems {
+    margin: 5px;
+    width: 100%;
+    display: flex;
+    cursor: pointer;
+}
+.listItems p {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.listItems:hover {
+    background-color: #862487;
+}

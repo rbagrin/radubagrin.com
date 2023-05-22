@@ -64,36 +64,22 @@ export interface TimeSeriesMonthlyAdjustedResponse {
   };
 }
 
-export interface NewsFeedItem {
+export interface TickerNewsItem {
+  source: string;
   title: string;
   url: string;
-  time_published: string; // number of ms
-  authors: string[];
-  summary: string;
-  banner_image: string;
-  source: string;
-  category_within_source: string;
-  source_domain: string;
-  topics: {
-    topic: string;
-    relevance_score: string; // number
-  }[];
-  overall_sentiment_score: number;
-  overall_sentiment_label: string;
-  ticker_sentiment: {
-    ticker: Ticker;
-    relevance_score: string; // number
-    ticker_sentiment_score: string; // number
-    ticker_sentiment_label: string;
-  }[];
+  publishedAt: number;
+  authors?: string[];
+  summary?: string;
+  img?: string;
+  score?: {
+    neg: number;
+    neu: number;
+    pos: number;
+    compound: number;
+  };
 }
 
-export interface NewsResponse {
-  items: string; // number
-  sentiment_score_definition: string;
-  relevance_score_definition: string;
-  feed: NewsFeedItem[];
-}
 export interface DarqubeBalanceSheet {
   totalAssets: number;
   totalCurrentAssets: number;

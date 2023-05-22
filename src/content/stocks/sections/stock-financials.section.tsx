@@ -3,12 +3,12 @@ import { StockAPI } from "../../../api/stock.api";
 import {
   DarqubeBalanceSheetResponse,
   DarqubeIncomeStatementResponse,
-  NewsFeedItem,
+  TickerNewsItem,
 } from "../../../types/stock.type";
 import { BarChart } from "../../../components/BarChart";
 
-export const StockNews = ({ ticker }: { ticker: string }) => {
-  const [news, setNews] = useState<NewsFeedItem[]>([]);
+export const StockFinancials = ({ ticker }: { ticker: string }) => {
+  const [news, setNews] = useState<TickerNewsItem[]>([]);
   const [incomeStatement, setIncomeStatement] =
     useState<DarqubeIncomeStatementResponse>(undefined);
   const [items, setItems] = useState(12);
@@ -156,6 +156,7 @@ export const StockNews = ({ ticker }: { ticker: string }) => {
         overflowY: "auto",
       }}
     >
+      <h3>Financials</h3>
       <div style={{ display: "flex", gap: "20px" }}>
         <button
           onClick={() => setFrequency("quarterly")}
@@ -200,13 +201,11 @@ export const StockNews = ({ ticker }: { ticker: string }) => {
               <div>
                 <p style={{ marginBottom: 1, fontWeight: 700 }}>{item.title}</p>
                 <div style={{ display: "flex", gap: 2 }}>
-                  <div>
-                    <img
-                      alt={item.title}
-                      width="200px"
-                      src={item.banner_image}
-                    />
-                  </div>
+                  {item.img && (
+                    <div>
+                      <img alt={item.title} width="200px" src={item.img} />
+                    </div>
+                  )}
                   <div
                     style={{
                       display: "flex",
@@ -215,18 +214,22 @@ export const StockNews = ({ ticker }: { ticker: string }) => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <p>{item.summary}</p>
+                    {item.summary && <p>{item.summary}</p>}
                     <div
                       style={{
                         width: "100%",
                         display: "flex",
-                        justifyContent: "end",
+                        justifyContent: "space-between",
                       }}
                     >
                       <p>
                         <a href={item.url} target="_blank" rel="noreferrer">
                           {item.source}
                         </a>
+                      </p>
+                      <p>
+                        Published at:{" "}
+                        {new Date(item.publishedAt).toLocaleDateString()}
                       </p>
                     </div>
                   </div>

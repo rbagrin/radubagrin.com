@@ -3,8 +3,7 @@ import {
   DarqubeBalanceSheetResponse,
   DarqubeIncomeStatementResponse,
   DarqubeTickerMarketData,
-  NewsFeedItem,
-  NewsResponse,
+  TickerNewsItem,
   Ticker,
   TimeSeriesDailyAdjustedResponse,
   TimeSeriesMonthlyAdjustedResponse,
@@ -62,11 +61,8 @@ export class StockAPI {
     return (await axios.get(`/api/stocks/${ticker}/monthly-adjusted`)).data;
   }
 
-  static async getStockNewsByTicker(ticker: string): Promise<NewsFeedItem[]> {
-    const res = (await axios.get<NewsResponse>(`/api/stocks/${ticker}/news`))
+  static async getStockNewsByTicker(ticker: string): Promise<TickerNewsItem[]> {
+    return (await axios.get<TickerNewsItem[]>(`/api/stocks/${ticker}/news`))
       .data;
-    return res?.feed?.filter((item) =>
-      item.ticker_sentiment.some((ts) => ts.ticker === ticker)
-    );
   }
 }
