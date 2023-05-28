@@ -25,8 +25,13 @@ export const DailyChart = ({ ticker }: { ticker: Ticker }) => {
   }, [ticker, fetchTicker]);
 
   return loading ? null : (
-    <div style={{ width: "100%" }}>
-      {text && <p>!!!!! {text}</p>}
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
+    >
+      {text && <div>!!!!! {text}</div>}
       {tickerData && <Chart data={tickerData} />}
     </div>
   );

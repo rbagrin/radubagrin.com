@@ -38,7 +38,7 @@ export const Chart = ({ data }: { data: DarqubeTickerMarketData[] }) => {
         textColor,
       },
       width: chartContainerRef.current.clientWidth,
-      height: 800,
+      height: chartContainerRef.current.clientHeight,
     });
     chart.timeScale().fitContent();
 
@@ -58,5 +58,10 @@ export const Chart = ({ data }: { data: DarqubeTickerMarketData[] }) => {
     };
   }, [data]);
 
-  return <div style={{ width: "100%" }} ref={chartContainerRef} />;
+  return (
+    <div
+      style={{ width: "100%", maxHeight: "800px", height: "800px" }}
+      ref={chartContainerRef}
+    />
+  );
 };

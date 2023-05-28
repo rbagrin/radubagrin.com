@@ -3,6 +3,7 @@ import { DailyChart } from "./charts/daily-chart";
 import { StockFinancials } from "./sections/stock-financials.section";
 import { Ticker } from "../../types/stock.type";
 import { StockAPI } from "../../api/stock.api";
+import { MAX_PAGE_WIDTH } from "../../css-style/style";
 
 enum ChartType {
   Daily = "Daily",
@@ -57,13 +58,14 @@ export const StocksPage = () => {
         display: "flex",
         flexDirection: "column",
         width: "100%",
+        maxWidth: MAX_PAGE_WIDTH,
       }}
     >
       <header style={{ width: "100%", height: "50px", paddingLeft: "10px" }}>
         <h3>Stocks page</h3>
       </header>
 
-      <div style={{ display: "flex", flexGrow: 1 }}>
+      <div style={{ display: "flex", flexGrow: 1, maxHeight: "900px" }}>
         <div
           style={{
             display: "flex",
@@ -73,6 +75,7 @@ export const StocksPage = () => {
             height: "100%",
             paddingLeft: "10px",
             paddingRight: "10px",
+            overflowY: "auto",
           }}
         >
           {savedStocks.map((stock) => (
@@ -96,7 +99,12 @@ export const StocksPage = () => {
           }}
         >
           <div
-            style={{ display: "flex", flexDirection: "column", width: "100%" }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
           >
             <div style={{ height: "50px" }}>
               <div style={{ width: "100%", display: "flex", gap: "10px" }}>
@@ -112,7 +120,7 @@ export const StocksPage = () => {
               </div>
             </div>
 
-            <div style={{ width: "100%" }}>
+            <div style={{ width: "100%", height: "100%", maxHeight: "800px" }}>
               {chartType === ChartType.Daily ? (
                 <DailyChart ticker={ticker} />
               ) : (
