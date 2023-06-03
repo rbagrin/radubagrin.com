@@ -42,6 +42,7 @@ export const Input = ({
           onChange={(e) => {
             setValue(e.target.value);
           }}
+          style={{ color: "black" }}
         />
       );
       break;
@@ -54,6 +55,7 @@ export const Input = ({
           onChange={(e) => {
             setValue(e.target.value);
           }}
+          style={{ color: "black" }}
         />
       );
   }
@@ -81,6 +83,7 @@ const NumberInput = ({
         const value = Number.parseFloat(e.target.value);
         setValue(isNaN(value) ? "" : value);
       }}
+      style={{ color: "black" }}
     />
   );
 };

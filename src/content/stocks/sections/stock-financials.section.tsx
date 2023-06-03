@@ -160,15 +160,17 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
       <div style={{ display: "flex", gap: "20px" }}>
         <button
           onClick={() => setFrequency("quarterly")}
-          // disabled={incomeStatementFrequency === "quarterly"}
-          className={frequency === "quarterly" ? "" : "secondary"}
+          className={`button button-secondary ${
+            frequency === "quarterly" ? "" : "button-border"
+          }`}
         >
           Quarterly
         </button>
         <button
           onClick={() => setFrequency("yearly")}
-          // disabled={incomeStatementFrequency === "annual"}
-          className={frequency === "yearly" ? "" : "secondary"}
+          className={`button button-secondary ${
+            frequency === "yearly" ? "" : "button-border"
+          }`}
         >
           Annual
         </button>

@@ -164,28 +164,32 @@ export const RealEstateSection = () => {
         <NetRentalYield />
       </div>
 
-      <div>
-        <LineChart
-          title="Indicele imobiliare ROMANIA"
-          chartData={IMOBILIARE_INDEX_ROMANIA}
-        />
-        <LineChart
-          title="Apartamente vechi si noi BUCURESTI"
-          chartData={IMOBILIARE_APARTAMENTE_VECHI_SI_NOI_BUCURESTI}
-        />
-        <LineChart
-          title="Apartamente cu 1 camera BUCURESTI"
-          chartData={IMBOBILIARE_1_CAMERA_BUCURESTI}
-        />
-        <LineChart
-          title="Apartamente cu 2 camere BUCURESTI"
-          chartData={IMOBILIARE_2_CAMERE_BUCURESTI}
-        />
-        <LineChart
-          title="Apartamente cu 3 camere BUCURESTI"
-          chartData={IMOBILIARE_3_CAMERE_BUCURESTI}
-        />
-      </div>
+      {/*<GraficeImobiliareRo />*/}
     </div>
   );
 };
+
+const GraficeImobiliareRo = () => (
+  <div>
+    <LineChart
+      title="Indicele imobiliare ROMANIA"
+      chartData={IMOBILIARE_INDEX_ROMANIA}
+    />
+    <LineChart
+      title="Apartamente vechi si noi BUCURESTI"
+      chartData={IMOBILIARE_APARTAMENTE_VECHI_SI_NOI_BUCURESTI}
+    />
+    <LineChart
+      title="Apartamente cu 1 camera BUCURESTI"
+      chartData={IMBOBILIARE_1_CAMERA_BUCURESTI}
+    />
+    <LineChart
+      title="Apartamente cu 2 camere BUCURESTI"
+      chartData={IMOBILIARE_2_CAMERE_BUCURESTI}
+    />
+    <LineChart
+      title="Apartamente cu 3 camere BUCURESTI"
+      chartData={IMOBILIARE_3_CAMERE_BUCURESTI}
+    />
+  </div>
+);

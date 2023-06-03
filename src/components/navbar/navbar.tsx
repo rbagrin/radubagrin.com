@@ -121,7 +121,7 @@ export const Navbar = ({ children }) => {
     >
       <div
         style={{
-          height: "40px",
+          height: "60px",
           display: "flex",
           justifyContent: "space-between",
           padding: "10px",
@@ -133,7 +133,10 @@ export const Navbar = ({ children }) => {
         </div>
 
         <div>
-          <button onClick={() => setDarkMode((prev) => !prev)}>
+          <button
+            className="button-pill button-light button-s"
+            onClick={() => setDarkMode((prev) => !prev)}
+          >
             {darkMode ? "Light" : "Dark"}
           </button>
         </div>
@@ -175,11 +178,11 @@ export const Navbar = ({ children }) => {
             ))}
           </div>
           <div
-            style={{ padding: "10px", marginTop: "55px" }}
+            style={{ padding: "10px", marginTop: "0px" }}
             onClick={handleMenuClick}
           >
             <div className="closeDrawerBtn">
-              <Close width={50} height={50} />
+              <Close width={45} height={45} />
             </div>
           </div>
         </div>

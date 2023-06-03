@@ -25,10 +25,14 @@ const MenuButton = ({
   setTicker: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const isCurrentTicker = buttonTicker === selectedTicker;
-  const className = isCurrentTicker ? "" : "secondary";
 
   return (
-    <button className={className} onClick={() => setTicker(buttonTicker)}>
+    <button
+      className={`button button-s ${
+        isCurrentTicker ? "button-grey" : "button-light"
+      }`}
+      onClick={() => setTicker(buttonTicker)}
+    >
       {buttonName}
     </button>
   );
@@ -71,6 +75,7 @@ export const StocksPage = () => {
             display: "flex",
             flexDirection: "column",
             flexGrow: 1,
+            gap: "5px",
             width: "300px",
             height: "100%",
             paddingLeft: "10px",
@@ -112,7 +117,9 @@ export const StocksPage = () => {
                   <button
                     key={index}
                     onClick={() => setChartType(type)}
-                    className={chartType === type ? "" : "outline"}
+                    className={`button button-secondary ${
+                      chartType === type ? "" : "button-border"
+                    }`}
                   >
                     {type}
                   </button>
