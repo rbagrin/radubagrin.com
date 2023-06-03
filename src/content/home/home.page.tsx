@@ -20,7 +20,7 @@ export const HomePage = () => {
 
   return (
     <div className="App" style={{ width: "100%", maxWidth: MAX_PAGE_WIDTH }}>
-      <header className="App-header">
+      <header>
         <h1>{text}</h1>
         <img src={logo as unknown as string} className="App-logo" alt="logo" />
       </header>
