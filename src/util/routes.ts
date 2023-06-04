@@ -1,5 +1,7 @@
 export const HOME_ROUTE = "/";
 export const STOCKS_ROUTE = "/stocks";
+
+export const NOTES_ROUTE = "/notes";
 export const THEME_ROUTE = "/theme";
 export const TOOLS_ROUTE = "/tools";
 export const TOOLS_STOCKS_ROUTE = "/tools/stocks";

@@ -164,7 +164,7 @@ export const RealEstateSection = () => {
         <NetRentalYield />
       </div>
 
-      {/*<GraficeImobiliareRo />*/}
+      <GraficeImobiliareRo />
     </div>
   );
 };

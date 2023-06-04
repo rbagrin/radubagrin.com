@@ -7,6 +7,7 @@ import { ThemePage } from "./content/theme/theme.page";
 import {
   EDUCATION_ROUTE,
   HOME_ROUTE,
+  NOTES_ROUTE,
   STOCKS_ROUTE,
   THEME_ROUTE,
   TOOLS_REAL_ESTATE_ROUTE,
@@ -17,6 +18,7 @@ import { FinancialsPage } from "./content/education/financials/financials.page";
 import { ToolsStocksPage } from "./content/tools/sections/tools-stocks/tools-stocks.page";
 import { ToolsRealEstatePage } from "./content/tools/sections/tools-real-estate/tools-real-estate.page";
 import { Navbar } from "./components/navbar/navbar";
+import { NotesPage } from "./content/stocks/notes/notes.page";
 
 const App = () => {
   return (
@@ -26,6 +28,7 @@ const App = () => {
           <Routes>
             <Route path={HOME_ROUTE} Component={HomePage} />
             <Route path={STOCKS_ROUTE} Component={StocksPage} />
+            <Route path={NOTES_ROUTE} Component={NotesPage} />
             <Route
               path={TOOLS_ROUTE}
               element={<Navigate to={TOOLS_STOCKS_ROUTE} />}

@@ -1,0 +1,43 @@
+/* Container Tooltip */
+.tooltip {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 40px;
+    cursor: pointer;
+}
+
+/* Style text tooltip */
+.tooltipText {
+    background-color: #fff;
+    color: #3B5998;
+    position: absolute;
+    bottom: 130%;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    opacity: 0;
+    transition: all .5s;
+    width: 300px;
+    z-index: 1;
+}
+
+/*  Membuat dan style tip*/
+.tooltipText::after {
+    content: '';
+    border-width: 5px;
+    border-style: solid;
+    border-color: #fff transparent transparent transparent;
+    position: absolute;
+    top: 100%;
+    left: 40%;
+    margin-left: 5%;
+}
+
+/* Hover text tooltip */
+.tooltip:hover .tooltipText{
+    opacity: 1;
+    transform: translateY(-10px);
+}
+

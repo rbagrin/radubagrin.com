@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import {
   EDUCATION_ROUTE,
   HOME_ROUTE,
+  NOTES_ROUTE,
   STOCKS_ROUTE,
   THEME_ROUTE,
   TOOLS_REAL_ESTATE_ROUTE,
@@ -33,6 +34,16 @@ const NAVBAR_ITEMS = (darkModeEnabled = false) => [
     icon: (
       <ArrowTrendUp {...iconSize} fill={darkModeEnabled ? "white" : "black"} />
     ),
+    items: [
+      {
+        name: "Stocks",
+        path: STOCKS_ROUTE,
+      },
+      {
+        name: "Notes",
+        path: NOTES_ROUTE,
+      },
+    ],
   },
   {
     name: "Tools",
@@ -80,6 +91,7 @@ export const Navbar = ({ children }) => {
     () => screenSize.width < screenSize.height,
     [screenSize]
   );
+  console.log(mobileView);
 
   const navigate = useNavigate();
 
