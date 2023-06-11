@@ -4,6 +4,7 @@ import { StockFinancials } from "./sections/stock-financials.section";
 import { Ticker } from "../../types/stock.type";
 import { StockAPI } from "../../api/stock.api";
 import { MAX_PAGE_WIDTH } from "../../css-style/style";
+import { Button } from "../../components/Button.tsx";
 
 enum ChartType {
   Daily = "Daily",
@@ -27,14 +28,13 @@ const MenuButton = ({
   const isCurrentTicker = buttonTicker === selectedTicker;
 
   return (
-    <button
-      className={`button button-s ${
-        isCurrentTicker ? "button-grey" : "button-light"
-      }`}
+    <Button
+      color="secondary"
       onClick={() => setTicker(buttonTicker)}
+      variant={isCurrentTicker ? "contained" : "outlined"}
     >
       {buttonName}
-    </button>
+    </Button>
   );
 };
 
@@ -114,15 +114,16 @@ export const StocksPage = () => {
             <div style={{ height: "50px" }}>
               <div style={{ width: "100%", display: "flex", gap: "10px" }}>
                 {CHART_TYPES.map((type, index) => (
-                  <button
+                  <Button
                     key={index}
+                    variant="contained"
                     onClick={() => setChartType(type)}
                     className={`button button-secondary ${
                       chartType === type ? "" : "button-border"
                     }`}
                   >
                     {type}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>

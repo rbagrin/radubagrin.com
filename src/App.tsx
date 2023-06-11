@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import "./App.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { HomePage } from "./content/home/home.page";
@@ -23,31 +23,56 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { green, deepPurple, amber } from "@mui/material/colors";
+
 const App = () => {
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("isDarkModeEnabled") === "true"
+  );
+
+  const appTheme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: darkMode ? "dark" : "light",
+          primary: {
+            main: deepPurple[500],
+          },
+          secondary: {
+            main: green[700],
+          },
+        },
+      }),
+    [darkMode]
+  );
+
   return (
     <React.StrictMode>
-      <BrowserRouter>
-        <Navbar>
-          <Routes>
-            <Route path={HOME_ROUTE} Component={HomePage} />
-            <Route path={STOCKS_ROUTE} Component={StocksPage} />
-            <Route path={NOTES_ROUTE} Component={NotesPage} />
-            <Route
-              path={TOOLS_ROUTE}
-              element={<Navigate to={TOOLS_STOCKS_ROUTE} />}
-            />
-            <Route path={TOOLS_STOCKS_ROUTE} Component={ToolsStocksPage} />
-            <Route
-              path={TOOLS_REAL_ESTATE_ROUTE}
-              Component={ToolsRealEstatePage}
-            />
-            <Route path={EDUCATION_ROUTE} Component={FinancialsPage} />
-            <Route path={THEME_ROUTE} Component={ThemePage} />
+      <ThemeProvider theme={appTheme}>
+        <BrowserRouter>
+          <Navbar darkMode={darkMode} setDarkMode={setDarkMode}>
+            <Routes>
+              <Route path={HOME_ROUTE} Component={HomePage} />
+              <Route path={STOCKS_ROUTE} Component={StocksPage} />
+              <Route path={NOTES_ROUTE} Component={NotesPage} />
+              <Route
+                path={TOOLS_ROUTE}
+                element={<Navigate to={TOOLS_STOCKS_ROUTE} />}
+              />
+              <Route path={TOOLS_STOCKS_ROUTE} Component={ToolsStocksPage} />
+              <Route
+                path={TOOLS_REAL_ESTATE_ROUTE}
+                Component={ToolsRealEstatePage}
+              />
+              <Route path={EDUCATION_ROUTE} Component={FinancialsPage} />
+              <Route path={THEME_ROUTE} Component={ThemePage} />
 
-            <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
-          </Routes>
-        </Navbar>
-      </BrowserRouter>
+              <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
+            </Routes>
+          </Navbar>
+        </BrowserRouter>
+      </ThemeProvider>
     </React.StrictMode>
   );
 };
