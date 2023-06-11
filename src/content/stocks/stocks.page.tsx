@@ -4,7 +4,7 @@ import { StockFinancials } from "./sections/stock-financials.section";
 import { Ticker } from "../../types/stock.type";
 import { StockAPI } from "../../api/stock.api";
 import { MAX_PAGE_WIDTH } from "../../css-style/style";
-import { Button } from "../../components/Button.tsx";
+import { Button } from "../../components/Button";
 
 enum ChartType {
   Daily = "Daily",
