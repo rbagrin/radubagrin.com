@@ -3,6 +3,7 @@ import axios from "axios";
 
 import logo from "../../logo.svg";
 import { MAX_PAGE_WIDTH } from "../../css-style/style";
+import { Button } from "@mui/material";
 
 export const HomePage = () => {
   const [text, setText] = useState<string>("");
@@ -24,6 +25,7 @@ export const HomePage = () => {
         <h1>{text}</h1>
         <img src={logo as unknown as string} className="App-logo" alt="logo" />
       </header>
+      <Button>Test button from MUI</Button>
     </div>
   );
 };

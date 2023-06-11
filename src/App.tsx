@@ -19,7 +19,10 @@ import { ToolsStocksPage } from "./content/tools/sections/tools-stocks/tools-sto
 import { ToolsRealEstatePage } from "./content/tools/sections/tools-real-estate/tools-real-estate.page";
 import { Navbar } from "./components/navbar/navbar";
 import { NotesPage } from "./content/stocks/notes/notes.page";
-
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 const App = () => {
   return (
     <React.StrictMode>
