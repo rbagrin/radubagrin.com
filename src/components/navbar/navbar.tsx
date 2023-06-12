@@ -6,6 +6,7 @@ import { ReactComponent as Home } from "../../icons/home.svg";
 import { ReactComponent as ArrowTrendUp } from "../../icons/arrow-trend-up.svg";
 import { ReactComponent as Toolbox } from "../../icons/toolbox.svg";
 import { ReactComponent as Palette } from "../../icons/palette.svg";
+import { ReactComponent as List } from "../../icons/list.svg";
 import { ReactComponent as Education } from "../../icons/education.svg";
 import { ReactComponent as Sun } from "../../icons/sun.svg";
 import { ReactComponent as Moon } from "../../icons/moon.svg";
@@ -19,6 +20,7 @@ import {
   TOOLS_REAL_ESTATE_ROUTE,
   TOOLS_ROUTE,
   TOOLS_STOCKS_ROUTE,
+  ZBANG_ROUTE,
 } from "../../util/routes";
 import { iconSize } from "../../css-style/style";
 
@@ -27,7 +29,6 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -87,6 +88,11 @@ const NAVBAR_ITEMS = (darkModeEnabled = false) => [
     name: "Theme",
     path: THEME_ROUTE,
     icon: <Palette {...iconSize} fill={darkModeEnabled ? "white" : "black"} />,
+  },
+  {
+    name: "Zbang",
+    path: ZBANG_ROUTE,
+    icon: <List {...iconSize} fill={darkModeEnabled ? "white" : "black"} />,
   },
 ];
 
@@ -167,7 +173,6 @@ export function Navbar({
 
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           <Box>

@@ -13,6 +13,7 @@ import {
   TOOLS_REAL_ESTATE_ROUTE,
   TOOLS_ROUTE,
   TOOLS_STOCKS_ROUTE,
+  ZBANG_ROUTE,
 } from "./util/routes";
 import { FinancialsPage } from "./content/education/financials/financials.page";
 import { ToolsStocksPage } from "./content/tools/sections/tools-stocks/tools-stocks.page";
@@ -24,7 +25,9 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { green, deepPurple, amber } from "@mui/material/colors";
+import { green, deepPurple } from "@mui/material/colors";
+import { ZbangPage } from "./content/zbang/zbang.page";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(
@@ -50,6 +53,7 @@ const App = () => {
   return (
     <React.StrictMode>
       <ThemeProvider theme={appTheme}>
+        <CssBaseline />
         <BrowserRouter>
           <Navbar darkMode={darkMode} setDarkMode={setDarkMode}>
             <Routes>
@@ -67,6 +71,7 @@ const App = () => {
               />
               <Route path={EDUCATION_ROUTE} Component={FinancialsPage} />
               <Route path={THEME_ROUTE} Component={ThemePage} />
+              <Route path={ZBANG_ROUTE} Component={ZbangPage} />
 
               <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
             </Routes>
