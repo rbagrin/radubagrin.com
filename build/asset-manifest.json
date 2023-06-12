@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.c878539d.css",
-    "main.js": "/static/js/main.7ff4de3c.js",
+    "main.js": "/static/js/main.521baae5.js",
     "static/js/787.f8786692.chunk.js": "/static/js/787.f8786692.chunk.js",
     "static/media/roboto-latin-500-normal.woff2": "/static/media/roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2",
     "static/media/roboto-latin-700-normal.woff2": "/static/media/roboto-latin-700-normal.227c93190fe7f82de3f8.woff2",
@@ -63,6 +63,7 @@
     "static/media/education.svg": "/static/media/education.f351da4f6c31512f686383527bba9fee.svg",
     "index.html": "/index.html",
     "static/media/sun.svg": "/static/media/sun.9b53e78937b38d520de8fe82aa7a9ea6.svg",
+    "static/media/list.svg": "/static/media/list.d91a66d829ef8f6199dfbdc7c50d4d72.svg",
     "static/media/toolbox.svg": "/static/media/toolbox.062fe12bc75b1dd610ffdef5267df4aa.svg",
     "static/media/home.svg": "/static/media/home.280c584b718b0d189a41faf145ca7fb0.svg",
     "static/media/palette.svg": "/static/media/palette.7c32388c36ef6bec83e1407158fed22b.svg",
@@ -70,13 +71,15 @@
     "static/media/menu.svg": "/static/media/menu.fda74093c4c5f2cc8ba4c5a89472d214.svg",
     "static/media/moon.svg": "/static/media/moon.5c598564d824bfe96839862742fbebf7.svg",
     "static/media/arrow-trend-up.svg": "/static/media/arrow-trend-up.e677ae4d617199e8b708ea0a8052d02e.svg",
+    "static/media/pen.svg": "/static/media/pen.7cee4356fbde32bb49e7d7385a498fb2.svg",
     "static/media/info-circle.svg": "/static/media/info-circle.82b1a6d96da04384dd656f7880d23b2e.svg",
+    "static/media/plus.svg": "/static/media/plus.ae0b187ecedd239ecd2ae9e5ec07b0dc.svg",
     "main.c878539d.css.map": "/static/css/main.c878539d.css.map",
-    "main.7ff4de3c.js.map": "/static/js/main.7ff4de3c.js.map",
+    "main.521baae5.js.map": "/static/js/main.521baae5.js.map",
     "787.f8786692.chunk.js.map": "/static/js/787.f8786692.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c878539d.css",
-    "static/js/main.7ff4de3c.js"
+    "static/js/main.521baae5.js"
   ]
 }
