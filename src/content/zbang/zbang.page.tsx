@@ -18,6 +18,13 @@ import { AddEntryModal } from "./components/add-entry-modal.component";
 import { EntryI, ModelI } from "./zbang.interface";
 import { DB } from "./db/db.index";
 
+function getRandomIntInclusive(min: number, max: number): number {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+}
+
+
 const getModelById = (allModels: ModelI[], id: number) => {
   return allModels.find((model) => model.id === id);
 };
@@ -105,7 +112,7 @@ const EntriesTable = ({
 
       try {
         const finish = new Date();
-        finish.setMinutes(finish.getMinutes() + 13);
+        finish.setMinutes(finish.getMinutes() + getRandomIntInclusive(10, 145));
 
         await DB.EntryRepo.updateEntryById(entry.id, { finish, consent: true });
         await refreshEntries();
