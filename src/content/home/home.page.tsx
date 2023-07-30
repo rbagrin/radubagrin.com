@@ -7,7 +7,6 @@ import { ReactComponent as Github } from "../../icons/github.svg";
 import { ReactComponent as Envelope } from "../../icons/envelope.svg";
 import { ReactComponent as Download } from "../../icons/download.svg";
 
-
 import {
   Card,
   Button,
@@ -19,7 +18,6 @@ import {
   IconButton,
 } from "@mui/material";
 
-
 // TODO: 1 - on hover scale up card
 // TODO: 2 - Description + My services Col 2
 // TODO: 3 - Col 3 - skills list
@@ -28,6 +26,7 @@ import {
 // https://www.knowledgehut.com/blog/web-development/full-stack-developer-portfolio
 export const HomePage = () => {
   const [text, setText] = useState<string>("");
+  const isDarkMode = true;
 
   useEffect(() => {
     (async () => {
@@ -42,8 +41,15 @@ export const HomePage = () => {
 
   return (
     <div className="App" style={{ width: "100%", maxWidth: MAX_PAGE_WIDTH }}>
-      <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
-        <Card sx={{ width: "50%" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          gap: 2,
+        }}
+      >
+        <Card sx={{ flex: 1, minWidth: "22rem" }}>
           <CardMedia
             component="img"
             height="130"
@@ -65,6 +71,33 @@ export const HomePage = () => {
             >
               Full Stack Engineer
             </Typography>
+            <Box sx={{ display: "flex", gap: 1, alignItems: "end" }}>
+              <Typography variant="h6">Founding Engineer at</Typography>
+              <Box>
+                <img
+                  src="https://zelt.app/wp-content/themes/zelt/assets/img/logo.svg"
+                  width="50px"
+                  style={isDarkMode ? { filter: "invert(100%)" } : {}}
+                  alt="Zelt"
+                />
+              </Box>
+            </Box>
+
+            <Box sx={{ display: "flex", gap: 1, alignItems: "end" }}>
+              <Box sx={{}}>
+                <Typography variant="h6">Ex</Typography>
+              </Box>
+              <Box sx={{}}>
+                <img
+                  src="https://www.bitdefender.co.uk/content/dam/bitdefender/splitter-homepage/black_company_logo.svg"
+                  width="120px"
+                  color="white"
+                  style={isDarkMode ? { filter: "invert(100%)" } : {}}
+                  alt='Bitdefender'
+                />
+              </Box>
+            </Box>
+
             <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
               <IconButton
                 sx={{ width: "50px", height: "50px", color: "#0e76a8" }}
@@ -96,25 +129,22 @@ export const HomePage = () => {
             >
               Contact me
             </Button>
-            <Button variant="outlined" endIcon={<Download />}>Download CV</Button>
+            <Button variant="outlined" endIcon={<Download />}>
+              Download CV
+            </Button>
           </CardActions>
         </Card>
-        <Box sx={{ width: "25%" }}>
-          <Card>
-            <CardContent>
-              <Typography>
-                I design and develop experiences that make people's lives
-                simple.
-                Bla blah bald asd kajd saklk aih sakdih kjsad
-              </Typography>
-            </CardContent>
-          </Card>
-        </Box>
-        <Box sx={{ width: "25%" }}>
-          <Card>
-            <CardContent>Card Content col 3</CardContent>
-          </Card>
-        </Box>
+        <Card sx={{ flex: 1 }}>
+          <CardContent>
+            
+            
+
+            <Typography>
+              I design and develop experiences that make people's lives simple.
+              Bla blah bald asd kajd saklk aih sakdih kjsad
+            </Typography>
+          </CardContent>
+        </Card>
       </Box>
     </div>
   );
