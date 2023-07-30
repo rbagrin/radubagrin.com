@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 
 import { MAX_PAGE_WIDTH } from "../../css-style/style";
 import { ReactComponent as Linkedin } from "../../icons/linkedin.svg";
@@ -15,7 +14,6 @@ import {
   CardContent,
   CardMedia,
   Typography,
-  IconButton,
 } from "@mui/material";
 
 // TODO: 1 - on hover scale up card
@@ -25,19 +23,7 @@ import {
 // TODO: 5 - Add an "About me" section to promote yourself
 // https://www.knowledgehut.com/blog/web-development/full-stack-developer-portfolio
 export const HomePage = () => {
-  const [text, setText] = useState<string>("");
-  const isDarkMode = true;
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const text = (await axios.get("/api")).data;
-        setText(text);
-      } catch {
-        setText("ERROR! BACKEND IS DOWN!");
-      }
-    })();
-  }, []);
+  const isDarkMode = false; // TODO
 
   return (
     <div className="App" style={{ width: "100%", maxWidth: MAX_PAGE_WIDTH }}>
@@ -71,9 +57,19 @@ export const HomePage = () => {
             >
               Full Stack Engineer
             </Typography>
-            <Box sx={{ display: "flex", gap: 1, alignItems: "end" }}>
-              <Typography variant="h6">Founding Engineer at</Typography>
-              <Box>
+            <Box
+              sx={{
+                mt: 2,
+                display: "flex",
+                gap: 1,
+                justifyContent: "center",
+                alignItems: "end",
+              }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                Founding Engineer at
+              </Typography>
+              <Box sx={{ mb: 0.2 }}>
                 <img
                   src="https://zelt.app/wp-content/themes/zelt/assets/img/logo.svg"
                   width="50px"
@@ -83,39 +79,51 @@ export const HomePage = () => {
               </Box>
             </Box>
 
-            <Box sx={{ display: "flex", gap: 1, alignItems: "end" }}>
-              <Box sx={{}}>
-                <Typography variant="h6">Ex</Typography>
-              </Box>
-              <Box sx={{}}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                gap: 0,
+                alignItems: "end",
+              }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                Ex-
+              </Typography>
+              <Box sx={{ mb: 0.2 }}>
                 <img
                   src="https://www.bitdefender.co.uk/content/dam/bitdefender/splitter-homepage/black_company_logo.svg"
                   width="120px"
                   color="white"
                   style={isDarkMode ? { filter: "invert(100%)" } : {}}
-                  alt='Bitdefender'
+                  alt="Bitdefender"
                 />
               </Box>
             </Box>
 
             <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
-              <IconButton
-                sx={{ width: "50px", height: "50px", color: "#0e76a8" }}
+              <Button
+                variant="text"
                 onClick={() => {
                   window.open("https://www.linkedin.com/in/rbagrin/", "_blank");
                 }}
+                sx={{ color: "#0e76a8", fontStyle: "none" }}
+                size="small"
+                endIcon={<Linkedin />}
               >
-                <Linkedin width={40} height={40} />
-              </IconButton>
-
-              <IconButton
-                sx={{ width: "50px", height: "50px" }}
+                <Typography>LinkedIn</Typography>
+              </Button>
+              <Button
+                variant="text"
                 onClick={() => {
                   window.open("https://github.com/rbagrin", "_blank");
                 }}
+                sx={{ color: isDarkMode ? "#f2f2f2" : '#2f2f2f' }}
+                size="small"
+                startIcon={<Github />}
               >
-                <Github width={40} height={40} />
-              </IconButton>
+                <Typography>GitHub</Typography>
+              </Button>
             </Box>
           </CardContent>
           <CardActions>
@@ -136,9 +144,6 @@ export const HomePage = () => {
         </Card>
         <Card sx={{ flex: 1 }}>
           <CardContent>
-            
-            
-
             <Typography>
               I design and develop experiences that make people's lives simple.
               Bla blah bald asd kajd saklk aih sakdih kjsad
