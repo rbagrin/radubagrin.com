@@ -162,7 +162,7 @@ export const HomePage = () => {
                 gap: 1,
               }}
             >
-              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+              <Box sx={{ width: "25%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg"
                   width="110px"
@@ -170,7 +170,7 @@ export const HomePage = () => {
                   alt="NodeJS"
                 />
               </Box>
-              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+              <Box sx={{ width: "25%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
                   width="75px"
@@ -178,7 +178,7 @@ export const HomePage = () => {
                   alt="NodeJS"
                 />
               </Box>
-              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+              <Box sx={{ width: "25%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg"
                   width="75px"
@@ -186,7 +186,7 @@ export const HomePage = () => {
                   alt="NodeJS"
                 />
               </Box>
-              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+              <Box sx={{ width: "25%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
                   width="110px"
@@ -204,7 +204,7 @@ export const HomePage = () => {
                 my: 2,
               }}
             >
-              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+              <Box sx={{ width: "35%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg"
                   width="65px"
@@ -212,7 +212,7 @@ export const HomePage = () => {
                   alt="NodeJS"
                 />
               </Box>
-              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+              <Box sx={{ width: "35%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg"
                   width="210px"
