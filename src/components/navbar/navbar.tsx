@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback } from "react";
+import React, { ReactNode, useCallback, useContext } from "react";
 
 import { ReactComponent as Close } from "../../icons/close.svg";
 import { ReactComponent as Menu } from "../../icons/menu.svg";
@@ -36,6 +36,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useNavigate } from "react-router-dom";
+import { GlobalState, GlobalStateType } from "../../util/global-state/global-state";
 
 const drawerWidth = 240;
 
@@ -154,6 +155,8 @@ export function Navbar({
   readonly setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
   children: ReactNode;
 }) {
+  const { dispatch } = useContext(GlobalState);
+  
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const handleDrawerOpen = () => {
@@ -165,11 +168,15 @@ export function Navbar({
   };
 
   const setThemeMode = useCallback(() => {
+    let isDarkModeEnabled = false;
     setDarkMode((prev) => {
+      const newValue = !prev;
       localStorage.setItem("isDarkModeEnabled", prev ? "false" : "true");
+      isDarkModeEnabled = newValue;
       return !prev;
     });
-  }, [setDarkMode]);
+    dispatch({type: GlobalStateType.EnableDarkMode, payload: {darkMode: isDarkModeEnabled}});
+  }, [setDarkMode, dispatch]);
 
   return (
     <Box sx={{ display: "flex" }}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { MAX_PAGE_WIDTH } from "../../css-style/style";
 import { ReactComponent as Linkedin } from "../../icons/linkedin.svg";
@@ -15,6 +15,7 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import { GlobalState } from "../../util/global-state/global-state";
 
 // TODO: 1 - on hover scale up card
 // TODO: 2 - Description + My services Col 2
@@ -23,7 +24,9 @@ import {
 // TODO: 5 - Add an "About me" section to promote yourself
 // https://www.knowledgehut.com/blog/web-development/full-stack-developer-portfolio
 export const HomePage = () => {
-  const isDarkMode = false; // TODO
+  const { state } = useContext(GlobalState);
+
+  const isDarkMode = state.darkMode; // TODO
 
   return (
     <div className="App" style={{ width: "100%", maxWidth: MAX_PAGE_WIDTH }}>
@@ -118,7 +121,7 @@ export const HomePage = () => {
                 onClick={() => {
                   window.open("https://github.com/rbagrin", "_blank");
                 }}
-                sx={{ color: isDarkMode ? "#f2f2f2" : '#2f2f2f' }}
+                sx={{ color: isDarkMode ? "#f2f2f2" : "#2f2f2f" }}
                 size="small"
                 startIcon={<Github />}
               >
@@ -144,10 +147,80 @@ export const HomePage = () => {
         </Card>
         <Card sx={{ flex: 1 }}>
           <CardContent>
-            <Typography>
-              I design and develop experiences that make people's lives simple.
-              Bla blah bald asd kajd saklk aih sakdih kjsad
-            </Typography>
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="h5">
+                I design and develop experiences that make people's lives
+                simple.
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-around",
+                gap: 1,
+              }}
+            >
+              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg"
+                  width="110px"
+                  height="75px"
+                  alt="NodeJS"
+                />
+              </Box>
+              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
+                  width="75px"
+                  height="75px"
+                  alt="NodeJS"
+                />
+              </Box>
+              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg"
+                  width="75px"
+                  height="75px"
+                  alt="NodeJS"
+                />
+              </Box>
+              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
+                  width="110px"
+                  height="75px"
+                  alt="NodeJS"
+                />
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-around",
+                gap: 1,
+                my: 2,
+              }}
+            >
+              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg"
+                  width="65px"
+                  height="65px"
+                  alt="NodeJS"
+                />
+              </Box>
+              <Box sx={{ bgcolor: "#eee", p: 1, borderRadius: "15px" }}>
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg"
+                  width="210px"
+                  height="75px"
+                  alt="NodeJS"
+                />
+              </Box>
+            </Box>
           </CardContent>
         </Card>
       </Box>

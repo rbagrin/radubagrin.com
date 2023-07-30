@@ -29,6 +29,8 @@ import { green, deepPurple } from "@mui/material/colors";
 import { ZbangPage } from "./content/zbang/zbang.page";
 import CssBaseline from "@mui/material/CssBaseline";
 
+import { GlobalStateProvider } from "./util/global-state/global-state";
+
 const App = () => {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("isDarkModeEnabled") === "true"
@@ -53,30 +55,32 @@ const App = () => {
   return (
     <React.StrictMode>
       <ThemeProvider theme={appTheme}>
-        <CssBaseline />
-        <BrowserRouter>
-          <Navbar darkMode={darkMode} setDarkMode={setDarkMode}>
-            <Routes>
-              <Route path={HOME_ROUTE} Component={HomePage} />
-              <Route path={STOCKS_ROUTE} Component={StocksPage} />
-              <Route path={NOTES_ROUTE} Component={NotesPage} />
-              <Route
-                path={TOOLS_ROUTE}
-                element={<Navigate to={TOOLS_STOCKS_ROUTE} />}
-              />
-              <Route path={TOOLS_STOCKS_ROUTE} Component={ToolsStocksPage} />
-              <Route
-                path={TOOLS_REAL_ESTATE_ROUTE}
-                Component={ToolsRealEstatePage}
-              />
-              <Route path={EDUCATION_ROUTE} Component={FinancialsPage} />
-              <Route path={THEME_ROUTE} Component={ThemePage} />
-              <Route path={ZBANG_ROUTE} Component={ZbangPage} />
+        <GlobalStateProvider>
+          <CssBaseline />
+          <BrowserRouter>
+            <Navbar darkMode={darkMode} setDarkMode={setDarkMode}>
+              <Routes>
+                <Route path={HOME_ROUTE} Component={HomePage} />
+                <Route path={STOCKS_ROUTE} Component={StocksPage} />
+                <Route path={NOTES_ROUTE} Component={NotesPage} />
+                <Route
+                  path={TOOLS_ROUTE}
+                  element={<Navigate to={TOOLS_STOCKS_ROUTE} />}
+                />
+                <Route path={TOOLS_STOCKS_ROUTE} Component={ToolsStocksPage} />
+                <Route
+                  path={TOOLS_REAL_ESTATE_ROUTE}
+                  Component={ToolsRealEstatePage}
+                />
+                <Route path={EDUCATION_ROUTE} Component={FinancialsPage} />
+                <Route path={THEME_ROUTE} Component={ThemePage} />
+                <Route path={ZBANG_ROUTE} Component={ZbangPage} />
 
-              <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
-            </Routes>
-          </Navbar>
-        </BrowserRouter>
+                <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
+              </Routes>
+            </Navbar>
+          </BrowserRouter>
+        </GlobalStateProvider>
       </ThemeProvider>
     </React.StrictMode>
   );
