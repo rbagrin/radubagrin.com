@@ -7,6 +7,7 @@ import {
   Tooltip,
   Chart,
 } from "chart.js";
+import { Box, SxProps, Typography } from "@mui/material";
 
 Chart.register(CategoryScale);
 Chart.register(LinearScale);
@@ -26,14 +27,18 @@ interface ChartData {
 export const BarChart = ({
   title,
   chartData,
+  sx = {},
 }: {
   title: string;
   chartData: ChartData;
+  sx?: SxProps;
 }) => {
   return (
-    <div>
-      <h1>{title}</h1>
+    <Box sx={sx}>
+      <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+        {title}
+      </Typography>
       <Bar data={chartData} />
-    </div>
+    </Box>
   );
 };

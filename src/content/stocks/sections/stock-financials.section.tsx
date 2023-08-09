@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { StockAPI } from "../../../api/stock.api";
 import {
   DarqubeBalanceSheetResponse,
@@ -6,6 +12,8 @@ import {
   TickerNewsItem,
 } from "../../../types/stock.type";
 import { BarChart } from "../../../components/BarChart";
+import { Box, Typography } from "@mui/material";
+import { GlobalState } from "../../../util/global-state/global-state";
 
 export const StockFinancials = ({ ticker }: { ticker: string }) => {
   const [news, setNews] = useState<TickerNewsItem[]>([]);
@@ -19,6 +27,9 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
   const [frequency, setFrequency] = useState<"quarterly" | "yearly">(
     "quarterly"
   );
+
+  const { state } = useContext(GlobalState);
+  const isDarkMode = state.darkMode;
 
   const fetchNews = useCallback(async () => {
     try {
@@ -156,8 +167,10 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
         overflowY: "auto",
       }}
     >
-      <h3>Financials</h3>
-      <div style={{ display: "flex", gap: "20px" }}>
+      <Typography variant="h3" sx={{ mb: 2 }}>
+        Financials
+      </Typography>
+      <Box sx={{ display: "flex", gap: "20px", mb: 2 }}>
         <button
           onClick={() => setFrequency("quarterly")}
           className={`button button-secondary ${
@@ -175,34 +188,61 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
           Annual
         </button>
 
-        <div style={{ display: "flex", gap: "10px" }}>
+        <Box sx={{ display: "flex", gap: "10px" }}>
           <button onClick={() => setItems((prev) => prev + 1)}>+</button>
           <button onClick={() => setItems((prev) => prev - 1)}>-</button>
-        </div>
-      </div>
+        </Box>
+      </Box>
+
       {incomeStatementChartData && (
         <BarChart
           title="Income statement"
           chartData={incomeStatementChartData}
+          sx={{ mb: 2 }}
         />
       )}
 
       {balanceSheetChartData && (
-        <BarChart title="Balance sheet" chartData={balanceSheetChartData} />
+        <BarChart
+          title="Balance sheet"
+          chartData={balanceSheetChartData}
+          sx={{ mb: 2 }}
+        />
       )}
 
-      <div style={{ height: "50px" }}>
-        <p style={{ fontWeight: 700, fontSize: 24, padding: 1 }}>
+      <Box sx={{ height: "50px", mt: 2 }}>
+        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           {ticker} News
-        </p>
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        </Typography>
+      </Box>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          maxHeight: "500px",
+          overflowY: "auto",
+        }}
+      >
         {news &&
           news.map((item, index) => (
-            <div key={index}>
-              <div>
-                <p style={{ marginBottom: 1, fontWeight: 700 }}>{item.title}</p>
-                <div style={{ display: "flex", gap: 2 }}>
+            <Box
+              key={index}
+              sx={{
+                p: 1,
+                ":hover": {
+                  borderRadius: "15px",
+                  cursor: "pointer",
+                  bgcolor: isDarkMode ? "#2F2F2F" : "#F2F2F2",
+                },
+              }}
+              onClick={() => window.open(item.url, "_blank", "noreferrer")}
+            >
+              <Box>
+                <Typography style={{ marginBottom: 1, fontWeight: 700 }}>
+                  {item.title}
+                </Typography>
+                <Box style={{ display: "flex", gap: 2 }}>
                   {item.img && (
                     <div>
                       <img alt={item.title} width="200px" src={item.img} />
@@ -235,9 +275,9 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
                       </p>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                </Box>
+              </Box>
+            </Box>
           ))}
       </div>
     </div>

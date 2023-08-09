@@ -25,8 +25,7 @@ import { GlobalState } from "../../util/global-state/global-state";
 // https://www.knowledgehut.com/blog/web-development/full-stack-developer-portfolio
 export const HomePage = () => {
   const { state } = useContext(GlobalState);
-
-  const isDarkMode = state.darkMode; // TODO
+  const isDarkMode = state.darkMode;
 
   return (
     <div className="App" style={{ width: "100%", maxWidth: MAX_PAGE_WIDTH }}>
@@ -145,84 +144,175 @@ export const HomePage = () => {
             </Button>
           </CardActions>
         </Card>
-        <Card sx={{ flex: 1 }}>
-          <CardContent>
-            <Box sx={{ mb: 2 }}>
-              <Typography variant="h5">
-                I design and develop experiences that make people's lives
-                simple.
-              </Typography>
-            </Box>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, flex: 1 }}>
+          <Card sx={{ flex: 1 }}>
+            <CardContent>
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="h5">
+                  I design and develop experiences that make people's lives
+                  simple.
+                </Typography>
+              </Box>
 
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-around",
-                gap: 1,
-              }}
-            >
-              <Box sx={{ width: "25%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-around",
+                  gap: 1,
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "25%",
+                    bgcolor: "#eee",
+                    p: 1,
+                    borderRadius: "15px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    ":hover": { transform: "scale(1.05)" },
+                  }}
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg"
+                    width="110px"
+                    height="75px"
+                    alt="NodeJS"
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    width: "25%",
+                    bgcolor: "#eee",
+                    p: 1,
+                    borderRadius: "15px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    ":hover": { transform: "scale(1.05)" },
+                  }}
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
+                    width="75px"
+                    height="75px"
+                    alt="NodeJS"
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    width: "25%",
+                    bgcolor: "#eee",
+                    p: 1,
+                    borderRadius: "15px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    ":hover": { transform: "scale(1.05)" },
+                  }}
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg"
+                    width="75px"
+                    height="75px"
+                    alt="NodeJS"
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    width: "25%",
+                    bgcolor: "#eee",
+                    p: 1,
+                    borderRadius: "15px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    ":hover": { transform: "scale(1.05)" },
+                  }}
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
+                    width="110px"
+                    height="75px"
+                    alt="NodeJS"
+                  />
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-around",
+                  gap: 1,
+                  my: 2,
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "35%",
+                    bgcolor: "#eee",
+                    p: 1,
+                    borderRadius: "15px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    ":hover": { transform: "scale(1.05)" },
+                  }}
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg"
+                    width="65px"
+                    height="65px"
+                    alt="NodeJS"
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    width: "35%",
+                    bgcolor: "#eee",
+                    p: 1,
+                    borderRadius: "15px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    ":hover": { transform: "scale(1.05)" },
+                  }}
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg"
+                    width="210px"
+                    height="75px"
+                    alt="NodeJS"
+                  />
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
+          <Card sx={{ flex: 1 }}>
+            <CardContent>
+              <Typography variant="h5">See my AWS hosted app here</Typography>
+              <Box sx={{ p: 2, ":hover": { transform: "scale(1.05)" } }}>
                 <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg"
-                  width="110px"
-                  height="75px"
-                  alt="NodeJS"
+                  src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png"
+                  alt="AWS"
+                  width="90%"
+                  style={{
+                    borderRadius: "15px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() =>
+                    window.open(
+                      "https://aws.radubagrin.com",
+                      "_blank",
+                      "noreferrer"
+                    )
+                  }
                 />
               </Box>
-              <Box sx={{ width: "25%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
-                  width="75px"
-                  height="75px"
-                  alt="NodeJS"
-                />
-              </Box>
-              <Box sx={{ width: "25%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg"
-                  width="75px"
-                  height="75px"
-                  alt="NodeJS"
-                />
-              </Box>
-              <Box sx={{ width: "25%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
-                  width="110px"
-                  height="75px"
-                  alt="NodeJS"
-                />
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-around",
-                gap: 1,
-                my: 2,
-              }}
-            >
-              <Box sx={{ width: "35%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg"
-                  width="65px"
-                  height="65px"
-                  alt="NodeJS"
-                />
-              </Box>
-              <Box sx={{ width: "35%", bgcolor: "#eee", p: 1, borderRadius: "15px", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg"
-                  width="210px"
-                  height="75px"
-                  alt="NodeJS"
-                />
-              </Box>
-            </Box>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </Box>
       </Box>
     </div>
   );
