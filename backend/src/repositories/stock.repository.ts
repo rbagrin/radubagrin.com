@@ -55,4 +55,12 @@ export class StockRepository {
       throw new InternalServerErrorException(error);
     }
   }
+
+  async deleteStockById(id: string): Promise<void> {
+    try {
+      await this.stockModel.deleteOne({ _id: id });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
 }

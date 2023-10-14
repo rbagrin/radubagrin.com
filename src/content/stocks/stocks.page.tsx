@@ -7,10 +7,14 @@ import {
   Ticker,
 } from "../../types/stock.type";
 import { StockAPI } from "../../api/stock.api";
-import { MAX_PAGE_WIDTH } from "../../css-style/style";
+import { iconSize, MAX_PAGE_WIDTH } from "../../css-style/style";
 import { Button } from "../../components/Button";
 import { WeeklyChart } from "./charts/weekly-chart";
 import { MonthlyChart } from "./charts/monthly-chart";
+import { ReactComponent as Pen } from "../../icons/pen.svg";
+import IconButton from "@mui/material/IconButton";
+import { EditStocksModal } from "./edit-stocks-modal.component";
+import { Box } from "@mui/material";
 
 enum ChartType {
   Daily = "Daily",
@@ -51,10 +55,11 @@ export const StocksPage = () => {
   const [tickerData, setTickerData] = useState<DarqubeTickerMarketData[]>([]);
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const refreshSavedStocks = useCallback(async () => {
     try {
-      const stocks = await StockAPI.getStocks();
+      const stocks = await StockAPI.getDBStocks();
       setSavedStocks(stocks);
     } catch (error) {
       console.error(error);
@@ -90,8 +95,28 @@ export const StocksPage = () => {
         maxWidth: MAX_PAGE_WIDTH,
       }}
     >
-      <header style={{ width: "100%", height: "50px", paddingLeft: "10px" }}>
+      <header
+        style={{
+          width: "100%",
+          height: "50px",
+          paddingLeft: "10px",
+          display: "flex",
+          gap: "10px",
+          alignItems: "center",
+        }}
+      >
         <h3>Stocks page</h3>
+
+        <Box sx={{ width: "50px" }}>
+          <IconButton
+            onClick={() => {
+              setIsOpen(true);
+            }}
+            sx={{ color: "blue" }}
+          >
+            <Pen {...iconSize} />
+          </IconButton>
+        </Box>
       </header>
 
       <div style={{ display: "flex", flexGrow: 1, maxHeight: "900px" }}>
@@ -179,6 +204,15 @@ export const StocksPage = () => {
       >
         <StockFinancials ticker={ticker} />
       </div>
+
+      {isOpen && (
+        <EditStocksModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          stocks={savedStocks}
+          refresh={refreshSavedStocks}
+        />
+      )}
     </div>
   );
 };

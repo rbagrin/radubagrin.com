@@ -38,6 +38,9 @@ export class StockService {
   public async getAllStocks(): Promise<any> {
     return this.stockRepository.getAllStocks();
   }
+  public async deleteDBStockById(id: string): Promise<void> {
+    await this.stockRepository.deleteStockById(id);
+  }
   public async getDailyTickerData(
     ticker: Ticker,
     startDate: number,

@@ -12,8 +12,16 @@ import {
 } from "../types/stock.type";
 
 export class StockAPI {
-  static async getStocks(): Promise<DBStock[]> {
+  static async getDBStocks(): Promise<DBStock[]> {
     return (await axios.get(`/api/stocks`)).data;
+  }
+
+  static async deleteDBStocks(id: string): Promise<void> {
+    await axios.delete(`/api/stocks/${id}`);
+  }
+
+  static async addDBStocks(ticker: Ticker, name: string): Promise<void> {
+    await axios.post("/api/stocks", { name, ticker });
   }
 
   static async getDailyAdjustedDataByTicker(

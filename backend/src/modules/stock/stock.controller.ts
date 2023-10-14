@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -111,8 +112,13 @@ export class StockController {
     return this.stockService.getAllStocks();
   }
 
+  @Delete('/:id')
+  async deleteDBStock(@Param('id') id: string): Promise<void> {
+    await this.stockService.deleteDBStockById(id);
+  }
+
   @Post('/')
-  async createUser(
+  async createDBStock(
     @Body() createStockDto: CreateStockDto,
     @Res() res: Response,
   ) {
