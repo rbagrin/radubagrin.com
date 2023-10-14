@@ -8,10 +8,11 @@ import {
   TimeSeriesDailyAdjustedResponse,
   TimeSeriesMonthlyAdjustedResponse,
   TimeSeriesWeeklyAdjustedResponse,
+  DBStock,
 } from "../types/stock.type";
 
 export class StockAPI {
-  static async getStocks(): Promise<any> {
+  static async getStocks(): Promise<DBStock[]> {
     return (await axios.get(`/api/stocks`)).data;
   }
 
@@ -21,11 +22,25 @@ export class StockAPI {
     return (await axios.get(`/api/stocks/${ticker}/daily-adjusted`)).data;
   }
 
-  static async getDailyDataBySticker(
+  static async getDailyDataByTicker(
     ticker: Ticker
   ): Promise<DarqubeTickerMarketData[]> {
     const daysAgo = new Date();
-    daysAgo.setDate(-90);
+    daysAgo.setFullYear(new Date().getFullYear() - 5);
+    const start = daysAgo.getTime();
+    const interval = "1d";
+    return (
+      await axios.get(
+        `/api/stocks/${ticker}/market-data?startDate=${start}&interval=${interval}`
+      )
+    ).data;
+  }
+
+  static async getWeeklyDataByTicker(
+    ticker: Ticker
+  ): Promise<DarqubeTickerMarketData[]> {
+    const daysAgo = new Date();
+    daysAgo.setFullYear(-1);
     const start = daysAgo.getTime();
     const end = Date.now();
     const interval = "1d";

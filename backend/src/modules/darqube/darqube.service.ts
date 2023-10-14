@@ -30,11 +30,10 @@ export class DarqubeClientService extends ApiClientService {
   async getTicketMarketData(
     ticker: Ticker,
     startDate: number,
-    endDate: number,
     interval: '1d',
   ): Promise<DarqubeTickerMarketData[]> {
     try {
-      const start = Math.round(new Date('2023-01-01').getTime() / 1000);
+      const start = Math.round(startDate / 1000);
       const end = Math.round(Date.now() / 1000);
       const { data } = await this.httpService
         .get<DarqubeTickerMarketData[]>(
@@ -43,6 +42,7 @@ export class DarqubeClientService extends ApiClientService {
         .toPromise();
       return data;
     } catch (error) {
+      console.log(error.message, error);
       throw error;
     }
   }

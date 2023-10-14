@@ -202,3 +202,10 @@ export interface DarqubeTickerMarketData {
   adjusted_close: number;
   time: number;
 }
+
+export interface DBStock {
+  _id: string;
+  name: string;
+  ticker: Ticker;
+  createdAt: string;
+}

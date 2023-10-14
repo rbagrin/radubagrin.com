@@ -1,10 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { DailyChart } from "./charts/daily-chart";
 import { StockFinancials } from "./sections/stock-financials.section";
-import { Ticker } from "../../types/stock.type";
+import {
+  DarqubeTickerMarketData,
+  DBStock,
+  Ticker,
+} from "../../types/stock.type";
 import { StockAPI } from "../../api/stock.api";
 import { MAX_PAGE_WIDTH } from "../../css-style/style";
 import { Button } from "../../components/Button";
+import { WeeklyChart } from "./charts/weekly-chart";
+import { MonthlyChart } from "./charts/monthly-chart";
 
 enum ChartType {
   Daily = "Daily",
@@ -41,7 +47,10 @@ const MenuButton = ({
 export const StocksPage = () => {
   const [ticker, setTicker] = useState<Ticker>("AAPL");
   const [chartType, setChartType] = useState<Ticker>(CHART_TYPES[0]);
-  const [savedStocks, setSavedStocks] = useState([]);
+  const [savedStocks, setSavedStocks] = useState<DBStock[]>([]);
+  const [tickerData, setTickerData] = useState<DarqubeTickerMarketData[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [text, setText] = useState("");
 
   const refreshSavedStocks = useCallback(async () => {
     try {
@@ -55,6 +64,22 @@ export const StocksPage = () => {
   useEffect(() => {
     refreshSavedStocks();
   }, [refreshSavedStocks]);
+
+  const fetchTicker = useCallback(async (ticker) => {
+    try {
+      setLoading(true);
+      const data = await StockAPI.getDailyDataByTicker(ticker);
+      setTickerData(data);
+    } catch {
+      setText("ERROR!");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (ticker) fetchTicker(ticker);
+  }, [ticker, fetchTicker]);
 
   return (
     <div
@@ -129,12 +154,15 @@ export const StocksPage = () => {
             </div>
 
             <div style={{ width: "100%", height: "100%", maxHeight: "800px" }}>
-              {chartType === ChartType.Daily ? (
-                <DailyChart ticker={ticker} />
-              ) : (
-                <div style={{ padding: 4 }}>
-                  <p>Coming soon...</p>
-                </div>
+              {text && <p>{text}</p>}
+              {!text && chartType === ChartType.Daily && (
+                <DailyChart loading={loading} tickerData={tickerData} />
+              )}
+              {!text && chartType === ChartType.Weekly && (
+                <WeeklyChart loading={loading} tickerData={tickerData} />
+              )}
+              {!text && chartType === ChartType.Monthly && (
+                <MonthlyChart loading={loading} tickerData={tickerData} />
               )}
             </div>
           </div>

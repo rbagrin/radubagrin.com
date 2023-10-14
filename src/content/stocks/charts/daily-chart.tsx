@@ -1,29 +1,14 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { StockAPI } from "../../../api/stock.api";
+import React from "react";
 import { Chart } from "../../../components/Chart";
-import { DarqubeTickerMarketData, Ticker } from "../../../types/stock.type";
+import { DarqubeTickerMarketData } from "../../../types/stock.type";
 
-export const DailyChart = ({ ticker }: { ticker: Ticker }) => {
-  const [text, setText] = useState("");
-  const [tickerData, setTickerData] = useState<DarqubeTickerMarketData[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  const fetchTicker = useCallback(async (ticker) => {
-    try {
-      setLoading(true);
-      const data = await StockAPI.getDailyDataBySticker(ticker);
-      setTickerData(data);
-    } catch {
-      setText("ERROR!");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchTicker(ticker);
-  }, [ticker, fetchTicker]);
-
+export const DailyChart = ({
+  tickerData,
+  loading,
+}: {
+  tickerData: DarqubeTickerMarketData[];
+  loading: boolean;
+}) => {
   return loading ? null : (
     <div
       style={{
@@ -31,7 +16,6 @@ export const DailyChart = ({ ticker }: { ticker: Ticker }) => {
         height: "100%",
       }}
     >
-      {text && <div>!!!!! {text}</div>}
       {tickerData && <Chart data={tickerData} />}
     </div>
   );

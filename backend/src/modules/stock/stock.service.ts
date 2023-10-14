@@ -41,13 +41,11 @@ export class StockService {
   public async getDailyTickerData(
     ticker: Ticker,
     startDate: number,
-    endDate: number,
     interval: '1d',
   ): Promise<DarqubeTickerMarketData[]> {
     return this.darqubeClientService.getTicketMarketData(
       ticker,
       startDate,
-      endDate,
       interval,
     );
   }

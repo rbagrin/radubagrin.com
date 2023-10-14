@@ -42,15 +42,9 @@ export class StockController {
   async getDailyStockData(
     @Param('ticker') ticker: Ticker,
     @Query('startDate', ParseIntPipe) startDate: number,
-    @Query('endDate', ParseIntPipe) endDate: number,
     @Query('interval') interval: '1d',
   ): Promise<DarqubeTickerMarketData[]> {
-    return this.stockService.getDailyTickerData(
-      ticker,
-      startDate,
-      endDate,
-      interval,
-    );
+    return this.stockService.getDailyTickerData(ticker, startDate, interval);
   }
 
   // TODO: More charts/data
