@@ -3,10 +3,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { FormControl } from "@mui/material";
 import { EntryI, ModelI } from "../zbang.interface";
 import { DB } from "../db/db.index";
+import { MyInput } from "../../../components/MyInput";
+import { MySelect } from "../../../components/MySelect";
 
 const style = {
   position: "absolute",
@@ -88,35 +89,32 @@ export function AddEntryModal({
           {entry ? "Edit" : "Adauga"}
         </Typography>
 
-        <Box sx={{ mt: 2 }}>
-          <InputLabel>Model</InputLabel>
+        <Box sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 1 }}>
           <FormControl fullWidth>
-            <Select
+            <MySelect
+              label="Model"
               value={modelId}
               onChange={(event) => {
                 setModelId(Number(event.target.value));
               }}
-            >
-              {allModels.map((model) => (
-                <MenuItem value={model.id}>{model.name}</MenuItem>
-              ))}
-            </Select>
+              options={allModels.map((m) => ({ name: m.name, value: m.id }))}
+            />
           </FormControl>
 
-          <InputLabel>Nume / Prenume</InputLabel>
-          <TextField
+          <MyInput
             required
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             fullWidth
+            label="Nume"
           />
 
-          <InputLabel>Telefon</InputLabel>
-          <TextField
+          <MyInput
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             fullWidth
+            label="Telefon"
           />
         </Box>
 

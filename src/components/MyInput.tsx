@@ -10,6 +10,9 @@ interface InputProps {
   label?: string;
   type?: HTMLInputTypeAttribute;
   variant?: "outlined" | "standard" | "filled";
+  fullWidth?: boolean;
+  required?: boolean;
+  disabled?: boolean;
 }
 
 export const StyledTextField = styled(TextField)<TextFieldProps>(
@@ -33,6 +36,9 @@ export const MyInput = ({
   size = "small",
   type = "text",
   variant = "filled",
+  fullWidth = false,
+  required = false,
+  disabled = false,
 }: InputProps) => (
   <StyledTextField
     value={value}
@@ -44,5 +50,8 @@ export const MyInput = ({
     inputProps={
       type === "number" ? { inputMode: "numeric", pattern: "[0-9]*" } : {}
     }
+    fullWidth={fullWidth}
+    required={required}
+    disabled={disabled}
   />
 );
