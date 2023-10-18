@@ -1,0 +1,5 @@
+.MuiInputBase-input,
+.MuiInputBase-input:hover,
+.MuiInputBase-input:focus {
+    background-color: #777;
+}

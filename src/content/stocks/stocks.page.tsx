@@ -13,8 +13,8 @@ import { WeeklyChart } from "./charts/weekly-chart";
 import { MonthlyChart } from "./charts/monthly-chart";
 import { ReactComponent as Pen } from "../../icons/pen.svg";
 import IconButton from "@mui/material/IconButton";
-import { EditStocksModal } from "./edit-stocks-modal.component";
-import { Box } from "@mui/material";
+import { EditStocksDrawer } from "./edit-stocks-modal.component";
+import { Box, Typography } from "@mui/material";
 
 enum ChartType {
   Daily = "Daily",
@@ -105,14 +105,16 @@ export const StocksPage = () => {
           alignItems: "center",
         }}
       >
-        <h3>Stocks page</h3>
+        <Typography variant="h4" sx={{}}>
+          Stocks page
+        </Typography>
 
-        <Box sx={{ width: "50px" }}>
+        <Box sx={{ width: "30px" }}>
           <IconButton
             onClick={() => {
               setIsOpen(true);
             }}
-            sx={{ color: "blue" }}
+            sx={{ color: "#777", ":hover": { color: "#ddd" } }}
           >
             <Pen {...iconSize} />
           </IconButton>
@@ -206,7 +208,7 @@ export const StocksPage = () => {
       </div>
 
       {isOpen && (
-        <EditStocksModal
+        <EditStocksDrawer
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           stocks={savedStocks}

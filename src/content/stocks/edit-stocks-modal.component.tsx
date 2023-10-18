@@ -1,20 +1,22 @@
-import Modal from "@mui/material/Modal";
 import React, { useCallback, useState } from "react";
 import { DBStock, Ticker } from "../../types/stock.type";
-import { Box, Button, InputLabel, TextField, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { StockAPI } from "../../api/stock.api";
+import { MyDrawer } from "../../components/MyDrawer";
+import { MyInput } from "../../components/MyInput";
+import IconButton from "@mui/material/IconButton";
+import { iconSize } from "../../css-style/style";
+import { ReactComponent as CloseCircle } from "../../icons/close-circle.svg";
 
-export const EditStocksModal = ({
+export const EditStocksDrawer = ({
   isOpen,
   setIsOpen,
-  onClose,
   stocks,
   refresh,
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   refresh: () => Promise<void>;
-  onClose?: () => void;
   stocks: DBStock[];
 }) => {
   const [ticker, setTicker] = useState<string>("");
@@ -55,92 +57,74 @@ export const EditStocksModal = ({
   );
 
   return (
-    <Modal
-      open={isOpen}
-      onClose={() => {
-        setIsOpen(false);
-        if (onClose) onClose();
-      }}
-    >
+    <MyDrawer isOpen={isOpen} setIsOpen={setIsOpen} title="Stocks list">
+      <Typography variant="subtitle1">Add new stock</Typography>
       <Box
         sx={{
-          width: "600px",
-          height: "800px",
-          mx: "auto",
-          bgcolor: "#444",
-          mt: "200px",
-          overflowY: "auto",
+          mt: 1,
+          mb: 4,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "10px",
         }}
       >
-        <Box sx={{ p: "20px" }}>
+        <Box sx={{ display: "flex", gap: "5px" }}>
+          <MyInput
+            value={ticker}
+            onChange={(e) => setTicker(e.target.value)}
+            label="Ticker"
+          />
+          <MyInput
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            label="Name"
+          />
+        </Box>
+        <Box>
+          <Button
+            variant="contained"
+            onClick={async () => {
+              await addStock(ticker, name);
+            }}
+            disabled={!ticker || !name}
+          >
+            <Typography variant="h6" color="white">
+              Add
+            </Typography>
+          </Button>
+        </Box>
+      </Box>
+
+      <Box sx={{ overflowY: "auto" }}>
+        {stocks.map((s) => (
           <Box
+            key={s._id}
             sx={{
               display: "flex",
               justifyContent: "space-between",
+              borderRadius: "5px",
               alignItems: "center",
-              px: "10px",
               gap: "10px",
+              px: "10px",
+              py: "2px",
+              ":hover": { bgcolor: "#aaa" },
             }}
           >
-            <Typography variant="h6" color="black">
-              Stocks
-            </Typography>
-
-            <Box sx={{ display: "flex", gap: "5px", ml: "10px" }}>
-              <TextField
-                value={ticker}
-                onChange={(e) => setTicker(e.target.value)}
-                size="small"
-                label="Ticker"
-              />
-
-              <TextField
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                size="small"
-                label="Name"
-              />
-            </Box>
+            <Typography variant="body1">{s.name}</Typography>
             <Box>
-              <Button
-                variant="contained"
+              <IconButton
                 onClick={async () => {
-                  await addStock(ticker, name);
+                  await deleteStock(s._id);
                 }}
+                color="error"
               >
-                <Typography variant="h4" color="black">
-                  +
-                </Typography>
-              </Button>
+                <CloseCircle {...iconSize} />
+              </IconButton>
             </Box>
           </Box>
-          {stocks.map((s) => (
-            <Box
-              key={s._id}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: "10px",
-                px: "10px",
-                py: "2px",
-                ":hover": { bgcolor: "#aaa" },
-              }}
-            >
-              <Typography color="black">{s.name}</Typography>
-              <Box>
-                <Button
-                  onClick={async () => {
-                    await deleteStock(s._id);
-                  }}
-                >
-                  Delete
-                </Button>
-              </Box>
-            </Box>
-          ))}
-        </Box>
+        ))}
       </Box>
-    </Modal>
+    </MyDrawer>
   );
 };
