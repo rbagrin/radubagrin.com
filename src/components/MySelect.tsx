@@ -1,6 +1,13 @@
-import { InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectProps,
+} from "@mui/material";
 import React from "react";
 import { SelectInputProps } from "@mui/material/Select/SelectInput";
+import { styled } from "@mui/material/styles";
 
 interface SelectOption {
   readonly name: string;
@@ -16,6 +23,16 @@ interface MySelectProps {
   readonly fullWidth?: boolean;
   readonly disabled?: boolean;
 }
+
+export const StyledSelect = styled(Select)<SelectProps>(({ theme }) => ({
+  "& .MuiInputBase-input": {
+    backgroundColor: theme.palette.mode === "dark" ? "#666" : "#fff",
+    "&:hover, &.Mui-focusVisible": {
+      backgroundColor: theme.palette.mode === "dark" ? "#666" : "#fff",
+    },
+  },
+}));
+
 export const MySelect = ({
   label,
   value,
@@ -25,9 +42,11 @@ export const MySelect = ({
   fullWidth = false,
   disabled = false,
 }: MySelectProps) => (
-  <>
-    <InputLabel id="select-label">{label}</InputLabel>
-    <Select
+  <FormControl variant="filled">
+    <InputLabel id="select-label" variant="filled">
+      {label}
+    </InputLabel>
+    <StyledSelect
       variant="filled"
       labelId="select-label"
       value={value}
@@ -39,6 +58,6 @@ export const MySelect = ({
       {options.map((o) => (
         <MenuItem value={o.value}>{o.name}</MenuItem>
       ))}
-    </Select>
-  </>
+    </StyledSelect>
+  </FormControl>
 );

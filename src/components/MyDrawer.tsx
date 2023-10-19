@@ -7,6 +7,7 @@ interface DrawerProps {
   readonly title: string;
   readonly children: ReactNode;
   readonly anchor?: "left" | "top" | "right" | "bottom";
+  readonly onClose?: Function;
 }
 export const MyDrawer = ({
   isOpen,
@@ -14,13 +15,17 @@ export const MyDrawer = ({
   title,
   children,
   anchor = "right",
+  onClose,
 }: DrawerProps) => {
   return (
     <React.Fragment>
       <SwipeableDrawer
         open={isOpen}
         anchor={anchor}
-        onClose={() => setIsOpen(false)}
+        onClose={() => {
+          if (onClose) onClose();
+          setIsOpen(false);
+        }}
         onOpen={() => setIsOpen(true)}
       >
         <Box sx={{ width: "600px", p: 4 }}>

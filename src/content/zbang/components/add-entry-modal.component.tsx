@@ -1,25 +1,12 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 import { FormControl } from "@mui/material";
 import { EntryI, ModelI } from "../zbang.interface";
 import { DB } from "../db/db.index";
 import { MyInput } from "../../../components/MyInput";
 import { MySelect } from "../../../components/MySelect";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { MyDrawer } from "../../../components/MyDrawer";
 
 export function AddEntryModal({
   isOpen,
@@ -34,7 +21,7 @@ export function AddEntryModal({
   entry?: EntryI;
   allModels: ModelI[];
   refreshEntries: () => Promise<void>;
-  onClose?: () => void;
+  onClose?: Function;
 }) {
   const [modelId, setModelId] = useState<number>(
     entry?.modelId ?? allModels[0].id
@@ -77,19 +64,14 @@ export function AddEntryModal({
   };
 
   return (
-    <Modal
-      open={isOpen}
-      onClose={() => {
-        setIsOpen(false);
-        if (onClose) onClose();
-      }}
+    <MyDrawer
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      title={entry ? "Edit" : "Adauga"}
+      onClose={onClose}
     >
-      <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          {entry ? "Edit" : "Adauga"}
-        </Typography>
-
-        <Box sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 1 }}>
+      <Box>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <FormControl fullWidth>
             <MySelect
               label="Model"
@@ -124,6 +106,6 @@ export function AddEntryModal({
           </Button>
         </Box>
       </Box>
-    </Modal>
+    </MyDrawer>
   );
 }
