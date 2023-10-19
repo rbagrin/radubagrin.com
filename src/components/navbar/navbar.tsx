@@ -36,7 +36,10 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useNavigate } from "react-router-dom";
-import { GlobalState, GlobalStateType } from "../../util/global-state/global-state";
+import {
+  GlobalState,
+  GlobalStateType,
+} from "../../util/global-state/global-state";
 
 const drawerWidth = 240;
 
@@ -156,7 +159,7 @@ export function Navbar({
   children: ReactNode;
 }) {
   const { dispatch } = useContext(GlobalState);
-  
+
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
   const handleDrawerOpen = () => {
@@ -175,7 +178,10 @@ export function Navbar({
       isDarkModeEnabled = newValue;
       return !prev;
     });
-    dispatch({type: GlobalStateType.EnableDarkMode, payload: {darkMode: isDarkModeEnabled}});
+    dispatch({
+      type: GlobalStateType.EnableDarkMode,
+      payload: { darkMode: isDarkModeEnabled },
+    });
   }, [setDarkMode, dispatch]);
 
   return (
@@ -237,7 +243,7 @@ export function Navbar({
         <Divider />
         <Box>
           {NAVBAR_ITEMS(darkMode).map((item, index) => (
-            <Box>
+            <Box key={item.name}>
               <ListItemButton onClick={() => navigate(item.path)}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.name} />

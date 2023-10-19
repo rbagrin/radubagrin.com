@@ -17,7 +17,6 @@ import {
   DarqubeCashFlowResponse,
   DarqubeIncomeStatementResponse,
   DarqubeTickerMarketData,
-  DarqubeTickerNews,
   DarqubeTickerTweet,
 } from '../darqube/darqube.interface';
 
