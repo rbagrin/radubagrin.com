@@ -140,6 +140,7 @@ export interface DarqubeBalanceSheet {
   netWorkingCapital: number | null;
   netInvestedCapital: number | null;
 }
+
 export interface DarqubeBalanceSheetResponse {
   currency: "USD" | "EUR" | "GBP";
   quarterly: {
@@ -190,6 +191,39 @@ export interface DarqubeIncomeStatementResponse {
   };
   yearly: {
     [date: string]: DarqubeIncomeStatement;
+  };
+}
+
+export interface DarqubeCashFlow {
+  totalCashFromOperatingActivities: number;
+  changeReceivables: number | null;
+  changeToLiabilities: number | null;
+  totalCashflowsFromInvestingActivities: number | null;
+  investments: number | null;
+  capitalExpenditures: number | null;
+  totalCashFromFinancingActivities: number | null;
+  dividendsPaid: number | null;
+  otherCashflowsFromFinancingActivities: number | null;
+  netBorrowings: number | null;
+  salePurchaseOfStock: number | null;
+  exchangeRateChanges: number | null;
+  changeInCash: number | null;
+  cashAndCashEquivalentsChanges: number | null;
+  freeCashFlow: number | null;
+  otherInvestments: number | null;
+  operatingCashFlow: number | null;
+  issuanceOfCommonStockAndPreferredStock: number | null;
+  otherInvestingCashFlowItemsTotal: number | null;
+  issuanceOfStock: number;
+}
+
+export interface DarqubeCashFlowResponse {
+  currency: "USD" | "EUR" | "GBP";
+  quarterly: {
+    [date: string]: DarqubeCashFlow;
+  };
+  yearly: {
+    [date: string]: DarqubeCashFlow;
   };
 }
 

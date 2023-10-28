@@ -9,6 +9,7 @@ import {
   TimeSeriesMonthlyAdjustedResponse,
   TimeSeriesWeeklyAdjustedResponse,
   DBStock,
+  DarqubeCashFlowResponse,
 } from "../types/stock.type";
 
 export class StockAPI {
@@ -58,6 +59,7 @@ export class StockAPI {
       )
     ).data;
   }
+
   static async getStockIncomeStatement(
     ticker: Ticker
   ): Promise<DarqubeIncomeStatementResponse> {
@@ -70,6 +72,13 @@ export class StockAPI {
   ): Promise<DarqubeBalanceSheetResponse> {
     // Darqube
     return (await axios.get(`/api/stocks/${ticker}/balance-sheet`)).data;
+  }
+
+  static async getStockCashFlow(
+    ticker: Ticker
+  ): Promise<DarqubeCashFlowResponse> {
+    // Darqube
+    return (await axios.get(`/api/stocks/${ticker}/cash-flow`)).data;
   }
 
   static async getWeeklyAdjustedDataByTicker(

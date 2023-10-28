@@ -10,6 +10,7 @@ import {
 import {
   DarqubeIncomeStatement,
   DarqubeIncomeStatementResponse,
+  Ticker,
 } from "../../../types/stock.type";
 import { round } from "../../../util/number.util";
 import { CardField } from "./components/card-field.component";
@@ -18,10 +19,13 @@ import { PeriodLengthSelector } from "./components/period-length-selector.compon
 import { getTTM } from "../stocks.util";
 
 interface IncomeStatementStatsProps {
+  readonly ticker: Ticker;
+
   readonly incomeStatement: DarqubeIncomeStatementResponse | undefined;
 }
 
 export const IncomeStatementStats = ({
+  ticker,
   incomeStatement,
 }: IncomeStatementStatsProps) => {
   const [period, setPeriod] = useState<"quarterly" | "annually" | "ttm">("ttm");
@@ -118,106 +122,114 @@ export const IncomeStatementStats = ({
     period8,
   ]);
 
-  const revenueGrowthYoY = round(
-    (data1.totalRevenue / data5.totalRevenue) * 100 - 100,
-    2
-  );
+  const revenueGrowthYoY = data5
+    ? round((data1.totalRevenue / data5.totalRevenue) * 100 - 100, 2)
+    : null;
 
-  const netIncomeGrowthYoY = round(
-    (data1.netIncome / data5.netIncome) * 100 - 100,
-    2
-  );
+  const netIncomeGrowthYoY = data5
+    ? round((data1.netIncome / data5.netIncome) * 100 - 100, 2)
+    : null;
 
   return (
-    <Card sx={{ width: "100%", maxWidth: "900px" }}>
+    <Card sx={{ width: "100%" }}>
       <CardHeader
         title={
-          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+          <Box>
             <Typography variant="h5">Income statement</Typography>
+            <Typography variant="h6" sx={{ color: "grey" }}>
+              {ticker}
+            </Typography>
+          </Box>
+        }
+        action={
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "end",
+              mr: 2,
+            }}
+          >
+            <PeriodLengthSelector period={period} setPeriod={setPeriod} />
             <Typography variant="caption" sx={{ color: "grey", mt: 0.5 }}>
               ({period1})
             </Typography>
           </Box>
         }
-        action={<PeriodLengthSelector period={period} setPeriod={setPeriod} />}
       />
 
       <CardContent>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <PeriodListing
             title="Revenue"
-            value1={data1.totalRevenue}
+            value1={data1?.totalRevenue}
             period1={period1}
-            value2={data2.totalRevenue}
+            value2={data2?.totalRevenue}
             period2={period2}
-            value3={data3.totalRevenue}
+            value3={data3?.totalRevenue}
             period3={period3}
-            value4={data4.totalRevenue}
+            value4={data4?.totalRevenue}
             period4={period4}
-            value5={data5.totalRevenue}
+            value5={data5?.totalRevenue}
             period5={period5}
           />
           <PeriodListing
             title="Gross profit"
-            value1={data1.grossProfit}
+            value1={data1?.grossProfit}
             period1={period1}
-            value2={data2.grossProfit}
+            value2={data2?.grossProfit}
             period2={period2}
-            value3={data3.grossProfit}
+            value3={data3?.grossProfit}
             period3={period3}
-            value4={data4.grossProfit}
+            value4={data4?.grossProfit}
             period4={period4}
-            value5={data5.grossProfit}
+            value5={data5?.grossProfit}
             period5={period5}
           />
           <PeriodListing
             title="Operating income"
-            value1={data1.operatingIncome}
+            value1={data1?.operatingIncome}
             period1={period1}
-            value2={data2.operatingIncome}
+            value2={data2?.operatingIncome}
             period2={period2}
-            value3={data3.operatingIncome}
+            value3={data3?.operatingIncome}
             period3={period3}
-            value4={data4.operatingIncome}
+            value4={data4?.operatingIncome}
             period4={period4}
-            value5={data5.operatingIncome}
+            value5={data5?.operatingIncome}
             period5={period5}
           />
           <PeriodListing
             title="Net income"
-            value1={data1.netIncome}
+            value1={data1?.netIncome}
             period1={period1}
-            value2={data2.netIncome}
+            value2={data2?.netIncome}
             period2={period2}
-            value3={data3.netIncome}
+            value3={data3?.netIncome}
             period3={period3}
-            value4={data4.netIncome}
+            value4={data4?.netIncome}
             period4={period4}
-            value5={data5.netIncome}
+            value5={data5?.netIncome}
             period5={period5}
           />
         </Box>
 
         <Grid container spacing={4}>
           <Grid item md={6} xs={10}>
-            {period !== "annually" && (
+            {period !== "annually" && revenueGrowthYoY !== null && (
               <CardField
                 l={"Revenue growth YoY"}
                 v={`${revenueGrowthYoY > 0 ? "+" : ""}${revenueGrowthYoY}%`}
                 c={revenueGrowthYoY > 0 ? "green" : "red"}
               />
             )}
-            {period !== "annually" && (
+            {period !== "annually" && netIncomeGrowthYoY !== null && (
               <CardField
                 l={"Net income growth YoY"}
                 v={`${netIncomeGrowthYoY > 0 ? "+" : ""}${netIncomeGrowthYoY}%`}
                 c={netIncomeGrowthYoY > 0 ? "green" : "red"}
               />
             )}
-          </Grid>
-
-          <Grid item md={6} xs={10}>
-            {/*<CardField l="TODO" v={"todo"} />*/}
           </Grid>
         </Grid>
       </CardContent>

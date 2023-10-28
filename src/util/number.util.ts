@@ -7,21 +7,21 @@ export const round = (value: number, digits = 4): number => {
   return Math.floor(value * aux) / aux;
 };
 
-export const shortenNumber = (value: number): string => {
-  if (value > BILLION) {
-    const shortN = round(value / BILLION, 2);
+export const shortenNumber = (value: number, digits = 2): string => {
+  if (Math.abs(value) > BILLION) {
+    const shortN = round(value / BILLION, digits);
     return `${shortN}B`;
   }
 
-  if (value > MILLION) {
-    const shortN = round(value / MILLION, 2);
+  if (Math.abs(value) > MILLION) {
+    const shortN = round(value / MILLION, digits);
     return `${shortN}M`;
   }
 
-  if (value > THOUSAND) {
-    const shortN = round(value / THOUSAND, 2);
+  if (Math.abs(value) > THOUSAND) {
+    const shortN = round(value / THOUSAND, digits);
     return `${shortN}k`;
   }
 
-  return value.toString();
+  return round(value, digits).toString();
 };

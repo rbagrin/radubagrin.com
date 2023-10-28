@@ -8,6 +8,7 @@ import React, {
 import { StockAPI } from "../../../api/stock.api";
 import {
   DarqubeBalanceSheetResponse,
+  DarqubeCashFlowResponse,
   DarqubeIncomeStatementResponse,
   TickerNewsItem,
 } from "../../../types/stock.type";
@@ -16,6 +17,7 @@ import { Box, Typography } from "@mui/material";
 import { GlobalState } from "../../../util/global-state/global-state";
 import { BalanceSheetsStats } from "../financial-cards/balance-sheets-stats.component";
 import { IncomeStatementStats } from "../financial-cards/income-statement-stats.component";
+import { CashFlowStatementStats } from "../financial-cards/cash-flow-statement-stats.component";
 
 export const StockFinancials = ({ ticker }: { ticker: string }) => {
   const [news, setNews] = useState<TickerNewsItem[]>([]);
@@ -25,6 +27,7 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
 
   const [balanceSheet, setBalanceSheet] =
     useState<DarqubeBalanceSheetResponse>(undefined);
+  const [cashFlow, setCashFlow] = useState<DarqubeCashFlowResponse>(undefined);
 
   const [frequency, setFrequency] = useState<"quarterly" | "yearly">(
     "quarterly"
@@ -60,17 +63,23 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
     }
   }, [ticker]);
 
-  useEffect(() => {
-    fetchIncomeStatement();
-  }, [fetchIncomeStatement]);
+  const fetchCashFlow = useCallback(async () => {
+    try {
+      const cashFlow = await StockAPI.getStockCashFlow(ticker);
+      setCashFlow(cashFlow);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [ticker]);
 
   useEffect(() => {
-    fetchNews();
-  }, [fetchNews]);
-
-  useEffect(() => {
-    fetchBalanceSheet();
-  }, [fetchBalanceSheet]);
+    Promise.all([
+      fetchIncomeStatement(),
+      fetchBalanceSheet(),
+      fetchCashFlow(),
+      fetchNews(),
+    ]);
+  }, [fetchIncomeStatement, fetchBalanceSheet, fetchCashFlow, fetchNews]);
 
   const incomeStatementChartData = useMemo(() => {
     if (!incomeStatement) return undefined;
@@ -160,6 +169,56 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
     };
   }, [balanceSheet, frequency, items]);
 
+  const cashFlowStatementChartData = useMemo(() => {
+    if (!cashFlow) return undefined;
+    const responseData = cashFlow[frequency];
+    const labels = Object.keys(responseData).slice(-1 * items);
+
+    const freeCashFlow = labels.map(
+      (date) => responseData[date]?.freeCashFlow ?? 0
+    );
+    const totalCashFromOperatingActivities = labels.map(
+      (date) => responseData[date]?.totalCashFromOperatingActivities ?? 0
+    );
+    const totalCashflowsFromInvestingActivities = labels.map(
+      (date) => responseData[date]?.totalCashflowsFromInvestingActivities ?? 0
+    );
+    const totalCashFromFinancingActivities = labels.map(
+      (date) => responseData[date]?.totalCashFromFinancingActivities ?? 0
+    );
+
+    const freeCashFlowDataSet = {
+      label: "Free Cash Flow",
+      data: freeCashFlow,
+      backgroundColor: ["green"],
+    };
+    const cashFromOperatingActivitiesDataSet = {
+      label: "Cash from Operating Activities",
+      data: totalCashFromOperatingActivities,
+      backgroundColor: ["yellow"],
+    };
+    const cashFromInvestingActivitiesDataSet = {
+      label: "Cash from Investing Activities",
+      data: totalCashflowsFromInvestingActivities,
+      backgroundColor: ["blue"],
+    };
+    const cashFromFinancingActivitiesDataSet = {
+      label: "Cash from Financing Activities",
+      data: totalCashFromFinancingActivities,
+      backgroundColor: ["red"],
+    };
+
+    return {
+      labels,
+      datasets: [
+        cashFromOperatingActivitiesDataSet,
+        cashFromInvestingActivitiesDataSet,
+        cashFromFinancingActivitiesDataSet,
+        freeCashFlowDataSet,
+      ],
+    };
+  }, [cashFlow, frequency, items]);
+
   return (
     <div
       style={{
@@ -173,10 +232,18 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
         Financials
       </Typography>
 
-      <Box sx={{ display: "flex", gap: 2 }}>
-        {balanceSheet && <BalanceSheetsStats balanceSheet={balanceSheet} />}
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 4 }}>
+        {balanceSheet && (
+          <BalanceSheetsStats ticker={ticker} balanceSheet={balanceSheet} />
+        )}
         {incomeStatement && (
-          <IncomeStatementStats incomeStatement={incomeStatement} />
+          <IncomeStatementStats
+            ticker={ticker}
+            incomeStatement={incomeStatement}
+          />
+        )}
+        {cashFlow && (
+          <CashFlowStatementStats ticker={ticker} cashFlow={cashFlow} />
         )}
       </Box>
       <Box sx={{ display: "flex", gap: "20px", mb: 2 }}>
@@ -215,6 +282,14 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
         <BarChart
           title="Balance sheet"
           chartData={balanceSheetChartData}
+          sx={{ mb: 2 }}
+        />
+      )}
+
+      {cashFlowStatementChartData && (
+        <BarChart
+          title="Cash Flow"
+          chartData={cashFlowStatementChartData}
           sx={{ mb: 2 }}
         />
       )}

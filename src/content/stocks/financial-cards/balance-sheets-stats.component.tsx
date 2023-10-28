@@ -7,17 +7,20 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { DarqubeBalanceSheetResponse } from "../../../types/stock.type";
+import { DarqubeBalanceSheetResponse, Ticker } from "../../../types/stock.type";
 import { round, shortenNumber } from "../../../util/number.util";
 import Divider from "@mui/material/Divider";
 import { CardField } from "./components/card-field.component";
 import { PeriodLengthSelector } from "./components/period-length-selector.component";
 
 interface BalanceSheetsStatsProps {
+  readonly ticker: Ticker;
+
   readonly balanceSheet: DarqubeBalanceSheetResponse | undefined;
 }
 
 export const BalanceSheetsStats = ({
+  ticker,
   balanceSheet,
 }: BalanceSheetsStatsProps) => {
   const [period, setPeriod] = useState<"quarterly" | "annually">("quarterly");
@@ -40,55 +43,62 @@ export const BalanceSheetsStats = ({
     return { data1 };
   }, [bs, period1]);
 
-  const mostRecentPeriod = useMemo(() => {
-    return Object.keys(bs).sort().reverse()[0];
-  }, [bs]);
+  const ratio = data1 ? round(data1.totalAssets / data1.totalLiab, 2) : 0;
 
-  const ratio = round(data1.totalAssets / data1.totalLiab, 2);
+  const currentRatio = data1
+    ? round(data1?.totalCurrentAssets / data1?.totalCurrentLiabilities, 2)
+    : 0;
 
-  const currentRatio = round(
-    data1.totalCurrentAssets / data1.totalCurrentLiabilities,
-    2
-  );
+  const totalCash = data1?.cashAndShortTermInvestments ?? 0;
 
-  const totalCash = data1.cashAndShortTermInvestments;
+  const cAssets = data1?.totalCurrentAssets ?? 0;
+  const tAssets = data1?.totalAssets ?? 0;
+  const cLiab = data1?.totalCurrentLiabilities ?? 0;
+  const tLiab = data1?.totalLiab ?? 0;
 
-  const cAssets = data1.totalCurrentAssets;
-  const tAssets = data1.totalAssets;
-  const cLiab = data1.totalCurrentLiabilities;
-  const tLiab = data1.totalLiab;
+  const sTDebt = data1?.shortTermDebt ?? 0;
+  const tDebt = data1?.shortLongTermDebtTotal ?? 0;
 
-  const sTDebt = data1.shortTermDebt;
-  const tDebt = data1.shortLongTermDebtTotal;
+  const bValue = data1?.totalStockholderEquity ?? 0;
 
-  const bValue = data1.totalStockholderEquity;
+  const lTDebt = data1?.longTermDebtTotal ?? 0;
 
-  const lTDebt = data1.longTermDebtTotal;
+  const stDebtToTotalCash = totalCash ? round(sTDebt / totalCash, 2) : 0;
 
-  const stDebtToTotalCash = round(sTDebt / totalCash, 2);
+  const debtToTotalCash = totalCash ? round(tDebt / totalCash, 2) : 0;
 
-  const debtToTotalCash = round(tDebt / totalCash, 2);
-
-  const bValueToDebt = round(bValue / tDebt);
-  const debtToBValue = round(tDebt / bValue);
+  const bValueToDebt = tDebt ? round(bValue / tDebt) : 0;
+  const debtToBValue = bValue ? round(tDebt / bValue) : 0;
 
   return (
-    <Card sx={{ width: "100%", maxWidth: "900px" }}>
+    <Card sx={{ width: "100%" }}>
       <CardHeader
         title={
-          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+          <Box>
             <Typography variant="h5">Balance sheet</Typography>
-            <Typography variant="caption" sx={{ mt: 0.5, color: "grey" }}>
-              ({mostRecentPeriod})
+            <Typography variant="h6" sx={{ color: "grey" }}>
+              {ticker}
             </Typography>
           </Box>
         }
         action={
-          <PeriodLengthSelector
-            period={period}
-            setPeriod={setPeriod}
-            showTTM={false}
-          />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "end",
+              mr: 2,
+            }}
+          >
+            <PeriodLengthSelector
+              period={period}
+              setPeriod={setPeriod}
+              showTTM={false}
+            />
+            <Typography variant="caption" sx={{ color: "grey", mt: 0.5 }}>
+              ({period1})
+            </Typography>
+          </Box>
         }
       />
 

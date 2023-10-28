@@ -60,6 +60,7 @@ export interface DarqubeBalanceSheet {
   netWorkingCapital: number | null;
   netInvestedCapital: number | null;
 }
+
 export interface DarqubeBalanceSheetResponse {
   currency: 'USD' | 'EUR' | 'GBP';
   quarterly: {
@@ -92,6 +93,7 @@ export interface DarqubeCashFlow {
   otherInvestingCashFlowItemsTotal: number | null;
   issuanceOfStock: number;
 }
+
 export interface DarqubeIncomeStatement {
   totalRevenue: number;
   costOfRevenue: number;
