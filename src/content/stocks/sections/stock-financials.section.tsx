@@ -14,6 +14,8 @@ import {
 import { BarChart } from "../../../components/BarChart";
 import { Box, Typography } from "@mui/material";
 import { GlobalState } from "../../../util/global-state/global-state";
+import { BalanceSheetsStats } from "../financial-cards/balance-sheets-stats.component";
+import { IncomeStatementStats } from "../financial-cards/income-statement-stats.component";
 
 export const StockFinancials = ({ ticker }: { ticker: string }) => {
   const [news, setNews] = useState<TickerNewsItem[]>([]);
@@ -170,6 +172,13 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
       <Typography variant="h3" sx={{ mb: 2 }}>
         Financials
       </Typography>
+
+      <Box sx={{ display: "flex", gap: 2 }}>
+        {balanceSheet && <BalanceSheetsStats balanceSheet={balanceSheet} />}
+        {incomeStatement && (
+          <IncomeStatementStats incomeStatement={incomeStatement} />
+        )}
+      </Box>
       <Box sx={{ display: "flex", gap: "20px", mb: 2 }}>
         <button
           onClick={() => setFrequency("quarterly")}

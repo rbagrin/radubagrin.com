@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { keepOnlyXDigits } from "../../../util/number.util";
+import { round } from "../../../util/number.util";
 import { LineChart } from "../../../components/LineChart";
 import {
   IMBOBILIARE_1_CAMERA_BUCURESTI,
@@ -16,10 +16,7 @@ const GrossRentalYield = () => {
 
   // TODO: add example section
   const grossRentalYield = useMemo(() => {
-    return keepOnlyXDigits(
-      (12 * Number(monthlyRent) * 100) / Number(purchasePrice),
-      2
-    );
+    return round((12 * Number(monthlyRent) * 100) / Number(purchasePrice), 2);
   }, [monthlyRent, purchasePrice]);
 
   return (
@@ -70,7 +67,7 @@ const NetRentalYield = () => {
     const rc = Number(runningCosts);
     const pp = Number(purchasePrice);
     const otc = Number(oneTimeCosts);
-    return keepOnlyXDigits(((12 * mr - mr - rc) / (pp + otc)) * 100, 2);
+    return round(((12 * mr - mr - rc) / (pp + otc)) * 100, 2);
   }, [monthlyRent, purchasePrice, oneTimeCosts, runningCosts]);
 
   return (

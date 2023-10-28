@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { keepOnlyXDigits } from "../../../util/number.util";
+import { round } from "../../../util/number.util";
 import { PieChart } from "../../../components/PieChart";
 import { Input } from "../../../components/forms/Input";
 import Typography from "@mui/material/Typography";
@@ -30,7 +30,7 @@ export const InvestmentCalculatorSection = () => {
         (total + Number(monthlyInvestment)) * (1 + Number(monthlyReturnRate));
     }
 
-    return keepOnlyXDigits(total, 2);
+    return round(total, 2);
   }, [startingSum, monthlyInvestment, investmentYears, growthRate]);
 
   const totalContributions = useMemo(() => {
@@ -44,7 +44,7 @@ export const InvestmentCalculatorSection = () => {
 
   const presentValue = useMemo(
     () =>
-      keepOnlyXDigits(
+      round(
         Number(futureValue) /
           (1 + Number(rateOfReturn) / 100) ** Number(numberOfPeriods),
         2
@@ -57,7 +57,7 @@ export const InvestmentCalculatorSection = () => {
 
     const result = ((endingValue / beginningValue) ** (1 / years) - 1) * 100;
 
-    return keepOnlyXDigits(result, 2);
+    return round(result, 2);
   }, [endingValue, beginningValue, years]);
 
   const chartData = useMemo(

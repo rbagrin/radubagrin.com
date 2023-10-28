@@ -1,7 +1,5 @@
 import { InitialStateType, GlobalStateType, ActionType } from "./global-state";
 
-
-
 export const darkModeReducer = (
   state: InitialStateType,
   action: ActionType
@@ -13,4 +11,3 @@ export const darkModeReducer = (
       return state.darkMode;
   }
 };
-
