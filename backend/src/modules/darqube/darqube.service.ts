@@ -42,10 +42,10 @@ export class DarqubeClientService extends ApiClientService {
         .toPromise();
       return data;
     } catch (error) {
-      console.log(error.message, error);
       throw error;
     }
   }
+
   async getTickerBalanceSheet(
     ticker: Ticker,
   ): Promise<DarqubeBalanceSheetResponse> {

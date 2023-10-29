@@ -31,6 +31,7 @@ import {
   DarqubeTickerMarketData,
   DarqubeTickerTweet,
 } from '../darqube/darqube.interface';
+import { AlphavantageOverviewResponse } from '../alphavantage/alphavantage.interface';
 
 @Controller('/api/stocks')
 export class StockController {
@@ -71,6 +72,7 @@ export class StockController {
   ): Promise<DarqubeBalanceSheetResponse> {
     return this.stockService.getTickerBalanceSheet(ticker);
   }
+
   @Get('/:ticker/daily-adjusted')
   async getDailyAdjustedStockData(
     @Param('ticker') ticker: string,
@@ -90,6 +92,13 @@ export class StockController {
     @Param('ticker') ticker: string,
   ): Promise<TimeSeriesMonthlyAdjustedResponse> {
     return this.stockService.getMonthlyAdjustedStockDataByTicker(ticker);
+  }
+
+  @Get('/:ticker/company-overview')
+  async getCompanyOverview(
+    @Param('ticker') ticker: string,
+  ): Promise<AlphavantageOverviewResponse> {
+    return this.stockService.getCompanyOverviewByTicker(ticker);
   }
 
   @Get('/:ticker/news')

@@ -110,7 +110,6 @@ export const CashFlowStatementStats = ({
     period8,
   ]);
 
-  console.log("AAAA", data1?.netBorrowings);
   return (
     <Card sx={{ width: "100%" }}>
       <CardHeader

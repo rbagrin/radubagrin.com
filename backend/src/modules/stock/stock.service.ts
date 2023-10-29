@@ -19,6 +19,7 @@ import {
   DarqubeTickerMarketData,
   DarqubeTickerTweet,
 } from '../darqube/darqube.interface';
+import { AlphavantageOverviewResponse } from '../alphavantage/alphavantage.interface';
 
 @Injectable()
 export class StockService {
@@ -37,9 +38,11 @@ export class StockService {
   public async getAllStocks(): Promise<any> {
     return this.stockRepository.getAllStocks();
   }
+
   public async deleteDBStockById(id: string): Promise<void> {
     await this.stockRepository.deleteStockById(id);
   }
+
   public async getDailyTickerData(
     ticker: Ticker,
     startDate: number,
@@ -94,6 +97,12 @@ export class StockService {
     );
   }
 
+  public async getCompanyOverviewByTicker(
+    ticker: string,
+  ): Promise<AlphavantageOverviewResponse> {
+    return this.alphaVantageClientService.getTickerOverview(ticker);
+  }
+
   // TODO: Use this to show news
   public async getStockNewsByTicker(
     ticker: string,
@@ -129,6 +138,7 @@ export class StockService {
       },
     }));
   }
+
   public async getStockTweetsByTicker(
     ticker: string,
   ): Promise<DarqubeTickerTweet[]> {

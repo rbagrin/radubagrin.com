@@ -10,6 +10,7 @@ import {
   TimeSeriesWeeklyAdjustedResponse,
   DBStock,
   DarqubeCashFlowResponse,
+  AlphavantageOverviewResponse,
 } from "../types/stock.type";
 
 export class StockAPI {
@@ -23,6 +24,13 @@ export class StockAPI {
 
   static async addDBStocks(ticker: Ticker, name: string): Promise<void> {
     await axios.post("/api/stocks", { name, ticker });
+  }
+
+  static async getCompanyOverviewByTicker(
+    ticker: string
+  ): Promise<AlphavantageOverviewResponse> {
+    // alphavantage
+    return (await axios.get(`/api/stocks/${ticker}/company-overview`)).data;
   }
 
   static async getDailyAdjustedDataByTicker(

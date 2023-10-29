@@ -1,6 +1,7 @@
 export type DateTimeString = string;
 export type ISODate = string;
 export type Ticker = string;
+export type NumberString = string;
 
 export interface TimeSeriesDailyAdjustedResponse {
   'Meta Data': {

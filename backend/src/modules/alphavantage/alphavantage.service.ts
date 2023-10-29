@@ -10,6 +10,7 @@ import {
 import {
   AlphavantageNewsItem,
   AlphavantageNewsResponse,
+  AlphavantageOverviewResponse,
 } from './alphavantage.interface';
 
 @Injectable()
@@ -109,6 +110,24 @@ export class AlphaVantageClientService extends ApiClientService {
         )
         .toPromise();
       return data.feed;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getTickerOverview(
+    tickers: Ticker,
+  ): Promise<AlphavantageOverviewResponse> {
+    const functionName = 'OVERVIEW';
+    const apiKey = this.getApiKey();
+    try {
+      const { data } = await this.httpService
+        .get<AlphavantageOverviewResponse>(
+          `/query?function=${functionName}&symbol=${tickers}&apikey=${apiKey}`,
+        )
+        .toPromise();
+
+      return data;
     } catch (error) {
       throw error;
     }

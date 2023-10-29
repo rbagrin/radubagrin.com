@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { StockAPI } from "../../../api/stock.api";
 import {
+  AlphavantageOverviewResponse,
   DarqubeBalanceSheetResponse,
   DarqubeCashFlowResponse,
   DarqubeIncomeStatementResponse,
@@ -18,6 +19,7 @@ import { GlobalState } from "../../../util/global-state/global-state";
 import { BalanceSheetsStats } from "../financial-cards/balance-sheets-stats.component";
 import { IncomeStatementStats } from "../financial-cards/income-statement-stats.component";
 import { CashFlowStatementStats } from "../financial-cards/cash-flow-statement-stats.component";
+import { OtherStats } from "../financial-cards/other-stats.component";
 
 export const StockFinancials = ({ ticker }: { ticker: string }) => {
   const [news, setNews] = useState<TickerNewsItem[]>([]);
@@ -28,6 +30,8 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
   const [balanceSheet, setBalanceSheet] =
     useState<DarqubeBalanceSheetResponse>(undefined);
   const [cashFlow, setCashFlow] = useState<DarqubeCashFlowResponse>(undefined);
+  const [companyOverview, setCompanyOverview] =
+    useState<AlphavantageOverviewResponse>(undefined);
 
   const [frequency, setFrequency] = useState<"quarterly" | "yearly">(
     "quarterly"
@@ -40,6 +44,15 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
     try {
       const news = await StockAPI.getStockNewsByTicker(ticker);
       setNews(news);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [ticker]);
+
+  const fetchCompanyOverview = useCallback(async () => {
+    try {
+      const companyOverview = await StockAPI.getCompanyOverviewByTicker(ticker);
+      setCompanyOverview(companyOverview);
     } catch (error) {
       console.error(error);
     }
@@ -78,8 +91,15 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
       fetchBalanceSheet(),
       fetchCashFlow(),
       fetchNews(),
+      fetchCompanyOverview(),
     ]);
-  }, [fetchIncomeStatement, fetchBalanceSheet, fetchCashFlow, fetchNews]);
+  }, [
+    fetchIncomeStatement,
+    fetchBalanceSheet,
+    fetchCashFlow,
+    fetchNews,
+    fetchCompanyOverview,
+  ]);
 
   const incomeStatementChartData = useMemo(() => {
     if (!incomeStatement) return undefined;
@@ -244,6 +264,9 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
         )}
         {cashFlow && (
           <CashFlowStatementStats ticker={ticker} cashFlow={cashFlow} />
+        )}
+        {companyOverview && (
+          <OtherStats ticker={ticker} companyOverview={companyOverview} />
         )}
       </Box>
       <Box sx={{ display: "flex", gap: "20px", mb: 2 }}>
