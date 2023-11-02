@@ -50,7 +50,7 @@ const NAVBAR_ITEMS = (darkModeEnabled = false) => [
     icon: <Home {...iconSize} fill={darkModeEnabled ? "white" : "black"} />,
   },
   {
-    name: "Stocks",
+    name: "Research",
     path: STOCKS_ROUTE,
     icon: (
       <ArrowTrendUp {...iconSize} fill={darkModeEnabled ? "white" : "black"} />
@@ -63,6 +63,7 @@ const NAVBAR_ITEMS = (darkModeEnabled = false) => [
       {
         name: "Notes",
         path: NOTES_ROUTE,
+        hidden: true,
       },
     ],
   },
@@ -92,11 +93,13 @@ const NAVBAR_ITEMS = (darkModeEnabled = false) => [
     name: "Theme",
     path: THEME_ROUTE,
     icon: <Palette {...iconSize} fill={darkModeEnabled ? "white" : "black"} />,
+    hidden: true,
   },
   {
     name: "Zbang",
     path: ZBANG_ROUTE,
     icon: <List {...iconSize} fill={darkModeEnabled ? "white" : "black"} />,
+    hidden: true,
   },
 ];
 
@@ -242,23 +245,27 @@ export function Navbar({
         </DrawerHeader>
         <Divider />
         <Box>
-          {NAVBAR_ITEMS(darkMode).map((item, index) => (
-            <Box key={item.name}>
-              <ListItemButton onClick={() => navigate(item.path)}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.name} />
-              </ListItemButton>
-              {item.items && (
-                <Box sx={{ ml: 10 }}>
-                  {item.items.map((subitem) => (
-                    <ListItemButton onClick={() => navigate(subitem.path)}>
-                      <ListItemText primary={subitem.name} />
-                    </ListItemButton>
-                  ))}
-                </Box>
-              )}
-            </Box>
-          ))}
+          {NAVBAR_ITEMS(darkMode)
+            .filter((i) => !i.hidden)
+            .map((item) => (
+              <Box key={item.name}>
+                <ListItemButton onClick={() => navigate(item.path)}>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItemButton>
+                {item.items && (
+                  <Box sx={{ ml: 10 }}>
+                    {item.items
+                      .filter((i) => !i.hidden)
+                      .map((subitem) => (
+                        <ListItemButton onClick={() => navigate(subitem.path)}>
+                          <ListItemText primary={subitem.name} />
+                        </ListItemButton>
+                      ))}
+                  </Box>
+                )}
+              </Box>
+            ))}
         </Box>
       </Drawer>
       <Main open={open}>

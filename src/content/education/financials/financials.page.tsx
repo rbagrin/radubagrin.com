@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { IncomeStatementSection } from "./income-statement/income-statement.section";
-import { MAX_PAGE_WIDTH } from "../../../css-style/style";
+import { Title } from "../../../util/components/title.component";
+import { Content } from "../../../util/components/content.component";
 
 const enum FinancialTabs {
   INCOME_STATEMENT = "Income Statement",
   BALANCE_SHEET = "Balance Sheet",
   CASH_FLOW = "Cash Flow",
 }
+
 export const FinancialsPage = () => {
   const [tab, setTab] = useState<FinancialTabs>(FinancialTabs.INCOME_STATEMENT);
 
   return (
-    <div style={{ width: "100%", maxWidth: MAX_PAGE_WIDTH }}>
-      <h1>Financials</h1>
+    <Content>
+      <Title>Financials</Title>
 
       <div style={{ display: "flex", gap: "20px", marginBottom: "10px" }}>
         <button
@@ -46,6 +48,6 @@ export const FinancialsPage = () => {
           <p>{tab} tab coming soon...</p>
         </div>
       )}
-    </div>
+    </Content>
   );
 };

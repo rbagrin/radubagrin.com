@@ -9,6 +9,8 @@ import {
   IMOBILIARE_INDEX_ROMANIA,
 } from "./imobiliare";
 import { Input } from "../../../components/forms/Input";
+import { Title } from "../../../util/components/title.component";
+import { Content } from "../../../util/components/content.component";
 
 const GrossRentalYield = () => {
   const [monthlyRent, setMonthlyRent] = useState<number | "">(500);
@@ -125,6 +127,7 @@ const NetRentalYield = () => {
     </div>
   );
 };
+
 export const RealEstateSection = () => {
   const [monthlyRent, setMonthlyRent] = useState<number | "">(500);
 
@@ -132,8 +135,8 @@ export const RealEstateSection = () => {
   const fairPrice = useMemo(() => 15 * 12 * Number(monthlyRent), [monthlyRent]);
 
   return (
-    <div>
-      <h1>Real estate</h1>
+    <Content>
+      <Title>Real estate</Title>
       <h2>Fair value</h2>
       <code>FairPrice = 15Years * monthlyRent</code>
       <div>
@@ -162,7 +165,7 @@ export const RealEstateSection = () => {
       </div>
 
       <GraficeImobiliareRo />
-    </div>
+    </Content>
   );
 };
 

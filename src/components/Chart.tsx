@@ -60,7 +60,7 @@ export const Chart = ({ data }: { data: DarqubeTickerMarketData[] }) => {
 
   return (
     <div
-      style={{ width: "100%", maxHeight: "800px", height: "800px" }}
+      style={{ width: "100%", maxHeight: "550px", height: "550px" }}
       ref={chartContainerRef}
     />
   );

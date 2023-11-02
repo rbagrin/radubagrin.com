@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { MAX_PAGE_WIDTH } from "../../../css-style/style";
 import { Switch } from "./components/Switch";
 import { InfoModal } from "./components/InfoModal";
 import { ReactComponent as InfoCircle } from "../../../icons/info-circle.svg";
+import { Content } from "../../../util/components/content.component";
+import { Typography } from "@mui/material";
 
 interface StockData {
   stock: string;
@@ -29,16 +30,9 @@ const InitStockData = {
 
 export const NotesPage = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        maxWidth: MAX_PAGE_WIDTH,
-      }}
-    >
+    <Content>
       <header style={{ width: "100%", height: "50px", paddingLeft: "10px" }}>
-        <h1>Notes</h1>
+        <Typography variant="h4">Notes</Typography>
       </header>
 
       <StockNotesTable
@@ -51,7 +45,7 @@ export const NotesPage = () => {
           { stock: "MONGO_DB", ...InitStockData },
         ]}
       />
-    </div>
+    </Content>
   );
 };
 

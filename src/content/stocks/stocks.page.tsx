@@ -7,7 +7,7 @@ import {
   Ticker,
 } from "../../types/stock.type";
 import { StockAPI } from "../../api/stock.api";
-import { iconSize, MAX_PAGE_WIDTH } from "../../css-style/style";
+import { iconSize } from "../../css-style/style";
 import { Button } from "../../components/Button";
 import { WeeklyChart } from "./charts/weekly-chart";
 import { MonthlyChart } from "./charts/monthly-chart";
@@ -15,6 +15,8 @@ import { ReactComponent as Pen } from "../../icons/pen.svg";
 import IconButton from "@mui/material/IconButton";
 import { EditStocksDrawer } from "./edit-stocks-modal.component";
 import { Box, Typography } from "@mui/material";
+import { Content } from "../../util/components/content.component";
+import { Title } from "../../util/components/title.component";
 
 enum ChartType {
   Daily = "Daily",
@@ -54,7 +56,7 @@ export const StocksPage = () => {
   const [savedStocks, setSavedStocks] = useState<DBStock[]>([]);
   const [tickerData, setTickerData] = useState<DarqubeTickerMarketData[]>([]);
   const [loading, setLoading] = useState(false);
-  const [text, setText] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const refreshSavedStocks = useCallback(async () => {
@@ -75,8 +77,8 @@ export const StocksPage = () => {
       setLoading(true);
       const data = await StockAPI.getDailyDataByTicker(ticker);
       setTickerData(data);
-    } catch {
-      setText("ERROR!");
+    } catch (e) {
+      setErrorMessage(`Something went wrong. ${e.message}`);
     } finally {
       setLoading(false);
     }
@@ -87,29 +89,11 @@ export const StocksPage = () => {
   }, [ticker, fetchTicker]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        maxWidth: MAX_PAGE_WIDTH,
-      }}
-    >
-      <header
-        style={{
-          width: "100%",
-          height: "50px",
-          paddingLeft: "10px",
-          display: "flex",
-          gap: "10px",
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="h4" sx={{}}>
-          Stocks page
-        </Typography>
-
-        <Box sx={{ width: "30px" }}>
+    <Content>
+      <Title>Stocks page</Title>
+      <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+        <Typography variant="h5">Tickers</Typography>
+        <Box sx={{ ml: 2 }}>
           <IconButton
             onClick={() => {
               setIsOpen(true);
@@ -119,9 +103,16 @@ export const StocksPage = () => {
             <Pen {...iconSize} />
           </IconButton>
         </Box>
-      </header>
+      </Box>
 
-      <div style={{ display: "flex", flexGrow: 1, maxHeight: "900px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexGrow: 1,
+          gap: 1,
+          width: "100%",
+        }}
+      >
         <div
           style={{
             display: "flex",
@@ -130,8 +121,7 @@ export const StocksPage = () => {
             gap: "5px",
             width: "300px",
             height: "100%",
-            paddingLeft: "10px",
-            paddingRight: "10px",
+            maxHeight: "600px",
             overflowY: "auto",
           }}
         >
@@ -180,32 +170,25 @@ export const StocksPage = () => {
               </div>
             </div>
 
-            <div style={{ width: "100%", height: "100%", maxHeight: "800px" }}>
-              {text && <p>{text}</p>}
-              {!text && chartType === ChartType.Daily && (
+            <div style={{ width: "100%", height: "100%", maxHeight: "600px" }}>
+              {errorMessage && (
+                <Typography variant="subtitle1">{errorMessage}</Typography>
+              )}
+              {!errorMessage && chartType === ChartType.Daily && (
                 <DailyChart loading={loading} tickerData={tickerData} />
               )}
-              {!text && chartType === ChartType.Weekly && (
+              {!errorMessage && chartType === ChartType.Weekly && (
                 <WeeklyChart loading={loading} tickerData={tickerData} />
               )}
-              {!text && chartType === ChartType.Monthly && (
+              {!errorMessage && chartType === ChartType.Monthly && (
                 <MonthlyChart loading={loading} tickerData={tickerData} />
               )}
             </div>
           </div>
         </div>
-      </div>
+      </Box>
 
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          flexGrow: 1,
-          marginTop: "50px",
-        }}
-      >
-        <StockFinancials ticker={ticker} />
-      </div>
+      <StockFinancials ticker={ticker} />
 
       {isOpen && (
         <EditStocksDrawer
@@ -215,6 +198,6 @@ export const StocksPage = () => {
           refresh={refreshSavedStocks}
         />
       )}
-    </div>
+    </Content>
   );
 };
