@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardHeader, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { Ticker, TickerNewsItem } from "../../../types/stock.type";
 import { GlobalState } from "../../../util/global-state/global-state";
@@ -14,12 +14,10 @@ export const NewsSection = ({
   const isDarkMode = state.darkMode;
 
   return (
-    <Box>
-      <Box sx={{ height: "50px", mt: 4 }}>
-        <Typography variant="h5">{ticker} News</Typography>
-      </Box>
-      <div
-        style={{
+    <Card>
+      <CardHeader title={`${ticker} News`} />
+      <CardContent
+        sx={{
           display: "flex",
           flexDirection: "column",
           gap: 2,
@@ -82,7 +80,7 @@ export const NewsSection = ({
               </Box>
             </Box>
           ))}
-      </div>
-    </Box>
+      </CardContent>
+    </Card>
   );
 };

@@ -226,6 +226,7 @@ export function Navbar({
         variant="persistent"
         anchor="left"
         open={open}
+        // onClose={() => setOpen(false)}
       >
         <DrawerHeader>
           <Box

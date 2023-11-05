@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { IncomeStatementSection } from "./income-statement/income-statement.section";
 import { Title } from "../../../util/components/title.component";
 import { Content } from "../../../util/components/content.component";
+import { Box, Button } from "@mui/material";
+import { BalanceSheetSection } from "./balance-sheet/balance-sheet.section";
+import { CashFlowStatementSection } from "./cashflow-statement/cashflow-statement.section";
+import { IncomeStatementSection } from "./income-statement/income-statement.section";
 
 const enum FinancialTabs {
   INCOME_STATEMENT = "Income Statement",
@@ -16,38 +19,38 @@ export const FinancialsPage = () => {
     <Content>
       <Title>Financials</Title>
 
-      <div style={{ display: "flex", gap: "20px", marginBottom: "10px" }}>
-        <button
-          className={
-            tab === FinancialTabs.INCOME_STATEMENT ? undefined : "secondary"
+      <Box style={{ display: "flex", gap: "20px", marginBottom: "10px" }}>
+        <Button
+          variant={
+            tab === FinancialTabs.INCOME_STATEMENT ? "contained" : "outlined"
           }
           onClick={() => setTab(FinancialTabs.INCOME_STATEMENT)}
         >
           Income Statement
-        </button>
-        <button
-          className={
-            tab === FinancialTabs.BALANCE_SHEET ? undefined : "secondary"
+        </Button>
+        <Button
+          variant={
+            tab === FinancialTabs.BALANCE_SHEET ? "contained" : "outlined"
           }
           onClick={() => setTab(FinancialTabs.BALANCE_SHEET)}
         >
           Balance Sheet
-        </button>
-        <button
-          className={tab === FinancialTabs.CASH_FLOW ? undefined : "secondary"}
+        </Button>
+        <Button
+          variant={tab === FinancialTabs.CASH_FLOW ? "contained" : "outlined"}
           onClick={() => setTab(FinancialTabs.CASH_FLOW)}
         >
           Cash Flow
-        </button>
-      </div>
+        </Button>
+      </Box>
 
       {tab === FinancialTabs.INCOME_STATEMENT ? (
         <IncomeStatementSection />
-      ) : (
-        <div>
-          <p>{tab} tab coming soon...</p>
-        </div>
-      )}
+      ) : tab === FinancialTabs.BALANCE_SHEET ? (
+        <BalanceSheetSection />
+      ) : tab === FinancialTabs.CASH_FLOW ? (
+        <CashFlowStatementSection />
+      ) : null}
     </Content>
   );
 };

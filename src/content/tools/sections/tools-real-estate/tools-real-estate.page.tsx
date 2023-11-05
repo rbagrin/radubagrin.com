@@ -1,6 +1,6 @@
 import React from "react";
 import { MAX_PAGE_WIDTH } from "../../../../css-style/style";
-import { RealEstateSection } from "../real-estate.section";
+import { RealEstateSection } from "./real-estate.section";
 
 export const ToolsRealEstatePage = () => {
   return (
