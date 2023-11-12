@@ -5,6 +5,7 @@ import {
   DarqubeBalanceSheetResponse,
   DarqubeCashFlowResponse,
   DarqubeIncomeStatementResponse,
+  DarqubeTickerMarketData,
   TickerNewsItem,
 } from "../../../types/stock.type";
 import { BarChart } from "../../../components/BarChart";
@@ -14,8 +15,17 @@ import { IncomeStatementStats } from "../financial-cards/income-statement-stats.
 import { CashFlowStatementStats } from "../financial-cards/cash-flow-statement-stats.component";
 import { OtherStats } from "../financial-cards/other-stats.component";
 import { NewsSection } from "./news.section";
+import { AverageStats } from "../financial-cards/average-stats.component";
 
-export const StockFinancials = ({ ticker }: { ticker: string }) => {
+const SHOW_AVERAGES = false;
+
+export const StockFinancials = ({
+  ticker,
+  tickerData,
+}: {
+  ticker: string;
+  tickerData: DarqubeTickerMarketData[];
+}) => {
   const [news, setNews] = useState<TickerNewsItem[]>([]);
   const [incomeStatement, setIncomeStatement] =
     useState<DarqubeIncomeStatementResponse>(undefined);
@@ -248,6 +258,13 @@ export const StockFinancials = ({ ticker }: { ticker: string }) => {
         )}
         {cashFlow && (
           <CashFlowStatementStats ticker={ticker} cashFlow={cashFlow} />
+        )}
+        {SHOW_AVERAGES && incomeStatement && (
+          <AverageStats
+            ticker={ticker}
+            incomeStatement={incomeStatement}
+            tickerData={tickerData}
+          />
         )}
         {companyOverview && (
           <OtherStats ticker={ticker} companyOverview={companyOverview} />

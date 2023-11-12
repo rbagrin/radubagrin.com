@@ -188,7 +188,7 @@ export const StocksPage = () => {
         </div>
       </Box>
 
-      <StockFinancials ticker={ticker} />
+      <StockFinancials ticker={ticker} tickerData={tickerData} />
 
       {isOpen && (
         <EditStocksDrawer
