@@ -5,6 +5,7 @@ import { CAGRSection } from "./cagr.section";
 import { InvestmentCalculatorSection } from "./investment-calculator.section";
 import { Box } from "@mui/material";
 import { Title } from "../../../../util/components/title.component";
+import { PESection } from "./pe.section";
 
 export const ToolsStocksPage = () => {
   return (
@@ -15,6 +16,7 @@ export const ToolsStocksPage = () => {
         <InvestmentCalculatorSection />
         <PresentValueSection />
         <CAGRSection />
+        <PESection />
       </Box>
     </Content>
   );
