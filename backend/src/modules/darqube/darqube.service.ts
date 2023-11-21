@@ -4,6 +4,8 @@ import { ApiClientService } from 'src/infra/http/api-client/api-client.service';
 import {
   DarqubeBalanceSheetResponse,
   DarqubeCashFlowResponse,
+  DarqubeEpsHistorical,
+  DarqubeEpsTrends,
   DarqubeIncomeStatementResponse,
   DarqubeTickerMarketData,
   DarqubeTickerNews,
@@ -107,6 +109,32 @@ export class DarqubeClientService extends ApiClientService {
       const { data } = await this.httpService
         .get<DarqubeTickerTweet[]>(
           `/fundamentals/media/tweets?token=${this.apiKey}&symbol=${ticker}&skip=0&limit=100&sort=desc`,
+        )
+        .toPromise();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getTickerEPSTrends(ticker: Ticker): Promise<DarqubeEpsTrends> {
+    try {
+      const { data } = await this.httpService
+        .get<DarqubeEpsTrends>(
+          `/fundamentals/stocks/eps_trends/${ticker}?token=${this.apiKey}`,
+        )
+        .toPromise();
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getTickerEPSHistorical(ticker: Ticker): Promise<DarqubeEpsHistorical> {
+    try {
+      const { data } = await this.httpService
+        .get<DarqubeEpsHistorical>(
+          `/fundamentals/stocks/eps_historical/${ticker}?token=${this.apiKey}`,
         )
         .toPromise();
       return data;

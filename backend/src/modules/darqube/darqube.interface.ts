@@ -176,3 +176,49 @@ export interface DarqubeTickerTweet {
   uname: string;
   uscreen_name: string;
 }
+
+interface EpsTrendEstimate {
+  epsRevisionsUpLast7days: number | null;
+  epsRevisionsUpLast30days: number | null;
+  epsRevisionsDownLast30days: number | null;
+  epsRevisionsDownLast90days: number | null;
+  epsTrendCurrent: number | null;
+  epsTrend7daysAgo: number | null;
+  epsTrend30daysAgo: number | null;
+  epsTrend60daysAgo: number | null;
+  epsTrend90daysAgo: number | null;
+  revenueEstimateAvg: number | null;
+  revenueEstimateLow: number | null;
+  revenueEstimateHigh: number | null;
+  revenueEstimateYearAgoEps: number | null;
+  revenueEstimateNumberOfAnalysts: number | null;
+  revenueEstimateGrowth: number | null;
+  earningsEstimateAvg: number | null;
+  earningsEstimateLow: number | null;
+  earningsEstimateHigh: number | null;
+  earningsEstimateYearAgoEps: number | null;
+  earningsEstimateNumberOfAnalysts: number | null;
+  earningsEstimateGrowth: number | null;
+  growth: number | null;
+  period: '0y' | '0q' | '+1q' | '+1y';
+  date: ISODate;
+}
+export interface DarqubeEpsTrends {
+  earnings_estimate: Record<ISODate, EpsTrendEstimate>;
+  revenue_estimate: Record<ISODate, EpsTrendEstimate>;
+  eps_revisions: Record<ISODate, EpsTrendEstimate>;
+  eps_trend: Record<ISODate, EpsTrendEstimate>;
+}
+
+interface EpsHistorical {
+  reportDate: ISODate;
+  date: ISODate;
+  beforeAfterMarket: 'AfterMarket' | 'BeforeMarket';
+  currency: 'USD' | 'EUR' | 'GBP';
+  epsActual: number;
+  epsEstimate: number;
+  epsDifference: number;
+  surprisePercent: number;
+}
+
+export type DarqubeEpsHistorical = Record<ISODate, EpsHistorical>;
