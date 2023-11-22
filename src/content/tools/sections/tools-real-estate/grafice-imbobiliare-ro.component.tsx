@@ -4,9 +4,9 @@ import {
   IMOBILIARE_2_CAMERE_BUCURESTI,
   IMOBILIARE_3_CAMERE_BUCURESTI,
   IMOBILIARE_APARTAMENTE_VECHI_SI_NOI_BUCURESTI,
-  IMOBILIARE_INDEX_ROMANIA,
 } from "../imobiliare";
 import React from "react";
+import { IMOBILIARE_INDEX_ROMANIA } from "../imobiliare-romania";
 
 export const GraficeImobiliareRo = () => (
   <div>

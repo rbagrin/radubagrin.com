@@ -5,6 +5,7 @@ import { FairValueCard } from "./fair-value-card.component";
 import { RentalYieldsCard } from "./rental-yields-card.component";
 import { GraficeImobiliareRo } from "./grafice-imbobiliare-ro.component";
 import { Box } from "@mui/material";
+import { MyOwnDataChart } from "./my-own-data-chart.component";
 
 export const RealEstateSection = () => {
   return (
@@ -14,6 +15,8 @@ export const RealEstateSection = () => {
         <FairValueCard />
 
         <RentalYieldsCard />
+
+        <MyOwnDataChart />
 
         <GraficeImobiliareRo />
       </Box>
