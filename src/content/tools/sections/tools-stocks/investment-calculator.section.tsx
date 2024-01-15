@@ -109,7 +109,7 @@ export const InvestmentCalculatorSection = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "flex-start",
-                mt: 2,
+                mt: 4,
                 alignItems: "center",
               }}
             >

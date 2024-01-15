@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { round } from "../../../../util/number.util";
 import { Input } from "../../../../components/forms/Input";
 import { Box, Typography } from "@mui/material";
+import { MathJax } from "better-react-mathjax";
 
 export const NetRentalYield = () => {
   const [monthlyRent, setMonthlyRent] = useState<number | "">(500);
@@ -20,23 +21,32 @@ export const NetRentalYield = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      <h3>Net Rental Yield</h3>
-      <code>
-        NetRentalYield = ((annualRent - 1monthRent - runningCosts) /
-        (purchasePrice + oneTimeCosts)) * 100%
-      </code>
+      <Typography variant="h6">Net Rental Yield</Typography>
+      <Typography variant="body1">
+        Net Rental Yield is a financial metric used in real estate investment to
+        assess the profitability of an income-generating property, taking into
+        account various expenses associated with property ownership. Unlike
+        Gross Rental Yield, which considers only the rental income in relation
+        to the property's cost, Net Rental Yield provides a more realistic
+        picture by deducting certain expenses from the income.
+      </Typography>
+      <Box sx={{ my: 2 }}>
+        <MathJax hideUntilTypeset={"first"}>
+          {`\\[NetRentalYield =\\left(\\frac{AnnualRent - 1MonthRent - RunningCosts}{PurchasePrice + OneTimeCosts}\\right)*100%\\]`}
+        </MathJax>
+      </Box>
 
-      <p>Suggested values:</p>
-      <ul>
-        <li>Running costs = 10% * annualRent</li>
-        <li>
-          One time costs (Mortgage arrangement fee / Solicitor's cost /
-          Maintenance) = ~5000
-        </li>
-      </ul>
+      <Typography variant="body1">Suggested values:</Typography>
+      <Typography variant="body1" sx={{ mt: 2 }}>
+        * Running costs = 10% * annualRent
+      </Typography>
+      <Typography variant="body1" sx={{ mt: 2 }}>
+        * One time costs (Mortgage arrangement fee / Solicitor's cost /
+        Maintenance) = ~5000
+      </Typography>
 
-      <Box style={{ display: "flex", gap: "20px" }}>
-        <div>
+      <Box sx={{ display: "flex", gap: "20px", mt: 4 }}>
+        <Box>
           <Input
             name="purchasePrice"
             label="Purchase price:"
@@ -51,8 +61,8 @@ export const NetRentalYield = () => {
             value={monthlyRent}
             setValue={setMonthlyRent}
           />
-        </div>
-        <div>
+        </Box>
+        <Box>
           <Input
             name="runningCosts"
             label="Running costs:"
@@ -67,7 +77,7 @@ export const NetRentalYield = () => {
             value={oneTimeCosts}
             setValue={setOneTimeCosts}
           />
-        </div>
+        </Box>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1, ml: 2 }}>
           <Typography variant="body2">Net Rental Yield</Typography>

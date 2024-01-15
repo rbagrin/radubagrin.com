@@ -31,6 +31,23 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { GlobalStateProvider } from "./util/global-state/global-state";
 
+import { MathJaxContext } from "better-react-mathjax";
+
+const config = {
+  loader: { load: ["[tex]/html"] },
+  tex: {
+    packages: { "[+]": ["html"] },
+    inlineMath: [
+      ["$", "$"],
+      ["\\(", "\\)"],
+    ],
+    displayMath: [
+      ["$$", "$$"],
+      ["\\[", "\\]"],
+    ],
+  },
+};
+
 const App = () => {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("isDarkModeEnabled") === "true"
@@ -56,35 +73,37 @@ const App = () => {
     <React.StrictMode>
       <ThemeProvider theme={appTheme}>
         <GlobalStateProvider initialState={{ darkMode }}>
-          <Box>
-            <CssBaseline />
-            <BrowserRouter>
-              <Navbar darkMode={darkMode} setDarkMode={setDarkMode}>
-                <Routes>
-                  <Route path={HOME_ROUTE} Component={HomePage} />
-                  <Route path={STOCKS_ROUTE} Component={StocksPage} />
-                  <Route path={NOTES_ROUTE} Component={NotesPage} />
-                  <Route
-                    path={TOOLS_ROUTE}
-                    element={<Navigate to={TOOLS_STOCKS_ROUTE} />}
-                  />
-                  <Route
-                    path={TOOLS_STOCKS_ROUTE}
-                    Component={ToolsStocksPage}
-                  />
-                  <Route
-                    path={TOOLS_REAL_ESTATE_ROUTE}
-                    Component={ToolsRealEstatePage}
-                  />
-                  <Route path={EDUCATION_ROUTE} Component={FinancialsPage} />
-                  <Route path={THEME_ROUTE} Component={ThemePage} />
-                  <Route path={ZBANG_ROUTE} Component={ZbangPage} />
+          <MathJaxContext version={3} config={config}>
+            <Box>
+              <CssBaseline />
+              <BrowserRouter>
+                <Navbar darkMode={darkMode} setDarkMode={setDarkMode}>
+                  <Routes>
+                    <Route path={HOME_ROUTE} Component={HomePage} />
+                    <Route path={STOCKS_ROUTE} Component={StocksPage} />
+                    <Route path={NOTES_ROUTE} Component={NotesPage} />
+                    <Route
+                      path={TOOLS_ROUTE}
+                      element={<Navigate to={TOOLS_STOCKS_ROUTE} />}
+                    />
+                    <Route
+                      path={TOOLS_STOCKS_ROUTE}
+                      Component={ToolsStocksPage}
+                    />
+                    <Route
+                      path={TOOLS_REAL_ESTATE_ROUTE}
+                      Component={ToolsRealEstatePage}
+                    />
+                    <Route path={EDUCATION_ROUTE} Component={FinancialsPage} />
+                    <Route path={THEME_ROUTE} Component={ThemePage} />
+                    <Route path={ZBANG_ROUTE} Component={ZbangPage} />
 
-                  <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
-                </Routes>
-              </Navbar>
-            </BrowserRouter>
-          </Box>
+                    <Route path="*" element={<Navigate to={HOME_ROUTE} />} />
+                  </Routes>
+                </Navbar>
+              </BrowserRouter>
+            </Box>
+          </MathJaxContext>
         </GlobalStateProvider>
       </ThemeProvider>
     </React.StrictMode>
