@@ -6,6 +6,7 @@ import { RentalYieldsCard } from "./rental-yields-card.component";
 import { GraficeImobiliareRo } from "./grafice-imbobiliare-ro.component";
 import { Box } from "@mui/material";
 import { MyOwnDataChart } from "./my-own-data-chart.component";
+import { ApartmentCalculator } from "./apartment-calculator.component";
 
 export const RealEstateSection = () => {
   return (
@@ -13,6 +14,8 @@ export const RealEstateSection = () => {
       <Title>Real estate</Title>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
         <FairValueCard />
+
+        <ApartmentCalculator />
 
         <RentalYieldsCard />
 
