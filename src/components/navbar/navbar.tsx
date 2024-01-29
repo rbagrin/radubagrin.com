@@ -15,11 +15,11 @@ import {
   EDUCATION_ROUTE,
   HOME_ROUTE,
   NOTES_ROUTE,
-  STOCKS_ROUTE,
+  RESEARCH_ROUTE,
   THEME_ROUTE,
-  TOOLS_REAL_ESTATE_ROUTE,
+  REAL_ESTATE,
   TOOLS_ROUTE,
-  TOOLS_STOCKS_ROUTE,
+  STOCKS,
   ZBANG_ROUTE,
 } from "../../util/routes";
 import { iconSize } from "../../css-style/style";
@@ -51,14 +51,14 @@ const NAVBAR_ITEMS = (darkModeEnabled = false) => [
   },
   {
     name: "Research",
-    path: STOCKS_ROUTE,
+    path: RESEARCH_ROUTE,
     icon: (
       <ArrowTrendUp {...iconSize} fill={darkModeEnabled ? "white" : "black"} />
     ),
     items: [
       {
         name: "Stocks",
-        path: STOCKS_ROUTE,
+        path: RESEARCH_ROUTE,
       },
       {
         name: "Notes",
@@ -74,11 +74,11 @@ const NAVBAR_ITEMS = (darkModeEnabled = false) => [
     items: [
       {
         name: "Stocks",
-        path: TOOLS_STOCKS_ROUTE,
+        path: STOCKS,
       },
       {
         name: "Real estate",
-        path: TOOLS_REAL_ESTATE_ROUTE,
+        path: REAL_ESTATE,
       },
     ],
   },

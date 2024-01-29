@@ -1,14 +1,15 @@
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent } from "@mui/material";
 import React from "react";
+import { Monospace } from "../../../components/monospace";
 
 export const TechStackCard = () => {
   return (
     <Card sx={{ flex: 1 }}>
       <CardContent>
         <Box sx={{ mb: 2 }}>
-          <Typography variant="h5">
+          <Monospace variant="h5" size="md">
             I design and develop experiences that make people's lives simple.
-          </Typography>
+          </Monospace>
         </Box>
 
         <Box

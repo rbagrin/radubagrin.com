@@ -5,7 +5,6 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  Typography,
 } from "@mui/material";
 import React, { useContext } from "react";
 
@@ -14,6 +13,7 @@ import { ReactComponent as Github } from "../../../icons/github.svg";
 import { ReactComponent as Envelope } from "../../../icons/envelope.svg";
 import { ReactComponent as Download } from "../../../icons/download.svg";
 import { GlobalState } from "../../../util/global-state/global-state";
+import { Monospace } from "../../../components/monospace";
 
 export const MainHomeCard = () => {
   const { state } = useContext(GlobalState);
@@ -28,16 +28,15 @@ export const MainHomeCard = () => {
         alt="Profile image"
       />
       <CardContent>
-        <Typography
-          variant="h2"
-          sx={{ fontWeight: "bold" }}
+        <Monospace
+          sx={{ fontWeight: "bold", fontSize: "3rem" }}
           color="text.secondary"
         >
           Radu Bagrin
-        </Typography>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }} color="secondary">
+        </Monospace>
+        <Monospace size="xl" sx={{ fontWeight: "bold" }} color="secondary">
           Full Stack Engineer
-        </Typography>
+        </Monospace>
         <Box
           sx={{
             mt: 2,
@@ -47,9 +46,9 @@ export const MainHomeCard = () => {
             alignItems: "end",
           }}
         >
-          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          <Monospace variant="h6" size="lg" sx={{ fontWeight: "bold" }}>
             Founding Engineer at
-          </Typography>
+          </Monospace>
           <Box sx={{ mb: 0.2 }}>
             <img
               src="https://zelt.app/wp-content/themes/zelt/assets/img/logo.svg"
@@ -66,11 +65,12 @@ export const MainHomeCard = () => {
             justifyContent: "center",
             gap: 0,
             alignItems: "end",
+            mb: 1,
           }}
         >
-          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          <Monospace variant="h6" size="lg" sx={{ fontWeight: "bold" }}>
             Ex-
-          </Typography>
+          </Monospace>
           <Box sx={{ mb: 0.2 }}>
             <img
               src="https://www.bitdefender.co.uk/content/dam/bitdefender/splitter-homepage/black_company_logo.svg"
@@ -92,7 +92,7 @@ export const MainHomeCard = () => {
             size="small"
             endIcon={<Linkedin />}
           >
-            <Typography>LinkedIn</Typography>
+            <Monospace size="sm">LinkedIn</Monospace>
           </Button>
           <Button
             variant="text"
@@ -103,7 +103,7 @@ export const MainHomeCard = () => {
             size="small"
             startIcon={<Github />}
           >
-            <Typography>GitHub</Typography>
+            <Monospace size="sm">GitHub</Monospace>
           </Button>
         </Box>
       </CardContent>
