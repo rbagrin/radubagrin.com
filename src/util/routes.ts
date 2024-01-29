@@ -1,5 +1,4 @@
 export const HOME_ROUTE = "/";
-export const RESEARCH_ROUTE = "/research";
 
 export const NOTES_ROUTE = "/notes";
 export const THEME_ROUTE = "/theme";
@@ -8,7 +7,11 @@ export const TOOLS_ROUTE = "/tools";
 // export const TOOLS_STOCKS_ROUTE = "/tools/stocks";
 // export const TOOLS_REAL_ESTATE_ROUTE = "/tools/real-estate";
 
-export const STOCKS = "/stocks";
-export const REAL_ESTATE = "/real-estate";
+export const PROGRAMMING_ROUTE = "/programming";
+export const SETTINGS_ROUTE = "/settings";
 
-export const EDUCATION_ROUTE = "/education";
+export const INVESTING_ROUTE = "/investing";
+export const INVESTING_STOCKS_ROUTE = "/investing/stocks";
+export const INVESTING_REAL_ESTATE_ROUTE = "/investing/real-estate";
+
+export const INVESTING_EDUCATION_ROUTE = "/investing/education";

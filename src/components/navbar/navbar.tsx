@@ -12,14 +12,14 @@ import { ReactComponent as Sun } from "../../icons/sun.svg";
 import { ReactComponent as Moon } from "../../icons/moon.svg";
 
 import {
-  EDUCATION_ROUTE,
+  INVESTING_EDUCATION_ROUTE,
   HOME_ROUTE,
   NOTES_ROUTE,
-  RESEARCH_ROUTE,
+  INVESTING_ROUTE,
   THEME_ROUTE,
-  REAL_ESTATE,
+  INVESTING_REAL_ESTATE_ROUTE,
   TOOLS_ROUTE,
-  STOCKS,
+  INVESTING_STOCKS_ROUTE,
   ZBANG_ROUTE,
 } from "../../util/routes";
 import { iconSize } from "../../css-style/style";
@@ -51,14 +51,14 @@ const NAVBAR_ITEMS = (darkModeEnabled = false) => [
   },
   {
     name: "Research",
-    path: RESEARCH_ROUTE,
+    path: INVESTING_ROUTE,
     icon: (
       <ArrowTrendUp {...iconSize} fill={darkModeEnabled ? "white" : "black"} />
     ),
     items: [
       {
         name: "Stocks",
-        path: RESEARCH_ROUTE,
+        path: INVESTING_ROUTE,
       },
       {
         name: "Notes",
@@ -74,17 +74,17 @@ const NAVBAR_ITEMS = (darkModeEnabled = false) => [
     items: [
       {
         name: "Stocks",
-        path: STOCKS,
+        path: INVESTING_STOCKS_ROUTE,
       },
       {
         name: "Real estate",
-        path: REAL_ESTATE,
+        path: INVESTING_REAL_ESTATE_ROUTE,
       },
     ],
   },
   {
     name: "Education",
-    path: EDUCATION_ROUTE,
+    path: INVESTING_EDUCATION_ROUTE,
     icon: (
       <Education {...iconSize} fill={darkModeEnabled ? "white" : "black"} />
     ),

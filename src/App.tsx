@@ -5,20 +5,21 @@ import { HomePage } from "./content/home/home.page";
 import { StocksPage } from "./content/stocks/stocks.page";
 import { ThemePage } from "./content/theme/theme.page";
 import {
-  EDUCATION_ROUTE,
+  INVESTING_EDUCATION_ROUTE,
   HOME_ROUTE,
   NOTES_ROUTE,
-  RESEARCH_ROUTE,
+  INVESTING_ROUTE,
   THEME_ROUTE,
-  REAL_ESTATE,
+  INVESTING_REAL_ESTATE_ROUTE,
   TOOLS_ROUTE,
-  STOCKS,
+  INVESTING_STOCKS_ROUTE,
   ZBANG_ROUTE,
+  PROGRAMMING_ROUTE,
+  SETTINGS_ROUTE,
 } from "./util/routes";
 import { FinancialsPage } from "./content/education/financials/financials.page";
 import { ToolsStocksPage } from "./content/tools/sections/tools-stocks/tools-stocks.page";
 import { ToolsRealEstatePage } from "./content/tools/sections/tools-real-estate/tools-real-estate.page";
-import { Navbar } from "./components/navbar/navbar";
 import { NotesPage } from "./content/stocks/notes/notes.page";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -33,6 +34,8 @@ import { GlobalStateProvider } from "./util/global-state/global-state";
 
 import { MathJaxContext } from "better-react-mathjax";
 import { HorizontalNavbar } from "./components/navbar/horizontal-navbar";
+import { ProgrammingPage } from "./content/programming/programming.page";
+import { SettingsPage } from "./content/settings/settings.page";
 
 const config = {
   loader: { load: ["[tex]/html"] },
@@ -82,15 +85,35 @@ const App = () => {
                 {/*<Navbar darkMode={darkMode} setDarkMode={setDarkMode}>*/}
                 <Routes>
                   <Route path={HOME_ROUTE} Component={HomePage} />
-                  <Route path={RESEARCH_ROUTE} Component={StocksPage} />
+                  <Route path={PROGRAMMING_ROUTE} Component={ProgrammingPage} />
+                  <Route path={INVESTING_ROUTE} Component={StocksPage} />
+                  <Route
+                    path={SETTINGS_ROUTE}
+                    element={
+                      <SettingsPage
+                        darkMode={darkMode}
+                        setDarkMode={setDarkMode}
+                      />
+                    }
+                  />
+
                   <Route path={NOTES_ROUTE} Component={NotesPage} />
                   <Route
                     path={TOOLS_ROUTE}
-                    element={<Navigate to={STOCKS} />}
+                    element={<Navigate to={INVESTING_STOCKS_ROUTE} />}
                   />
-                  <Route path={STOCKS} Component={ToolsStocksPage} />
-                  <Route path={REAL_ESTATE} Component={ToolsRealEstatePage} />
-                  <Route path={EDUCATION_ROUTE} Component={FinancialsPage} />
+                  <Route
+                    path={INVESTING_STOCKS_ROUTE}
+                    Component={ToolsStocksPage}
+                  />
+                  <Route
+                    path={INVESTING_REAL_ESTATE_ROUTE}
+                    Component={ToolsRealEstatePage}
+                  />
+                  <Route
+                    path={INVESTING_EDUCATION_ROUTE}
+                    Component={FinancialsPage}
+                  />
                   <Route path={THEME_ROUTE} Component={ThemePage} />
                   <Route path={ZBANG_ROUTE} Component={ZbangPage} />
 

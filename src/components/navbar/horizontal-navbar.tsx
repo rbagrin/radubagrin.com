@@ -1,37 +1,67 @@
-import * as React from "react";
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 
 import Container from "@mui/material/Container";
 import {
-  EDUCATION_ROUTE,
+  INVESTING_EDUCATION_ROUTE,
   HOME_ROUTE,
-  NOTES_ROUTE,
-  RESEARCH_ROUTE,
-  THEME_ROUTE,
-  REAL_ESTATE,
-  STOCKS,
-  ZBANG_ROUTE,
+  INVESTING_ROUTE,
+  INVESTING_REAL_ESTATE_ROUTE,
+  INVESTING_STOCKS_ROUTE,
+  PROGRAMMING_ROUTE,
+  SETTINGS_ROUTE,
 } from "../../util/routes";
-import { useMatch } from "react-router-dom";
-import { Colors } from "../../css-style/colors";
+import { useLocation, useMatch, useNavigate } from "react-router-dom";
 import { Monospace } from "../monospace";
+import { Menu, MenuItem } from "@mui/material";
 
-const HOME_ROUTE_OBJ = () => ({
-  name: "Home",
-  path: HOME_ROUTE,
-});
+interface NavbarItem {
+  name: string;
+  path: string;
+  items?: NavbarItem[];
+  hidden?: boolean;
+}
 
-const NAVBAR_ITEMS = () => {
+const MAIN_NAVBAR_ITEMS = () => {
   return [
-    { name: "Research", path: RESEARCH_ROUTE },
-    { name: "Notes", path: NOTES_ROUTE, hidden: true },
-    { name: "Stocks", path: STOCKS },
-    { name: "Real_estate", path: REAL_ESTATE },
-    { name: "Education", path: EDUCATION_ROUTE },
-    { name: "Theme", path: THEME_ROUTE, hidden: true },
-    { name: "Zbang", path: ZBANG_ROUTE, hidden: true },
+    { name: "Home", path: HOME_ROUTE },
+    { name: "Programming", path: PROGRAMMING_ROUTE },
+    { name: "Investing", path: INVESTING_ROUTE },
+    { name: "Settings", path: SETTINGS_ROUTE },
+  ];
+};
+const NAVBAR_ITEMS = (darkModeEnabled: boolean): NavbarItem[] => {
+  return [
+    {
+      name: "Home",
+      path: HOME_ROUTE,
+      items: [
+        { name: "Programming", path: PROGRAMMING_ROUTE },
+        { name: "Investing", path: INVESTING_ROUTE },
+        { name: "Settings", path: SETTINGS_ROUTE },
+      ],
+    },
+    {
+      name: "Programming",
+      path: PROGRAMMING_ROUTE,
+      items: [
+        { name: "Page 1", path: PROGRAMMING_ROUTE },
+        { name: "Page 2", path: "/page2" },
+      ],
+    },
+    {
+      name: "Investing",
+      path: INVESTING_ROUTE,
+      items: [
+        { name: "Research", path: INVESTING_ROUTE },
+        { name: "Stocks", path: INVESTING_STOCKS_ROUTE },
+        { name: "Real_estate", path: INVESTING_REAL_ESTATE_ROUTE },
+        { name: "Education", path: INVESTING_EDUCATION_ROUTE },
+      ],
+    },
+    { name: "Settings", path: SETTINGS_ROUTE },
   ];
 };
 
@@ -40,22 +70,26 @@ export function HorizontalNavbar({
 }: {
   readonly darkModeEnabled: boolean;
 }) {
-  const homeRoute = HOME_ROUTE_OBJ();
-  const visibleRoutes = NAVBAR_ITEMS().filter((r) => !r.hidden);
+  const location = useLocation();
+  const visibleRoutes = NAVBAR_ITEMS(darkModeEnabled).filter((r) => !r.hidden);
+  const currentItem = visibleRoutes.find(
+    (r) =>
+      (location.pathname === HOME_ROUTE && r.path === HOME_ROUTE) ||
+      (location.pathname !== HOME_ROUTE &&
+        r.path !== HOME_ROUTE &&
+        location.pathname.startsWith(r.path))
+  );
 
   return (
     <AppBar position="static" sx={{ mb: 2 }}>
-      <Container
-        maxWidth="xl"
-        sx={{ display: "flex", justifyContent: "center" }}
-      >
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <MenuButton route={homeRoute} />
-
+          {/* TODO: add home button here when not on home screen */}
+          <MenuButton key={currentItem.name} route={currentItem} dropdown />
           <Box
-            sx={{ ml: 4, display: "flex", justifyContent: "center", gap: 1 }}
+            sx={{ ml: 4, display: "flex", justifyContent: "center", gap: 0 }}
           >
-            {visibleRoutes.map((item) => (
+            {currentItem.items?.map((item) => (
               <MenuButton key={item.name} route={item} />
             ))}
           </Box>
@@ -66,35 +100,72 @@ export function HorizontalNavbar({
 }
 
 interface MenuButtonProps {
-  readonly route: {
-    path: string;
-    name: string;
-    hidden?: boolean;
-  };
+  readonly route: NavbarItem;
   readonly fontSize?: string;
+  readonly dropdown?: boolean;
 }
 
-const MenuButton = ({ route, fontSize }: MenuButtonProps) => {
+const MenuButton = ({ route, fontSize, dropdown = false }: MenuButtonProps) => {
+  const navigate = useNavigate();
+
   const isActive = useMatch(route.path);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = (path?: string) => {
+    if (path) handleMenuBtnClick(path);
+    setAnchorEl(null);
+  };
+
+  const handleMenuBtnClick = (path?: string) => {
+    navigate(path ?? route.path);
+  };
 
   return route.hidden ? null : (
-    <Monospace
-      variant="h6"
-      noWrap
-      component="a"
-      href={route.path}
-      sx={{
-        mr: 2,
-        // display: { xs: "none", md: "flex" },
-        fontSize: fontSize ?? "0.8rem",
-        // fontFamily: "monospace",
-        fontWeight: 700,
-        letterSpacing: ".1rem",
-        color: isActive ? Colors.Purple : "inherit",
-        textDecoration: isActive ? undefined : "none",
-      }}
-    >
-      {route.name}
-    </Monospace>
+    <Box>
+      <Monospace
+        variant="h6"
+        noWrap
+        component="a"
+        onClick={dropdown ? handleClick : () => handleMenuBtnClick()}
+        sx={{
+          mr: 2,
+          // display: { xs: "none", md: "flex" },
+          fontSize: fontSize ?? "0.8rem",
+          // fontFamily: "monospace",
+          fontWeight: 700,
+          letterSpacing: ".1rem",
+          // color: isActive ? Colors.Purple : "inherit",
+          textDecoration: isActive ? undefined : "none",
+          py: 2,
+          px: 1,
+          cursor: "pointer",
+        }}
+      >
+        {route.name}
+      </Monospace>
+
+      {dropdown && (
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={() => handleClose()}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          {MAIN_NAVBAR_ITEMS().map((r) => (
+            <MenuItem key={r.name} onClick={() => handleClose(r.path)}>
+              <Monospace component="a" sx={{ textDecoration: "none" }}>
+                {r.name}
+              </Monospace>
+            </MenuItem>
+          ))}
+        </Menu>
+      )}
+    </Box>
   );
 };
