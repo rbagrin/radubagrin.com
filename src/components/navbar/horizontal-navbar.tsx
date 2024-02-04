@@ -83,9 +83,20 @@ export function HorizontalNavbar({
   return (
     <AppBar position="static" sx={{ mb: 2 }}>
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          {/* TODO: add home button here when not on home screen */}
-          <MenuButton key={currentItem.name} route={currentItem} dropdown />
+        <Toolbar disableGutters sx={{ display: "flex", alignItems: "center" }}>
+          {location.pathname !== HOME_ROUTE && (
+            <MenuButton
+              key="home-main"
+              route={{ name: "Home", path: HOME_ROUTE }}
+            />
+          )}
+          {location.pathname !== HOME_ROUTE && (
+            <MenuButton
+              key={currentItem.name}
+              route={currentItem}
+              dropdown={location.pathname !== HOME_ROUTE}
+            />
+          )}
           <Box
             sx={{ ml: 4, display: "flex", justifyContent: "center", gap: 0 }}
           >
