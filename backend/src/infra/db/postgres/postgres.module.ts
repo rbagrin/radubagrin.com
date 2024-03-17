@@ -45,6 +45,7 @@ import { PostgresConfigModule } from './postgres-config/postgres-config.module';
         //   );
         // },
         models: [ChamberEntity],
+        migrationsPath: '/test',
       }),
       inject: [PostgresConfigService],
     } as SequelizeModuleOptions),
