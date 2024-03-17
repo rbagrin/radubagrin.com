@@ -1,12 +1,17 @@
 import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { CustomerService } from './customer/customer.service';
 import { ChamberService } from './chamber/chamber.service';
-import { Customer } from './customer/customer.interface';
+import {
+  CreateCustomerResponse,
+  Customer,
+} from './customer/customer.interface';
 import { Chamber } from './chamber/chamber.interface';
 import { CreateCustomerDto } from './customer/dto/create-customer.dto';
 import { ResponseInterceptor } from '../../infra/interceptors/response.interceptor';
 import { CustomerDto } from './customer/dto/customer.dto';
 import { ChamberDto } from './chamber/dto/chamber.dto';
+import { validateInput } from '../../infra/validation/validation.util';
+import { CreateCustomerSchema } from './customer/customer.util';
 
 @Controller('/api/fibre-network')
 export class FibreNetworkController {
@@ -28,8 +33,11 @@ export class FibreNetworkController {
   }
 
   @Post('/customers')
-  // TODO: Validate input
-  async createCustomer(@Body() data: CreateCustomerDto): Promise<void> {
-    await this.customerService.createCustomer(data);
+  async createCustomer(
+    @Body() data: CreateCustomerDto,
+  ): Promise<CreateCustomerResponse> {
+    await validateInput(data, CreateCustomerSchema);
+
+    return this.customerService.createCustomer(data);
   }
 }
