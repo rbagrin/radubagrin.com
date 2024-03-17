@@ -25,16 +25,22 @@ export class ChamberEntity extends Model {
   @Column({ type: DataType.FLOAT, allowNull: false })
   longitude: number;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
-  totalCapacity: number;
-
-  @Column({ type: DataType.INTEGER, allowNull: false })
-  usedCapacity: number;
-
   @Column({ type: DataTypes.GEOGRAPHY('POINT', 4326), allowNull: false })
   geom: {
     coordinates: number[];
     type: 'Point';
     crs: Record<string, unknown>;
   };
+
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  totalCapacity: number;
+
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  usedCapacity: number;
+
+  @Column({ type: DataType.DATE })
+  createdAt: Date;
+
+  @Column({ type: DataType.DATE })
+  updatedAt: Date;
 }

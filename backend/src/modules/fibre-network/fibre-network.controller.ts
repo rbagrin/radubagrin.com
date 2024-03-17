@@ -1,17 +1,35 @@
-import { Controller, Get } from '@nestjs/common';
-import { FibreNetworkService } from './fibre-network.service';
-import { CustomerEntity } from './customer/customer.entity';
-import { ChamberEntity } from './chamber/chamber.entity';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { CustomerService } from './customer/customer.service';
+import { ChamberService } from './chamber/chamber.service';
+import { Customer } from './customer/customer.interface';
+import { Chamber } from './chamber/chamber.interface';
+import { CreateCustomerDto } from './customer/dto/create-customer.dto';
+import { ResponseInterceptor } from '../../infra/interceptors/response.interceptor';
+import { CustomerDto } from './customer/dto/customer.dto';
+import { ChamberDto } from './chamber/dto/chamber.dto';
 
-@Controller('/fibre-network')
+@Controller('/api/fibre-network')
 export class FibreNetworkController {
-  constructor(private readonly fibreNetworkService: FibreNetworkService) {}
+  constructor(
+    private customerService: CustomerService,
+    private chamberService: ChamberService,
+  ) {}
 
-  @Get('/all')
-  async getAll(): Promise<{
-    customers: CustomerEntity[];
-    chambers: ChamberEntity[];
-  }> {
-    return this.fibreNetworkService.findAllChambersAndCustomers();
+  @Get('/chambers')
+  @UseInterceptors(new ResponseInterceptor(ChamberDto))
+  async getAllChambers(): Promise<Chamber[]> {
+    return this.chamberService.findAll();
+  }
+
+  @Get('/customers')
+  @UseInterceptors(new ResponseInterceptor(CustomerDto))
+  async getAllCustomers(): Promise<Customer[]> {
+    return this.customerService.findAll();
+  }
+
+  @Post('/customers')
+  // TODO: Validate input
+  async createCustomer(@Body() data: CreateCustomerDto): Promise<void> {
+    await this.customerService.createCustomer(data);
   }
 }

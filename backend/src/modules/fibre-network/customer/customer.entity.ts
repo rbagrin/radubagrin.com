@@ -59,5 +59,11 @@ export class CustomerEntity extends Model {
     onUpdate: 'cascade',
     onDelete: 'restrict',
   })
-  chamber_id: string | null;
+  chamberId: string | null;
+
+  @Column({ type: DataType.DATE })
+  createdAt: Date;
+
+  @Column({ type: DataType.DATE })
+  updatedAt: Date;
 }
