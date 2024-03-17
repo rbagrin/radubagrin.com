@@ -8,6 +8,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from './infra/config/config.module';
 import { ConfigService } from './infra/config/config.service';
 import { UserModule } from './modules/user/user.module';
+import { PostgresDatabaseProviderModule } from './infra/db/postgres/postgres.module';
+import { ChamberModule } from './modules/fibre-network/chamber/chamber.module';
 
 @Module({
   imports: [
@@ -20,8 +22,10 @@ import { UserModule } from './modules/user/user.module';
       useFactory: async (configService: ConfigService) =>
         configService.getMongoConfig(),
     }),
+    PostgresDatabaseProviderModule,
     StockModule,
     UserModule,
+    ChamberModule,
   ],
   controllers: [AppController],
   providers: [AppService],
