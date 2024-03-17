@@ -2,20 +2,39 @@ import {
   Table,
   Column,
   Model,
-  AutoIncrement,
   PrimaryKey,
   AllowNull,
+  DataType,
 } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
 
 @Table({
-  tableName: 'chamber',
-  modelName: 'chamber',
+  tableName: 'chambers',
+  modelName: 'chambers',
   underscored: true,
 })
 export class ChamberEntity extends Model {
   @PrimaryKey
-  @AutoIncrement
   @AllowNull(false)
   @Column
-  declare id: number;
+  declare id: string;
+
+  @Column({ type: DataType.FLOAT, allowNull: false })
+  latitude: number;
+
+  @Column({ type: DataType.FLOAT, allowNull: false })
+  longitude: number;
+
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  totalCapacity: number;
+
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  usedCapacity: number;
+
+  @Column({ type: DataTypes.GEOGRAPHY('POINT', 4326), allowNull: false })
+  geom: {
+    coordinates: number[];
+    type: 'Point';
+    crs: Record<string, unknown>;
+  };
 }
