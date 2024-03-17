@@ -3,6 +3,7 @@ import { SequelizeModule, SequelizeModuleOptions } from '@nestjs/sequelize';
 import { ChamberEntity } from '../../../modules/fibre-network/chamber/chamber.entity';
 import { PostgresConfigService } from './postgres-config/postgres-config.service';
 import { PostgresConfigModule } from './postgres-config/postgres-config.module';
+import { CustomerEntity } from '../../../modules/fibre-network/customer/customer.entity';
 
 @Module({
   imports: [
@@ -29,23 +30,7 @@ import { PostgresConfigModule } from './postgres-config/postgres-config.module';
           idle: 60_000,
         },
         logging: console.log,
-        // logging(sql: string, executionTime: number) {
-        //   const sqlLength = sql.length;
-        //   // truncate large queries before logging
-        //   const loggedSql =
-        //     sqlLength > 1024
-        //       ? `${sql.slice(0, 500)} ... ${sql.slice(-500)}`
-        //       : sql;
-        //   console.debug(
-        //     loggedSql,
-        //     // if benchmark is false, the second parameter to this logging function is a class definition, (not a number or undefined)
-        //     benchmark
-        //       ? { executionTime, sqlLength, idx: (sqlidx += 1) }
-        //       : undefined,
-        //   );
-        // },
-        models: [ChamberEntity],
-        migrationsPath: '/test',
+        models: [ChamberEntity, CustomerEntity],
       }),
       inject: [PostgresConfigService],
     } as SequelizeModuleOptions),

@@ -9,7 +9,7 @@ import { ConfigModule } from './infra/config/config.module';
 import { ConfigService } from './infra/config/config.service';
 import { UserModule } from './modules/user/user.module';
 import { PostgresDatabaseProviderModule } from './infra/db/postgres/postgres.module';
-import { ChamberModule } from './modules/fibre-network/chamber/chamber.module';
+import { FibreNetworkModule } from './modules/fibre-network/fibre-network.module';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { ChamberModule } from './modules/fibre-network/chamber/chamber.module';
     PostgresDatabaseProviderModule,
     StockModule,
     UserModule,
-    ChamberModule,
+    FibreNetworkModule,
   ],
   controllers: [AppController],
   providers: [AppService],
