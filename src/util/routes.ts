@@ -8,6 +8,10 @@ export const TOOLS_ROUTE = "/tools";
 // export const TOOLS_REAL_ESTATE_ROUTE = "/tools/real-estate";
 
 export const PROGRAMMING_ROUTE = "/programming";
+export const PROGRAMMING_FIBRE_NETWORK_ROUTE = "/programming/fibre-network";
+export const PROGRAMMING_PROJECT2_ROUTE = "/programming/project2";
+export const PROGRAMMING_PROJECT3_ROUTE = "/programming/project3";
+
 export const SETTINGS_ROUTE = "/settings";
 
 export const INVESTING_ROUTE = "/investing";

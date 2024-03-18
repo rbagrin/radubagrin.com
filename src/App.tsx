@@ -85,7 +85,10 @@ const App = () => {
                 {/*<Navbar darkMode={darkMode} setDarkMode={setDarkMode}>*/}
                 <Routes>
                   <Route path={HOME_ROUTE} Component={HomePage} />
-                  <Route path={PROGRAMMING_ROUTE} Component={ProgrammingPage} />
+                  <Route
+                    path={`${PROGRAMMING_ROUTE}/*`}
+                    Component={ProgrammingPage}
+                  />
                   <Route path={INVESTING_ROUTE} Component={StocksPage} />
                   <Route
                     path={SETTINGS_ROUTE}
