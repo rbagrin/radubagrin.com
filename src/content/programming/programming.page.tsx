@@ -2,7 +2,6 @@ import React from "react";
 import { Box } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import {
-  PROGRAMMING_FIBRE_NETWORK_ROUTE,
   PROGRAMMING_PROJECT2_ROUTE,
   PROGRAMMING_PROJECT3_ROUTE,
   PROGRAMMING_ROUTE,
@@ -10,6 +9,7 @@ import {
 import { FibreNetworkPage } from "./projects/fibre-network/fibre-network.page";
 import { ProjectCard } from "./projects/components/project-card.component";
 import { DummyProject } from "./projects/fibre-network/dummy-project.component";
+import { FIBRE_NETWORK_HOME_ROUTE } from "./projects/fibre-network/fibre-network.routes";
 
 const handleRouterPath = (path: string): string => {
   return path.split(PROGRAMMING_ROUTE)[1] ?? "/";
@@ -30,7 +30,7 @@ export const ProgrammingPage = () => {
         <ProjectCard
           key="fibre-network"
           title="Fibre Network"
-          path={PROGRAMMING_FIBRE_NETWORK_ROUTE}
+          path={FIBRE_NETWORK_HOME_ROUTE}
         />
         <ProjectCard
           key="project2"
@@ -46,7 +46,7 @@ export const ProgrammingPage = () => {
       {/*<Box sx={{ bgcolor: "red", padding: 10 }}>*/}
       <Routes>
         <Route
-          path={handleRouterPath(PROGRAMMING_FIBRE_NETWORK_ROUTE)}
+          path={handleRouterPath(FIBRE_NETWORK_HOME_ROUTE)}
           Component={FibreNetworkPage}
         />
         <Route
