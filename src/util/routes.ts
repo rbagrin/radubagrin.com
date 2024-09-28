@@ -15,3 +15,4 @@ export const INVESTING_STOCKS_ROUTE = "/investing/stocks";
 export const INVESTING_REAL_ESTATE_ROUTE = "/investing/real-estate";
 
 export const INVESTING_EDUCATION_ROUTE = "/investing/education";
+export const INVESTING_SCREENER_TOOL_ROUTE = "/investing/screener";

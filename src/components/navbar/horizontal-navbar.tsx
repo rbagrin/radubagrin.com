@@ -12,6 +12,7 @@ import {
   INVESTING_STOCKS_ROUTE,
   PROGRAMMING_ROUTE,
   SETTINGS_ROUTE,
+  INVESTING_SCREENER_TOOL_ROUTE,
 } from "../../util/routes";
 import { useLocation, useMatch, useNavigate } from "react-router-dom";
 import { Monospace } from "../monospace";
@@ -59,6 +60,7 @@ const NAVBAR_ITEMS = (darkModeEnabled: boolean): NavbarItem[] => {
         { name: "Stocks", path: INVESTING_STOCKS_ROUTE },
         { name: "Real_estate", path: INVESTING_REAL_ESTATE_ROUTE },
         { name: "Education", path: INVESTING_EDUCATION_ROUTE },
+        { name: "Screener", path: INVESTING_SCREENER_TOOL_ROUTE },
       ],
     },
     { name: "Settings", path: SETTINGS_ROUTE },

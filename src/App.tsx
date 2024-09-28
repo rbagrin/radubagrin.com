@@ -16,6 +16,7 @@ import {
   ZBANG_ROUTE,
   PROGRAMMING_ROUTE,
   SETTINGS_ROUTE,
+  INVESTING_SCREENER_TOOL_ROUTE,
 } from "./util/routes";
 import { FinancialsPage } from "./content/education/financials/financials.page";
 import { ToolsStocksPage } from "./content/tools/sections/tools-stocks/tools-stocks.page";
@@ -36,6 +37,7 @@ import { MathJaxContext } from "better-react-mathjax";
 import { HorizontalNavbar } from "./components/navbar/horizontal-navbar";
 import { ProgrammingPage } from "./content/programming/programming.page";
 import { SettingsPage } from "./content/settings/settings.page";
+import { ScreenerPage } from "./content/education/screener/screener.page";
 
 const config = {
   loader: { load: ["[tex]/html"] },
@@ -113,6 +115,10 @@ const App = () => {
                   <Route
                     path={INVESTING_EDUCATION_ROUTE}
                     Component={FinancialsPage}
+                  />
+                  <Route
+                    path={INVESTING_SCREENER_TOOL_ROUTE}
+                    Component={ScreenerPage}
                   />
                   <Route path={THEME_ROUTE} Component={ThemePage} />
                   <Route path={ZBANG_ROUTE} Component={ZbangPage} />

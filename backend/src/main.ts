@@ -8,7 +8,6 @@ async function bootstrap() {
   //   dotenv.config();
   // }
 
-  console.log('AAA');
   const app = await NestFactory.create(AppModule, { bodyParser: true });
   const config = new ConfigService();
 

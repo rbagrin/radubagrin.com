@@ -1,5 +1,12 @@
-import { Box, SwipeableDrawer, Typography } from "@mui/material";
-import React, { ReactNode } from "react";
+import { Box, Drawer, Typography } from "@mui/material";
+import React, { ReactNode, useCallback } from "react";
+
+const DEFAULT_WIDTH = "600px";
+const widthToCss = {
+  normal: DEFAULT_WIDTH,
+  medium: "50vw",
+  full: "95vw",
+};
 
 interface DrawerProps {
   readonly isOpen: boolean;
@@ -8,7 +15,10 @@ interface DrawerProps {
   readonly children: ReactNode;
   readonly anchor?: "left" | "top" | "right" | "bottom";
   readonly onClose?: Function;
+  readonly afterClose?: Function;
+  readonly width?: "normal" | "medium" | "full";
 }
+
 export const MyDrawer = ({
   isOpen,
   setIsOpen,
@@ -16,23 +26,34 @@ export const MyDrawer = ({
   children,
   anchor = "right",
   onClose,
+  afterClose,
+  width = "normal",
 }: DrawerProps) => {
+  const closeDrawer = useCallback(() => {
+    if (onClose) onClose();
+    setIsOpen(false);
+
+    // Set a timeout to run after 300ms when the drawer is closed
+    setTimeout(() => {
+      if (afterClose) afterClose();
+    }, 300); // 300ms delay
+  }, [onClose, setIsOpen, afterClose]);
+
   return (
-    <React.Fragment>
-      <SwipeableDrawer
-        open={isOpen}
-        anchor={anchor}
-        onClose={() => {
-          if (onClose) onClose();
-          setIsOpen(false);
-        }}
-        onOpen={() => setIsOpen(true)}
-      >
-        <Box sx={{ width: "600px", p: 4 }}>
-          <Typography variant="h2">{title}</Typography>
-          <Box sx={{ mt: 4 }}>{children}</Box>
-        </Box>
-      </SwipeableDrawer>
-    </React.Fragment>
+    <Drawer
+      open={isOpen}
+      anchor={anchor}
+      onClose={closeDrawer}
+      slotProps={{
+        backdrop: {
+          onClick: closeDrawer,
+        },
+      }}
+    >
+      <Box sx={{ width: widthToCss[width] ?? DEFAULT_WIDTH, p: 4 }}>
+        <Typography variant="h2">{title}</Typography>
+        <Box sx={{ mt: 4 }}>{children}</Box>
+      </Box>
+    </Drawer>
   );
 };
