@@ -14,6 +14,7 @@ export const Colors = {
   DarkRed: "#E74C3C",
   MediumRed: "#EC7063",
   LightRed: "#F1948A",
+  BlueLight: "#2196F3",
 };
 
 export type ColorType = typeof Colors[keyof typeof Colors];

@@ -1,11 +1,9 @@
-import { Box, Tooltip } from "@mui/material";
+import { Box } from "@mui/material";
 import { MyCheckbox } from "@/components/MyCheckbox";
 import { MyInput } from "@/components/MyInput";
 import { Score } from "@/content/education/screener/screener.types";
 import React from "react";
 import Editor from "react-simple-wysiwyg";
-import { iconSize } from "@/css-style/style";
-import { ReactComponent as Save } from "@/icons/save.svg";
 
 interface ScoreProps {
   readonly label: string;
@@ -22,13 +20,8 @@ export const ScoreField = ({ label, checked, onChange, score, setScore, notes, s
   return (
     <Box>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <MyCheckbox label={label} checked={checked} onChange={onChange} />
+        <MyCheckbox label={label} checked={checked} onChange={onChange} tooltipText={info} />
 
-          <Tooltip title={info}>
-            <Save {...iconSize} />
-          </Tooltip>
-        </Box>
         {checked && (
           <MyInput
             type="number"

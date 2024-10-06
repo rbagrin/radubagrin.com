@@ -1,6 +1,5 @@
 // craco.config.js
 const CracoAlias = require("craco-alias");
-const { join, resolve } = require("node:path");
 
 module.exports = {
   plugins: [
