@@ -1,4 +1,12 @@
-export type Grade = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+export type Score = number;
+
+export type ScoreData = {
+  title: string;
+  enabled: boolean;
+  score: Score;
+  notes: string;
+  info: string;
+};
 
 export enum ScreenerStockDecision {
   BUY = "BUY",
@@ -6,30 +14,21 @@ export enum ScreenerStockDecision {
   SELL = "SELL",
 }
 
+export type ScoreSection = {
+  avgGrade: Score;
+  overviewNotes: string;
+  data: ScoreData[];
+};
+
 export type ScreenerStockData = {
   name: string;
   ticker: string;
-  totalAvgGrade: Grade;
+  totalAvgGrade: Score;
   decision: ScreenerStockDecision | null;
   notes: string;
-  valuation: {
-    avgGrade: Grade;
-    notes: string;
-  };
-  ratios: {
-    avgGrade: Grade;
-    notes: string;
-  };
-  incomeStatement: {
-    avgGrade: Grade;
-    notes: string;
-  };
-  balanceSheet: {
-    avgGrade: Grade;
-    notes: string;
-  };
-  cashFlowStatement: {
-    avgGrade: Grade;
-    notes: string;
-  };
+  valuation: ScoreSection;
+  ratios: ScoreSection;
+  incomeStatement: ScoreSection;
+  balanceSheet: ScoreSection;
+  cashFlowStatement: ScoreSection;
 };

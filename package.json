@@ -6,11 +6,11 @@
   "allowImportingTsExtensions": true,
   "scripts": {
     "start": "node ./backend/dist/main",
-    "start:dev": "react-scripts start",
+    "start:dev": "craco start",
     "build": "npm run --prefix ./backend prebuild && npm run --prefix ./backend build",
-    "build-fe": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build-fe": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [
@@ -55,11 +55,13 @@
     "npm": "^9.6.5",
     "react-chartjs-2": "^5.2.0",
     "react-router-dom": "^6.10.0",
+    "react-simple-wysiwyg": "^3.1.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
@@ -72,6 +74,7 @@
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
+    "craco-alias": "^3.0.1",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",

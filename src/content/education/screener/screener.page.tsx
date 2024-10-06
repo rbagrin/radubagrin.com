@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import { Title } from "../../../util/components/title.component";
 import { Content } from "../../../util/components/content.component";
-import { ScreenerIncomeStatementDrawer } from "./components/drawers/screener-income-statement-drawer.component";
 import { Grid } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { Colors, ColorType, darkenColor } from "../../../css-style/colors";
-import { Grade, ScreenerStockData } from "./screener.types";
-import { ScreenerBalanceSheetDrawer } from "./components/drawers/screener-balance-sheet-drawer.component";
-import { ScreenerCashFlowDrawer } from "./components/drawers/screener-cash-flow-drawer.component";
-import { ScreenerValuationDrawer } from "./components/drawers/screener-valuation-drawer.component";
-import { ScreenerRatiosDrawer } from "./components/drawers/screener-ratios-drawer.component";
+import { Score, ScreenerStockData } from "./screener.types";
 import { ScreenerSummaryDrawer } from "./components/drawers/screener-summary-drawer.component";
+import { ScreenerSectionDrawer } from "./components/drawers/screener-section-drawer.component";
 
-const GradeToColor: Record<Grade, ColorType> = {
+const GradeToColor: Record<Score, ColorType> = {
   10: Colors.StrongGreen,
   9: Colors.MediumGreen,
   8: Colors.LightGreen,
@@ -25,7 +21,7 @@ const GradeToColor: Record<Grade, ColorType> = {
   1: Colors.DarkRed,
 };
 
-const getColSx = (grade: Grade, color?: ColorType) => ({
+const getColSx = (grade: Score, color?: ColorType) => ({
   bgcolor: color ?? GradeToColor[grade],
   color: Colors.NavyBlue,
   cursor: "pointer",
@@ -33,6 +29,190 @@ const getColSx = (grade: Grade, color?: ColorType) => ({
     bgcolor: darkenColor(color ?? GradeToColor[grade], -0.05),
   },
 });
+
+const getDefaultStockData = (name: string, ticker: string): ScreenerStockData => {
+  const defaultScore = 5;
+  const defaultNotes = "";
+  return {
+    name,
+    ticker,
+    totalAvgGrade: defaultScore,
+    decision: null,
+    notes: defaultNotes,
+    valuation: {
+      avgGrade: defaultScore,
+      overviewNotes: defaultNotes,
+      data: [
+        {
+          title: "DCF Valuation",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+        {
+          title: "Relative Valuation",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+        {
+          title: "AVG Valuation",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+      ],
+    },
+    ratios: {
+      avgGrade: defaultScore,
+      overviewNotes: defaultNotes,
+      data: [
+        {
+          title: "EPS",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "should be growing",
+        },
+        {
+          title: "PEG",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+        {
+          title: "P/E",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "P/E Avg, Median | P/E vs Industry",
+        },
+        {
+          title: "P/S",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "P/S Avg, Median | P/S vs Industry",
+        },
+        {
+          title: "P/B",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+        {
+          title: "P/FCF",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+        //  <a href="https://www.investopedia.com/articles/fundamental-analysis/09/five-must-have-metrics-value-investors.asp">
+        //               <strong>Valuation Ratios:</strong> P/E, P/B, P/FCF, P/S
+        //               <strong>Profitability Ratios:</strong> ROE, ROA, Net Profit Margin, Gross Profit Margin, Operating Margin
+        //               <strong>Liquidity Ratios:</strong> Current Ratio, Quick Ratio
+        //               <strong>Leverage Ratios:</strong> Debt-to-Equity Ratio, Interest Coverage Ratio
+        //               <strong>Efficiency Ratios:</strong> Asset Turnover, Inventory Turnover, Receivables Turnover
+        //               <strong>Cash Flow Ratios:</strong> Operating Cash Flow Ratio, Free Cash Flow, FCF Yield
+        //               <strong>Dividend Ratios:</strong> Dividend Yield, Dividend Payout Ratio
+        //               <strong>Other Ratios:</strong> EPS, PEG Ratio, ROIC
+      ],
+    },
+    incomeStatement: {
+      avgGrade: defaultScore,
+      overviewNotes: defaultNotes,
+      data: [
+        {
+          title: "Revenue & Growth",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+        {
+          title: "Gross Income & Margin",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+        {
+          title: "Net income & Margin",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+      ],
+    },
+    balanceSheet: {
+      avgGrade: defaultScore,
+      overviewNotes: defaultNotes,
+      data: [
+        {
+          title: "Assets-to-Liabilities Ratio",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+        {
+          title: "Current Assets-to-Liabilities Ratio",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "Current Assets, Cash, Current Liabilities, Quick Ratio",
+        },
+        {
+          title: "Debt to Equity Ratio",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "Debt, Equity",
+        },
+      ],
+    },
+    cashFlowStatement: {
+      avgGrade: defaultScore,
+      overviewNotes: defaultNotes,
+      data: [
+        {
+          title: "Cash From Operating Activities",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+        {
+          title: "Free Cash Flow",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+        {
+          title: "Issuance of Stock",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "",
+        },
+        {
+          title: "CAPEX",
+          enabled: false,
+          score: defaultScore,
+          notes: defaultNotes,
+          info: "growth - but aligned with CFO",
+        },
+      ],
+    },
+  };
+};
 
 export const ScreenerPage = () => {
   const [isSummaryOpen, setIsSummaryOpen] = useState<boolean>(false);
@@ -43,35 +223,7 @@ export const ScreenerPage = () => {
   const [isCashFlowStatementOpen, setIsCashFlowStatementOpen] = useState<boolean>(false);
   const [stock, setStock] = useState<ScreenerStockData | null>(null);
 
-  const stocks: ScreenerStockData[] = [
-    {
-      name: "PayPal",
-      ticker: "PYPL",
-      totalAvgGrade: 8,
-      decision: null,
-      notes: "",
-      valuation: {
-        avgGrade: 10,
-        notes: "",
-      },
-      ratios: {
-        avgGrade: 8,
-        notes: "",
-      },
-      incomeStatement: {
-        avgGrade: 7,
-        notes: "",
-      },
-      balanceSheet: {
-        avgGrade: 5,
-        notes: "",
-      },
-      cashFlowStatement: {
-        avgGrade: 1,
-        notes: "",
-      },
-    },
-  ];
+  const stocks: ScreenerStockData[] = [getDefaultStockData("PayPal", "PYPL")];
   return (
     <Content maxWidth="lg">
       <Title>Screener</Title>
@@ -102,45 +254,60 @@ export const ScreenerPage = () => {
         }}
         stock={stock}
       />
-      <ScreenerValuationDrawer
+      <ScreenerSectionDrawer
         isOpen={isValuationOpen}
         setIsOpen={setIsValuationOpen}
+        title="Valuation"
+        section="valuation"
         afterClose={() => {
           setStock(null);
         }}
         stock={stock}
+        setStock={setStock}
       />
-      <ScreenerRatiosDrawer
+      <ScreenerSectionDrawer
         isOpen={isRatiosOpen}
         setIsOpen={setIsRatiosOpen}
+        title="Ratios"
+        section="ratios"
         afterClose={() => {
           setStock(null);
         }}
         stock={stock}
+        setStock={setStock}
       />
-      <ScreenerIncomeStatementDrawer
+      <ScreenerSectionDrawer
         isOpen={isIncomeStatementOpen}
         setIsOpen={setIsIncomeStatementOpen}
+        title="Income Statement"
+        section="incomeStatement"
         afterClose={() => {
           setStock(null);
         }}
         stock={stock}
+        setStock={setStock}
       />
-      <ScreenerBalanceSheetDrawer
+      <ScreenerSectionDrawer
         isOpen={isBalanceSheetOpen}
         setIsOpen={setIsBalanceSheetOpen}
+        title="Balance Sheet"
+        section="balanceSheet"
         afterClose={() => {
           setStock(null);
         }}
         stock={stock}
+        setStock={setStock}
       />
-      <ScreenerCashFlowDrawer
+      <ScreenerSectionDrawer
         isOpen={isCashFlowStatementOpen}
         setIsOpen={setIsCashFlowStatementOpen}
+        title="Cash Flow Statement"
+        section="cashFlowStatement"
         afterClose={() => {
           setStock(null);
         }}
         stock={stock}
+        setStock={setStock}
       />
     </Content>
   );

@@ -21,6 +21,7 @@ export const ScreenerSummaryDrawer = ({
       {stock ? (
         <Box>
           <Typography>{stock.name}</Typography>
+          TODO
         </Box>
       ) : (
         <LoaderCircular />

@@ -2,6 +2,7 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 import React, { HTMLInputTypeAttribute } from "react";
 import { OutlinedInputProps } from "@mui/material/OutlinedInput";
 import { styled } from "@mui/material/styles";
+import { SxProps } from "@mui/material";
 
 interface InputProps {
   value: string | number;
@@ -13,21 +14,22 @@ interface InputProps {
   fullWidth?: boolean;
   required?: boolean;
   disabled?: boolean;
+  sx?: SxProps;
+  multiline?: boolean;
+  maxRows?: number;
 }
 
-export const StyledTextField = styled(TextField)<TextFieldProps>(
-  ({ theme }) => ({
-    "& .MuiInputBase-input": {
+export const StyledTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
+  "& .MuiInputBase-input": {
+    backgroundColor: theme.palette.mode === "dark" ? "#666" : "#fff",
+    "&:hover, &.Mui-focusVisible": {
       backgroundColor: theme.palette.mode === "dark" ? "#666" : "#fff",
-      "&:hover, &.Mui-focusVisible": {
-        backgroundColor: theme.palette.mode === "dark" ? "#666" : "#fff",
-      },
     },
-    "& label.Mui-focused": {
-      color: theme.palette.mode === "dark" ? "#eee" : "#333",
-    },
-  })
-);
+  },
+  "& label.Mui-focused": {
+    color: theme.palette.mode === "dark" ? "#eee" : "#333",
+  },
+}));
 
 export const MyInput = ({
   value,
@@ -39,6 +41,9 @@ export const MyInput = ({
   fullWidth = false,
   required = false,
   disabled = false,
+  sx = {},
+  multiline = false,
+  maxRows = 4,
 }: InputProps) => (
   <StyledTextField
     value={value}
@@ -47,11 +52,12 @@ export const MyInput = ({
     size={size}
     label={label}
     type={type === "number" ? "text" : type}
-    inputProps={
-      type === "number" ? { inputMode: "numeric", pattern: "[0-9]*" } : {}
-    }
+    inputProps={type === "number" ? { inputMode: "numeric", pattern: "[0-9]*" } : {}}
     fullWidth={fullWidth}
     required={required}
     disabled={disabled}
+    sx={sx}
+    multiline={multiline}
+    maxRows={maxRows}
   />
 );
