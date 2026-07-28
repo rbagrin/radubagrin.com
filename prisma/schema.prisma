@@ -1,0 +1,40 @@
+// Prisma schema for the personal app.
+// Run `npx prisma migrate dev` locally against Neon to create these tables.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Connection URLs no longer live here as of Prisma 7 — the CLI reads
+  // them from prisma.config.ts, and PrismaClient gets one via a driver
+  // adapter (see lib/db.ts).
+}
+
+// Placeholder user model so auth + per-user data (reminders, watchlists, etc.)
+// has somewhere to attach to. Extend this as real auth is wired in.
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  name      String?
+  createdAt DateTime   @default(now())
+  reminders Reminder[]
+
+  @@map("users")
+}
+
+// Reminders module — real schema, seeded with dummy data for now via the API mock.
+model Reminder {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  dueDate   DateTime
+  notifyBy  String   @default("email") // "email" | "push"
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("reminders")
+  @@index([userId])
+}
