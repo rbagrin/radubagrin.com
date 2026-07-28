@@ -8,10 +8,11 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-// As of Prisma 7, PrismaClient no longer reads a connection URL from
-// schema.prisma — it needs a driver adapter instead. This is Neon's pooled
-// connection string, matching what the app uses at runtime.
-const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! });
+const connectionString = process.env.DATABASE_URL || "";
+const isNeon = connectionString.includes("neon.tech");
+
+// Use Neon serverless adapter in production/Neon, or standard driver for local Docker Postgres
+const adapter = isNeon ? new PrismaNeon({ connectionString }) : undefined;
 
 export const db =
   globalForPrisma.prisma ??

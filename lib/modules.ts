@@ -22,6 +22,12 @@ export const modules: AppModule[] = [
     description: "Get reminded before things like your MOT expire.",
     status: "dummy",
   },
+  {
+    slug: "linkedin_poster",
+    name: "LinkedIn Poster",
+    description: "Post LinkedIn AI generated posts.",
+    status: "dummy",
+  },
 ];
 
 export function getModule(slug: string): AppModule | undefined {
