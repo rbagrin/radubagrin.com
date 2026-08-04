@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { signAccessToken, signRefreshToken, SESSION_COOKIE_NAME } from "@/lib/auth";
+import bcrypt from "bcryptjs";
 
 /**
  * POST /api/v1/auth/login
@@ -20,9 +21,26 @@ import { signAccessToken, signRefreshToken, SESSION_COOKIE_NAME } from "@/lib/au
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   const email = body?.email;
+  const password = body?.password;
 
   if (!email || typeof email !== "string") {
     return Response.json({ error: "email is required" }, { status: 400 });
+  }
+  
+  if (!password || typeof password !== "string") {
+    return Response.json({ error: "password is required" }, { status: 400 });
+  }
+
+  // Verify the password matches the hash stored in the environment variable
+  const adminHash = process.env.ADMIN_PASSWORD_HASH;
+  if (!adminHash) {
+    console.error("ADMIN_PASSWORD_HASH is not set in environment variables");
+    return Response.json({ error: "Server configuration error" }, { status: 500 });
+  }
+
+  const isPasswordValid = bcrypt.compareSync(password, adminHash);
+  if (!isPasswordValid) {
+    return Response.json({ error: "Invalid email or password" }, { status: 401 });
   }
 
   const user = await db.user.upsert({

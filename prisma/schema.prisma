@@ -38,3 +38,22 @@ model Reminder {
   @@map("reminders")
   @@index([userId])
 }
+
+// Documents module — metadata storage for S3 files, RAG embeddings & chunking state.
+model Document {
+  id         String   @id @default(cuid())
+  name       String
+  s3Key      String   @unique
+  folderPath String   @default("")
+  mimeType   String?
+  size       Int
+  metadata   Json?
+  status     String   @default("uploaded") // e.g. "uploaded", "pending_embedding", "indexed", "error"
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("documents")
+  @@index([folderPath])
+  @@index([status])
+}
+
