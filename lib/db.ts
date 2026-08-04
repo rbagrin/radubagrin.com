@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 
 // Prevents creating a new PrismaClient (and new DB connections) on every
 // hot-reload during `next dev`. In production, one instance per server
@@ -9,10 +11,13 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 const connectionString = process.env.DATABASE_URL || "";
-const isNeon = connectionString.includes("neon.tech");
+const isLocal = connectionString.includes("localhost") || connectionString.includes("127.0.0.1");
 
-// Use Neon serverless adapter in production/Neon, or standard driver for local Docker Postgres
-const adapter = isNeon ? new PrismaNeon({ connectionString }) : undefined;
+// Prisma 7 requires a driver adapter. 
+// Use standard pg adapter for localhost TCP, and Neon for remote WebSocket.
+const adapter = isLocal 
+  ? new PrismaPg(new Pool({ connectionString })) 
+  : new PrismaNeon({ connectionString });
 
 export const db =
   globalForPrisma.prisma ??

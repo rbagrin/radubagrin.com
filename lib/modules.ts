@@ -28,6 +28,18 @@ export const modules: AppModule[] = [
     description: "Post LinkedIn AI generated posts.",
     status: "dummy",
   },
+  {
+    slug: "rag_system",
+    name: "RAG System",
+    description: "Build a RAG system to answer questions about your documents.",
+    status: "dummy",
+  },
+  {
+    slug: "documents",
+    name: "Documents",
+    description: "Manage all your documents and S3 storage in one place.",
+    status: "active",
+  },
 ];
 
 export function getModule(slug: string): AppModule | undefined {
