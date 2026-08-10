@@ -20,8 +20,25 @@ model User {
   name      String?
   createdAt DateTime   @default(now())
   reminders Reminder[]
+  rssFeeds  RssFeed[]
 
   @@map("users")
+}
+
+// RSS Aggregator module — saved RSS feed URLs per user.
+model RssFeed {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, url])
+  @@index([userId])
+  @@map("rss_feeds")
 }
 
 // Reminders module — real schema, seeded with dummy data for now via the API mock.

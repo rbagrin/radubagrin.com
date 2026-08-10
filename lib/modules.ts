@@ -11,6 +11,24 @@ export type AppModule = {
 // Create the matching page at app/modules/<slug>/page.tsx.
 export const modules: AppModule[] = [
   {
+    slug: "documents",
+    name: "Documents",
+    description: "Manage all your documents and S3 storage in one place.",
+    status: "active",
+  },
+  {
+    slug: "rss_aggregator",
+    name: "RSS Aggregator",
+    description: "Manage all your RSS feeds in one place.",
+    status: "active",
+  },
+  {
+    slug: "todo",
+    name: "Todo",
+    description: "Manage all your todo list items.",
+    status: "active",
+  },
+  {
     slug: "investing",
     name: "Investing",
     description: "Track stocks and portfolio performance.",
@@ -33,12 +51,6 @@ export const modules: AppModule[] = [
     name: "RAG System",
     description: "Build a RAG system to answer questions about your documents.",
     status: "dummy",
-  },
-  {
-    slug: "documents",
-    name: "Documents",
-    description: "Manage all your documents and S3 storage in one place.",
-    status: "active",
   },
 ];
 
