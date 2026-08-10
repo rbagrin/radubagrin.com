@@ -252,17 +252,15 @@ export default function RssAggregatorPage() {
 
   return (
     <div className="mx-auto w-full max-w-7xl px-6 py-8">
-      {/* Top Header & Breadcrumb */}
+      {/* Back to modules link */}
+      <Link href="/modules" className="font-mono text-sm text-accent hover:underline inline-flex items-center gap-1 mb-4">
+        &larr; modules
+      </Link>
+
+      {/* Top Header */}
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-border pb-5">
         <div>
-          <div className="flex items-center gap-2 text-xs font-mono text-fg-muted">
-            <Link href="/modules" className="hover:text-fg transition-colors">
-              modules
-            </Link>
-            <span>/</span>
-            <span className="text-accent">rss_aggregator</span>
-          </div>
-          <h1 className="mt-1 font-display text-2xl sm:text-3xl font-bold tracking-tight text-fg">
+          <h1 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-fg">
             RSS Aggregator
           </h1>
         </div>

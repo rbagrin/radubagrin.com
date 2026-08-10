@@ -21,6 +21,8 @@ model User {
   createdAt DateTime   @default(now())
   reminders Reminder[]
   rssFeeds  RssFeed[]
+  todoLists TodoList[]
+  todoItems TodoItem[]
 
   @@map("users")
 }
@@ -73,4 +75,37 @@ model Document {
   @@index([folderPath])
   @@index([status])
 }
+
+// Todo module — customizable todo lists and todo items per user.
+model TodoList {
+  id        String     @id @default(cuid())
+  userId    String
+  name      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items TodoItem[]
+
+  @@index([userId])
+  @@map("todo_lists")
+}
+
+model TodoItem {
+  id        String   @id @default(cuid())
+  listId    String
+  userId    String
+  title     String
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  todoList TodoList @relation(fields: [listId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([listId])
+  @@index([userId])
+  @@map("todo_items")
+}
+
 
