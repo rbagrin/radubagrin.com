@@ -20,8 +20,58 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Personal app",
-  description: "Personal presentation site and module hub",
+  metadataBase: new URL("https://radubagrin.com"),
+  title: {
+    default: "Radu Bagrin — Applied AI Software Engineer",
+    template: "%s | Radu Bagrin",
+  },
+  description:
+    "Personal website and software module hub of Radu Bagrin, Applied AI Software Engineer building production systems around machine learning and web applications.",
+  keywords: [
+    "Radu Bagrin",
+    "Radu",
+    "Bagrin",
+    "Applied AI Software Engineer",
+    "AI Software Engineer",
+    "Machine Learning Engineer",
+    "Full Stack Engineer",
+    "TypeScript",
+    "Next.js",
+    "Python",
+    "Personal Portfolio",
+  ],
+  authors: [{ name: "Radu Bagrin", url: "https://radubagrin.com" }],
+  creator: "Radu Bagrin",
+  publisher: "Radu Bagrin",
+  alternates: {
+    canonical: "https://radubagrin.com",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://radubagrin.com",
+    title: "Radu Bagrin — Applied AI Software Engineer",
+    description:
+      "Personal portfolio and interactive module system of Radu Bagrin, Applied AI Software Engineer.",
+    siteName: "Radu Bagrin",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Radu Bagrin — Applied AI Software Engineer",
+    description:
+      "Personal portfolio and interactive module system of Radu Bagrin, Applied AI Software Engineer.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -40,3 +90,4 @@ export default function RootLayout({
     </html>
   );
 }
+
