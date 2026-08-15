@@ -11,6 +11,12 @@ export type AppModule = {
 // Create the matching page at app/modules/<slug>/page.tsx.
 export const modules: AppModule[] = [
   {
+    slug: "jarvis",
+    name: "Jarvis",
+    description: "Personal AI assistant & MCP tool orchestrator.",
+    status: "active",
+  },
+  {
     slug: "documents",
     name: "Documents",
     description: "Manage all your documents and S3 storage in one place.",
