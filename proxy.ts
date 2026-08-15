@@ -3,7 +3,13 @@ import type { NextRequest } from "next/server";
 import { authenticate } from "@/lib/auth";
 
 // Routes that do not require authentication
-const PUBLIC_PATHS = ["/", "/login", "/api/v1/auth/login"];
+const PUBLIC_PATHS = [
+  "/",
+  "/login",
+  "/api/v1/auth/login",
+  "/sitemap.xml",
+  "/robots.txt",
+];
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
