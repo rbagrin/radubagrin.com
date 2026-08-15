@@ -97,7 +97,7 @@ If a user saves a task titled **"Call Admiral for BMW policy"** or **"Vehicle pa
 
 ---
 
-### Approach 1: LLM In-Memory Reasoning (Recommended & Active)
+### Approach: LLM In-Memory Reasoning (Recommended & Active)
 
 Because personal todo lists usually range from 10 to a few hundred active tasks, the system loads all active tasks into the LLM context using `list_todo_tasks`.
 
@@ -119,65 +119,6 @@ sequenceDiagram
 - **Zero Embedding Infrastructure**: No vector database or sync pipelines required.
 - **Superior Semantic Understanding**: The LLM natively understands brands (*Admiral*, *Geico*), abbreviations (*MOT*, *BMW*), and slang.
 - **Cost & Context Efficiency**: 100 tasks is ~1,000 tokens. In Gemini 2.0 Flash (1,000,000+ token context), this consumes **< 0.1%** of available context.
-
----
-
-### Approach 2: Semantic Vector Search with `pgvector` (For High-Volume Archives)
-
-If thousands of completed and archived tasks accumulate over several years, using `pgvector` directly in PostgreSQL avoids loading massive histories into context:
-
-#### 1. Enable `pgvector` Extension
-```sql
-CREATE EXTENSION IF NOT EXISTS vector;
-```
-
-#### 2. Update Prisma Schema
-```prisma
-model TodoItem {
-  id        String   @id @default(cuid())
-  listId    String
-  userId    String
-  title     String
-  completed Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  // 768-dimensional embedding for Gemini text-embedding-004
-  embedding Unsupported("vector(768)")?
-
-  todoList  TodoList @relation(fields: [listId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([listId])
-  @@index([userId])
-  @@map("todo_items")
-}
-```
-
-#### 3. Embedding Generation
-On task creation or title update:
-```typescript
-import { GoogleGenAI } from "@google/genai";
-
-export async function generateTaskEmbedding(text: string): Promise<number[]> {
-  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-  const response = await ai.models.embedContent({
-    model: "text-embedding-004",
-    contents: text,
-  });
-  return response.embedding.values;
-}
-```
-
-#### 4. Cosine Similarity Tool in Jarvis
-```sql
-SELECT id, title, completed, list_id,
-       1 - (embedding <=> $1::vector) AS similarity
-FROM todo_items
-WHERE user_id = $2
-ORDER BY embedding <=> $1::vector
-LIMIT 10;
-```
 
 ---
 
